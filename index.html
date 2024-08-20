@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKS Learning Path</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;700&display=swap');
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0078D4; /* Azure Blue */
+            font-weight: 700;
+        }
+        .description {
+            text-align: center;
+            color: #555;
+            font-size: 14px; /* Same size as footer */
+            line-height: 1.8;
+            margin-top: -10px;
+        }
+        h2, h3 {
+            margin-top: 20px;
+            color: #222;
+            font-weight: 500;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        li a {
+            color: #0078D4; /* Azure Blue */
+            text-decoration: none;
+            font-weight: 500;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+        .collapsible {
+            background-color: #e0f0ff; /* Light Blue Background */
+            color: #0078D4; /* Azure Blue */
+            border: none;
+            outline: none;
+            width: 100%;
+            text-align: left;
+            font-size: 18px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .collapsible:hover {
+            background-color: #cce0ff; /* Slightly Darker Light Blue */
+        }
+        .active, .collapsible:active {
+            background-color: #cce0ff; /* Slightly Darker Light Blue */
+            color: #0056b3; /* Darker Blue */
+        }
+        .content {
+            padding-left: 20px;
+            display: none;
+            overflow: hidden;
+            margin-top: 10px;
+            border-left: 4px solid #0078D4; /* Azure Blue */
+            border-radius: 0 0 8px 8px;
+            background-color: #f0f0f0;
+        }
+        .subcontent {
+            padding-left: 20px;
+            display: none;
+            overflow: hidden;
+            margin-top: 10px;
+            border-left: 4px solid #0096D6; /* Slightly Darker Azure Blue */
+            border-radius: 0 0 8px 8px;
+            background-color: #e8f4f8; /* Lighter Blue */
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        .footer a {
+            color: #0078D4; /* Azure Blue */
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AKS Learning Path</h1>
+    <p class="description">
+        Your comprehensive guide to mastering Azure Kubernetes Service (AKS). Explore in-depth topics from fundamentals to advanced configurations, scaling strategies, and best practices. Whether you're new to AKS or looking to refine your skills, this learning path offers structured insights and practical resources to support your journey.
+    </p>
+
+    <button class="collapsible">Basics</button>
+    <div class="content">
+        <h3>Introduction to Kubernetes</h3>
+        <ul>
+            <li><a href="https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-kubernetes/#watch-how-kubernetes-works" target="_blank">What is Kubernetes?</a></li>
+        </ul>
+        <h3>Kubernetes Core Concepts</h3>
+        <ul>
+            <li><a href="https://kubernetes.io/docs/concepts/" target="_blank">Core Concepts</a></li>
+            <li><a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/" target="_blank">Namespaces</a></li>
+            <li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" target="_blank">Kubernetes Deployments</a></li>
+            <li><a href="https://kubernetes.io/docs/concepts/configuration/configmap/" target="_blank">ConfigMaps in Kubernetes</a></li>
+            <li><a href="https://kubernetes.io/docs/concepts/configuration/secret/" target="_blank">Kubernetes Secrets</a></li>
+            <li><a href="https://kubernetes.io/docs/concepts/workloads/pods/" target="_blank">Pods in Kubernetes</a></li>
+            <li><a href="https://kubernetes.io/docs/concepts/services-networking/service/" target="_blank">Kubernetes Services</a></li>
+            <li><a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/" target="_blank">Kubernetes Persistent Volumes</a></li>
+        </ul>
+        <h3>AKS Components</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/what-is-aks" target="_blank">Introduction to AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/core-aks-concepts" target="_blank">AKS Cluster Architecture</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/core-aks-concepts#nodes" target="_blank">Node and Node Pools in AKS</a></li>
+        </ul>
+    </div>
+
+    <button class="collapsible">Setup & Configuration</button>
+    <div class="content">
+        <h3>Tooling</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/cli/azure/aks" target="_blank">Azure CLI for AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-rm-template" target="_blank">Deploy AKS with ARM Templates</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-terraform" target="_blank">Provision AKS with Terraform</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-bicep" target="_blank">Deploy AKS using Bicep</a></li>
+        </ul>
+        <h3>Networking</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/concepts-network" target="_blank">Networking concepts for AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/configure-azure-cni" target="_blank">Azure CNI Networking</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/configure-kubenet" target="_blank">Kubenet Networking</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/ingress-basic" target="_blank">Ingress Controllers in AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/servicemesh-about" target="_blank">Service Mesh (Istio/Linkerd)</a></li>
+            <button class="collapsible">Load Balancing & DNS</button>
+            <div class="subcontent">
+                <ul>
+                    <li><a href="https://learn.microsoft.com/en-us/azure/aks/internal-lb" target="_blank">Internal Load Balancer with AKS</a></li>
+                    <li><a href="https://learn.microsoft.com/en-us/azure/aks/load-balancer-standard" target="_blank">Public Load Balancer with AKS</a></li>
+                    <li><a href="https://learn.microsoft.com/en-us/azure/aks/coredns-custom" target="_blank">Customize Core DNS with AKS</a></li>
+                </ul>
+            </div>
+        </ul>
+    </div>
+
+    <button class="collapsible">Security & Compliance</button>
+    <div class="content">
+        <h3>Authentication & Authorization</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/azure-ad-integration-cli" target="_blank">Integrate Entra ID with AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/manage-azure-rbac" target="_blank">Role-Based Access Control in AKS</a></li>
+        </ul>
+        <h3>Network Security</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/use-network-policies" target="_blank">Network Policies in AKS</a></li>
+        </ul>
+        <h3>Pod Security</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/use-psa" target="_blank">Pod Security Policies</a></li>
+        </ul>
+        <h3>Secrets Management</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/csi-secrets-store-driver" target="_blank">Manage AKS Secrets</a></li>
+        </ul>
+    </div>
+
+    <button class="collapsible">Monitoring & Observability</button>
+    <div class="content">
+        <h3>Monitoring Solutions</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/monitor-aks" target="_blank">Monitor AKS with Azure Monitor</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/prometheus-metrics-overview" target="_blank">Set up Prometheys and Grafana on AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/containers/kubernetes-monitoring-enable" target="_blank">Log Analytics for AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/azure-monitor/containers/container-insights-overview" target="_blank">Azure Monitor for Containers</a></li>
+        </ul>
+    </div>
+
+    <button class="collapsible">Scaling & Performance</button>
+    <div class="content">
+        <h3>Autoscaling</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/concepts-scale#horizontal-pod-autoscaler" target="_blank">Horizontal Pod Autoscaler</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/concepts-scale#cluster-autoscaler" target="_blank">Cluster Autoscaler in AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/concepts-scale#burst-to-azure-container-instances-aci" target="_blank">AKS Virtual Node</a></li>
+        </ul>
+    </div>
+
+    <button class="collapsible">Storage Solutions</button>
+    <div class="content">
+        <h3>Storage Solutions</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/concepts-storage" target="_blank">Storage Options for AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-provision" target="_blank">Use Azure Disks in AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision" target="_blank">Use Azure Files in AKS</a></li>
+        </ul>
+        </div>
+
+    <button class="collapsible">CI/CD Integration</button>
+    <div class="content">
+        <h3>CI/CD Integration</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/architecture/guide/aks/aks-cicd-azure-pipelines" target="_blank">CI/CD with Azure DevOps and AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/kubernetes-action" target="_blank">Deploy to AKS using GitHub Actions</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/developer/jenkins/deploy-from-github-to-aks" target="_blank">CI/CD with Jenkins on AKS</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/architecture/example-scenario/gitops-aks/gitops-blueprint-aks" target="_blank">GitOps on AKS</a></li>
+        </ul>
+    </div>
+
+    <button class="collapsible">Best Practices & Maintenance</button>
+    <div class="content">
+        <h3>Cost Management</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/cost-analysis" target="_blank">Cost Management for AKS</a></li>
+        </ul>
+        <h3>Resource Management</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/quotas-skus-regions" target="_blank">AKS Resource Quotas</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks/baseline-aks" target="_blank">Baseline Architecture</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/best-practices" target="_blank">Building and Managing applications on AKS</a></li>
+        </ul>
+        <h3>Backup & Restore</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/backup/azure-kubernetes-service-backup-overview" target="_blank">Backup & Restore for AKS</a></li>
+            </ul>
+        <h3>Troubleshooting</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/architecture/operator-guides/aks/aks-triage-practices" target="_blank">Triage practices for AKS operations</a></li>
+            </ul>
+        <h3>Reliability</h3>
+        <ul>
+            <li><a href="https://learn.microsoft.com/en-us/azure/aks/best-practices-app-cluster-reliability" target="_blank">Deployment and cluster reliability</a></li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p>For a visual reference, check out our design on the <a href="https://miro.com/app/board/uXjVKnmWkUs=/?fromEmbed=1" target="_blank">Miro Board</a>. We aim to keep this learning path live and open to feedback and suggestions. Please feel free to submit pull requests on GitHub to contribute or propose changes.</p>
+    </div>
+</div>
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
