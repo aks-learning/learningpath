@@ -29,6 +29,7 @@ const sidebars: SidebarsConfig = {
         'networking/concepts',
         'networking/cni-comparison',
         'networking/ingress',
+        'networking/ingress-comparison',
         'networking/service-mesh',
         'networking/private-clusters',
       ],
@@ -52,6 +53,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'observability/azure-monitor',
         'observability/prometheus-grafana',
+        'observability/comparison',
         'observability/cost-analysis',
       ],
     },
@@ -64,6 +66,7 @@ const sidebars: SidebarsConfig = {
         'scaling/cluster-autoscaler',
         'scaling/keda',
         'scaling/virtual-nodes',
+        'scaling/scaling-decision-tree',
       ],
     },
     {
@@ -120,6 +123,15 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Guides',
+      link: { type: 'generated-index', slug: 'guides' },
+      items: [
+        'guides/sre-on-call',
+        'guides/developer-workflow',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Cheat sheets',
       link: { type: 'generated-index', slug: 'cheat-sheets' },
       items: [
@@ -134,6 +146,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'troubleshooting/pod-issues',
         'troubleshooting/workload-identity',
+        'troubleshooting/networking',
       ],
     },
   ],

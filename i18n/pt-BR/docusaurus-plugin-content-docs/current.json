@@ -86,5 +86,41 @@
   "sidebar.learningPath.doc.Workload Identity troubleshooting": {
     "message": "Solução de problemas do Workload Identity",
     "description": "The label for the doc item 'Workload Identity troubleshooting' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Guides": {
+    "message": "Guias",
+    "description": "The label for category Guides in sidebar learningPath"
+  },
+  "sidebar.learningPath.category.Guides.link.generated-index.title": {
+    "message": "Guias",
+    "description": "The generated-index page title for category Guides in sidebar learningPath"
+  },
+  "sidebar.learningPath.category.Guides.link.generated-index.description": {
+    "message": "Guias práticos por função e cenário",
+    "description": "The generated-index page description for category Guides in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.Ingress comparison": {
+    "message": "Comparação de ingress",
+    "description": "The label for doc Ingress comparison in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.Scaling decision tree": {
+    "message": "Árvore de decisão de escalabilidade",
+    "description": "The label for doc Scaling decision tree in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.Network troubleshooting": {
+    "message": "Solução de problemas de rede",
+    "description": "The label for doc Network troubleshooting in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.Observability comparison": {
+    "message": "Comparação de observabilidade",
+    "description": "The label for doc Observability comparison in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.SRE on-call guide": {
+    "message": "Guia SRE de plantão",
+    "description": "The label for doc SRE on-call guide in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.Developer workflow": {
+    "message": "Fluxo de trabalho do desenvolvedor",
+    "description": "The label for doc Developer workflow in sidebar learningPath"
   }
 }
