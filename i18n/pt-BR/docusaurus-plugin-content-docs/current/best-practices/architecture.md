@@ -8,7 +8,7 @@ description: "Siga a Arquitetura Baseline do AKS. Não invente a sua. A Microsof
 
 Siga o AKS Baseline. Não invente sua própria arquitetura. A Microsoft testou isso em escala com centenas de clientes corporativos.
 
-## A Arquitetura AKS Baseline
+## A arquitetura AKS baseline
 
 O AKS Baseline é a arquitetura de referência da Microsoft para Kubernetes em produção. Ele cobre rede, identidade, segurança, operações e padrões de implantação. Comece por aqui, depois personalize.
 
@@ -17,7 +17,7 @@ O AKS Baseline é a arquitetura de referência da Microsoft para Kubernetes em p
 Comece pelo baseline, depois personalize para suas necessidades. Não o contrário. Times que projetam do zero inevitavelmente redescobrem cada problema que o baseline já resolveu.
 :::
 
-## Princípios Arquiteturais Fundamentais
+## Princípios arquiteturais fundamentais
 
 | Princípio | Implementação | Por que |
 |-----------|---------------|---------|
@@ -28,13 +28,13 @@ Comece pelo baseline, depois personalize para suas necessidades. Não o contrár
 | GitOps | Flux ou ArgoCD para deployments | Auditável, repetível, recuperável |
 | Managed Identity | Identidades system + user assigned | Sem secrets de service principal para rotacionar |
 
-## Topologia de Rede Hub-Spoke
+## Topologia de rede hub-spoke
 
 ![Topologia de Rede Hub-Spoke](/img/hub-spoke-topology.svg)
 
 O hub contém serviços compartilhados (Azure Firewall, Bastion, DNS). Cada spoke é um ambiente de workload isolado. O AKS fica em seu próprio spoke com uma subnet dedicada para pods e outra para nodes.
 
-## Componentes do Baseline
+## Componentes do baseline
 
 ```bash
 # The baseline includes all of these. Don't skip any for production:
@@ -81,7 +81,7 @@ spec:
     services.loadbalancers: "2"
 ```
 
-## Antipadrões a Evitar
+## Antipadrões a evitar
 
 1. **API server público** -- Seu control plane está na internet. Use private cluster.
 2. **Namespace único para todos os workloads** -- Sem isolamento, sem quotas, um time pode deixar outro sem recursos.

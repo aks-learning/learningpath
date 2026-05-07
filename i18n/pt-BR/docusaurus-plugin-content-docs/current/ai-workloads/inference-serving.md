@@ -8,7 +8,7 @@ description: "LLM serving em produção no AKS -- KAITO, vLLM, TGI e estratégia
 
 Comece com KAITO pela simplicidade. Evolua para vLLM quando precisar extrair o máximo de throughput de GPUs caras.
 
-## Comparação de Frameworks de Serving
+## Comparação de frameworks de serving
 
 | Framework | Throughput | Facilidade de Setup | Melhor Para |
 |-----------|-----------|---------------|----------|
@@ -84,7 +84,7 @@ spec:
   type: ClusterIP
 ```
 
-## Autoscaling de Inference
+## Autoscaling de inference
 
 Use KEDA com métricas customizadas para escalar réplicas de inference com base na demanda real.
 
@@ -112,7 +112,7 @@ spec:
 Escale com base na profundidade da fila (requests pendentes), não na utilização de GPU. A utilização de GPU permanece alta mesmo quando o throughput está adequado. A profundidade da fila indica quando os usuários estão realmente esperando.
 :::
 
-## Compartilhamento de GPU Multi-Model
+## Compartilhamento de GPU multi-model
 
 Uma GPU por modelo é desperdício para modelos pequenos ou endpoints com pouco tráfego. Opções:
 
@@ -141,7 +141,7 @@ data:
 
 Isso faz cada GPU física aparecer como 4 GPUs agendáveis. Os pods compartilham a GPU via time-slicing.
 
-## Checklist de Otimização de Performance
+## Checklist de otimização de performance
 
 1. **Habilite continuous batching** -- vLLM faz isso por padrão. TGI precisa de `--max-batch-prefill-tokens`.
 2. **Defina o max model length apropriado** -- Contexto menor = mais requests concorrentes.
@@ -154,7 +154,7 @@ Isso faz cada GPU física aparecer como 4 GPUs agendáveis. Os pods compartilham
 Baixar os pesos do modelo do HuggingFace a cada reinício do pod. Um modelo 13B tem 26GB. Use um PVC com pesos pré-baixados ou um init container que faça cache em um volume compartilhado.
 :::
 
-## Quando Evoluir do KAITO para Custom
+## Quando evoluir do KAITO para custom
 
 | Sinal | Ação |
 |--------|--------|

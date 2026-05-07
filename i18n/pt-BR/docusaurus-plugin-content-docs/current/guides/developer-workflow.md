@@ -234,7 +234,7 @@ spec:
       app: myservice
 ```
 
-### ConfigMaps e Secrets
+### ConfigMaps e secrets
 
 Use ConfigMaps para configurações não sensíveis. Use Kubernetes Secrets com suporte do Azure Key Vault para valores sensíveis.
 

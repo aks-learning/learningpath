@@ -8,7 +8,7 @@ description: "O que a Microsoft suporta, o que não suporta, ciclo de vida de ve
 
 Mantenha-se na versão N-1 do Kubernetes. Não espere até que sua versão saia do suporte. Isso é um incêndio que você não precisa.
 
-## O que a Microsoft Suporta
+## O que a Microsoft suporta
 
 | Suportado | Exemplos |
 |-----------|----------|
@@ -19,7 +19,7 @@ Mantenha-se na versão N-1 do Kubernetes. Não espere até que sua versão saia 
 | Rede (configurada pelo AKS) | CNI, load balancer, ingress controller (AGIC) |
 | Add-ons do AKS | KEDA, KAITO, Azure Policy, Monitoring |
 
-## O que a Microsoft NÃO Suporta
+## O que a Microsoft NÃO suporta
 
 | Não Suportado | Sua Responsabilidade |
 |---------------|---------------------|
@@ -35,7 +35,7 @@ Mantenha-se na versão N-1 do Kubernetes. Não espere até que sua versão saia 
 "Meus pods ficam crashando" não é um problema de suporte do AKS, a menos que o crash seja causado por um bug da plataforma. Crashes de pod por OOMKill, health probes ruins ou erros de aplicação são sua responsabilidade. O suporte da Microsoft vai te dizer isso educadamente.
 :::
 
-## Suporte de Versão do Kubernetes
+## Suporte de versão do Kubernetes
 
 O AKS suporta a versão GA minor atual e as duas versões minor anteriores (N-2).
 
@@ -59,7 +59,7 @@ Fique na N-1. Você tem a estabilidade de uma versão comprovada enquanto manté
 | N-2 | Precisa atualizar em breve, pressão | Ambientes regulados com aprovação lenta |
 | Além de N-2 | Fora de suporte, sem patches | Nunca aceitável |
 
-## Long-Term Support (LTS)
+## Long-Term support (LTS)
 
 O tier Premium do AKS inclui Long-Term Support: 2 anos por versão minor em vez de 1 ano.
 
@@ -74,7 +74,7 @@ az aks show --resource-group myrg --name myaks --query "kubernetesVersion"
 az aks get-upgrades --resource-group myrg --name myaks --output table
 ```
 
-## Suporte de OS dos Nodes
+## Suporte de OS dos nodes
 
 | OS | Status | Recomendação |
 |----|--------|-------------|
@@ -97,7 +97,7 @@ az aks nodepool show \
   --query "osSku"
 ```
 
-## Abrindo um Ticket de Suporte
+## Abrindo um ticket de suporte
 
 | Severidade | Tempo de Resposta | Quando Usar |
 |------------|-------------------|-------------|
@@ -117,7 +117,7 @@ az aks nodepool show \
 Antes de abrir um ticket, verifique o [AKS GitHub Issues](https://github.com/Azure/AKS/issues) -- problemas conhecidos e notas de versão são publicados lá. Muitos "bugs" já estão documentados com workarounds.
 :::
 
-## Planejamento de Upgrade
+## Planejamento de upgrade
 
 ```bash
 # Preview what will change in an upgrade

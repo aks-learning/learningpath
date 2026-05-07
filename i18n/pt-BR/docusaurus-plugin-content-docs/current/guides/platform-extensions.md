@@ -270,7 +270,7 @@ Defina o recurso `Gateway` em um namespace de infraestrutura de propriedade da e
 | Um Gateway por aplicação | Recursos de load balancer desperdiçados, custo maior | Compartilhe um Gateway entre aplicações usando HTTPRoute |
 | `ReferenceGrant` ausente para referências entre namespaces | Routes falham silenciosamente ao anexar | Crie `ReferenceGrant` no namespace de destino |
 
-## OpenTelemetry Collector
+## OpenTelemetry collector
 
 Um pipeline de telemetria agnóstico de fornecedor que recebe, processa e exporta traces, métricas e logs. Instrumente uma vez com SDKs OpenTelemetry, depois roteie para Azure Monitor, Prometheus ou qualquer backend compatível com OTLP sem alterar o código da aplicação.
 

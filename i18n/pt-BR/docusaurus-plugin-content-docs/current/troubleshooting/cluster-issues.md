@@ -295,7 +295,7 @@ Não espere até atingir o limite. Configure alertas do Azure Monitor a 80% de u
 
 :::
 
-### Esgotamento de Pod CIDR
+### Esgotamento de pod CIDR
 
 Se você usa Azure CNI (não overlay), cada pod recebe um IP real da subnet. Uma subnet `/24` fornece 251 IPs utilizáveis — isso é aproximadamente 8 nós com 30 pods cada.
 

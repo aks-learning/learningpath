@@ -8,9 +8,9 @@ description: "Hardening de segurança priorizado para AKS -- o que fazer primeir
 
 Se você só fizer 3 coisas: desabilite contas locais, habilite network policies com default-deny e use Workload Identity. Todo o resto é defesa em profundidade sobre essa base.
 
-## Matriz de Prioridade
+## Matriz de prioridade
 
-### Crítico (Faça Isso Primeiro)
+### Crítico (faça isso primeiro)
 
 | Ação | Como | Impacto |
 |------|------|---------|
@@ -39,7 +39,7 @@ spec:
 Sem network policies default-deny, todo pod pode alcançar qualquer outro pod em qualquer porta. Um container comprometido em um namespace pode atacar bancos de dados em outro. Esta é a falha de segurança mais comum em clusters AKS.
 :::
 
-### Alta Prioridade
+### Alta prioridade
 
 | Ação | Como | Impacto |
 |------|------|---------|
@@ -62,7 +62,7 @@ az policy assignment create \
   --scope "/subscriptions/{sub-id}/resourceGroups/{rg}"
 ```
 
-### Média Prioridade
+### Média prioridade
 
 | Ação | Como | Impacto |
 |------|------|---------|
@@ -72,7 +72,7 @@ az policy assignment create \
 | Limitar egress com Azure Firewall | Regras de FQDN para destinos permitidos | Bloquear exfiltração de dados |
 | Habilitar mTLS com service mesh | Istio ambient mode ou Linkerd | Criptografar tráfego pod-to-pod |
 
-## CIS Kubernetes Benchmark
+## CIS Kubernetes benchmark
 
 O Azure Policy inclui o benchmark CIS como uma initiative integrada. Atribua-a para obter scores de compliance.
 
@@ -90,7 +90,7 @@ az policy state list \
 Não tente atingir 100% de compliance CIS no primeiro dia. Comece pelos itens Críticos, depois trabalhe nos de Alta prioridade, depois Média. Compliance perfeita sem workloads rodando não é um estado útil.
 :::
 
-## Segurança da Cadeia de Suprimentos
+## Segurança da cadeia de suprimentos
 
 ```bash
 # Scan images before deployment (in CI/CD pipeline)
@@ -106,7 +106,7 @@ helm install ratify ratify/ratify \
   --set featureFlags.RATIFY_CERT_ROTATION=true
 ```
 
-## Erros Comuns
+## Erros comuns
 
 1. **Habilitar contas locais "para emergências"** -- Se o Entra ID cair, contas locais ignoram todo o RBAC. Use procedimentos de break-glass em vez disso.
 2. **Network policies com defaults allow-all** -- O mesmo que não ter network policies.
