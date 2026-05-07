@@ -1,39 +1,102 @@
 ---
 sidebar_position: 1
-title: "Storage Concepts"
-description: "Understand Kubernetes storage basics including CSI drivers, StorageClasses, persistent volumes, and persistent volume claims."
+title: "Storage in AKS"
+description: "Storage classes, persistent volumes, and dynamic provisioning -- what to use and when"
 ---
 
-# Storage Concepts
+# Storage in AKS
 
-<span className="badge--intermediate">📚 Intermediate</span>
+Use Azure Disks for databases. Azure Files for shared storage. Blob for large datasets. Everything else is a special case.
 
-Learn fundamental Kubernetes storage concepts and how they apply to AKS. Understand CSI drivers, StorageClasses, PersistentVolumes, and PersistentVolumeClaims.
+## Storage Classes (Built-in)
 
-## Key Concepts
+AKS ships with these storage classes pre-configured. Don't create your own unless you need custom parameters.
 
-- **CSI Drivers**: Container Storage Interface for plugin architecture
-- **StorageClasses**: Define storage provisioning parameters
-- **PersistentVolume (PV)**: Storage resource abstraction
-- **PersistentVolumeClaim (PVC)**: Storage request by applications
-- **Dynamic Provisioning**: Automatic storage creation
-- **Volume Reclaim Policies**: Clean-up on PVC deletion
-- **Access Modes**: ReadWriteOnce, ReadOnlyMany, ReadWriteMany
-- **Supported Backends**: Azure Disks, Azure Files, other providers
+| Storage Class | Backend | Access Mode | Use Case |
+|---------------|---------|-------------|----------|
+| `managed-csi` | Azure Disks (Premium LRS) | ReadWriteOnce | Databases, single-pod stateful apps |
+| `managed-csi-premium` | Azure Disks (Premium LRS) | ReadWriteOnce | Same as above, explicit premium |
+| `azurefile-csi` | Azure Files (Standard) | ReadWriteMany | Shared config, CMS content |
+| `azurefile-csi-premium` | Azure Files (Premium) | ReadWriteMany | Shared storage needing IOPS |
+| `azureblob-nfs` | Blob NFS | ReadWriteMany | Large datasets, ML training data |
+
+:::tip Opinion
+Use `managed-csi` (Azure Disks) as your default for anything stateful. Only reach for Azure Files when multiple pods need simultaneous read/write access to the same data.
+:::
+
+## PersistentVolume Lifecycle
+
+```
+PVC Created → Dynamic Provisioning → PV Created → PV Bound to PVC → Pod Mounts Volume
+                                                                            ↓
+Pod Deleted → PVC Deleted → Reclaim Policy Applied (Delete or Retain)
+```
+
+Always use dynamic provisioning unless you have pre-existing disks to import. Dynamic provisioning creates the Azure resource automatically when a PVC is submitted.
+
+## Dynamic Provisioning Example
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: managed-csi
+  resources:
+    requests:
+      storage: 100Gi
+```
+
+That's it. AKS creates a Premium SSD managed disk, attaches it to the node running your pod, and mounts it. No manual disk creation needed.
+
+## Reclaim Policies
+
+| Policy | Behavior on PVC Delete | Use When |
+|--------|----------------------|----------|
+| `Delete` | Disk/share is destroyed | Ephemeral workloads, dev/test, caches |
+| `Retain` | Disk/share is preserved (orphaned) | Production databases, data you cannot lose |
+
+:::warning
+The default reclaim policy for `managed-csi` is `Delete`. If you delete the PVC, your disk and all data is gone. For production databases, create a custom StorageClass with `reclaimPolicy: Retain`.
+:::
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: managed-csi-retain
+provisioner: disk.csi.azure.com
+parameters:
+  skuName: Premium_LRS
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+```
+
+## Access Modes
+
+| Mode | Meaning | Supported By |
+|------|---------|-------------|
+| ReadWriteOnce (RWO) | Single node read/write | Azure Disks |
+| ReadOnlyMany (ROX) | Multi-node read-only | Azure Disks, Azure Files |
+| ReadWriteMany (RWX) | Multi-node read/write | Azure Files, Blob NFS |
+
+:::info
+Azure Disks are block devices -- they physically attach to one node at a time. If you need multiple pods on different nodes writing to the same volume, you need Azure Files or Blob NFS.
+:::
+
+## Common Mistakes
+
+1. **Using Azure Files for databases** -- Azure Files has higher latency than Disks. Use Disks for anything IOPS-sensitive.
+2. **Forgetting `volumeBindingMode: WaitForFirstConsumer`** -- Without this, the disk may provision in a zone where no node can mount it.
+3. **Not setting `allowVolumeExpansion: true`** -- You will need to resize disks. Enable this upfront.
+4. **Using `Delete` reclaim policy for production data** -- One accidental `kubectl delete pvc` destroys your database.
 
 ## Resources
 
-- 📄 [Storage Concepts in AKS](https://learn.microsoft.com/en-us/azure/aks/concepts-storage)
-- 🧪 [Advanced Storage Concepts Lab](https://azure-samples.github.io/aks-labs/docs/storage/advanced-storage-concepts)
-
-## 🧪 Hands-on Lab
-
-> **[Advanced Storage Concepts](https://azure-samples.github.io/aks-labs/docs/storage/advanced-storage-concepts)**
-> Deep dive into Kubernetes storage architecture and advanced provisioning patterns.
-> ⏱️ ~60 minutes | 📚 Intermediate
-
-## Next Steps
-
-- Understand StorageClass design
-- Plan PV/PVC requirements
-- Design data persistence strategy
+- [Storage concepts in AKS](https://learn.microsoft.com/azure/aks/concepts-storage)
+- [CSI drivers in AKS](https://learn.microsoft.com/azure/aks/csi-storage-drivers)
+- [Dynamic volume provisioning](https://kubernetes.io/docs/concepts/storage/dynamic-provisioning/)

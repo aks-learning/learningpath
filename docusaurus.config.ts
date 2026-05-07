@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'AKS Learning Path',
   tagline: 'From zero to production on Azure Kubernetes Service',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.svg',
 
   future: {
     v4: true,
@@ -17,7 +17,7 @@ const config: Config = {
   organizationName: 'aks-learning',
   projectName: 'learningpath',
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
@@ -65,17 +65,17 @@ const config: Config = {
         },
         {
           href: 'https://azure-samples.github.io/aks-labs',
-          label: '🧪 Labs',
+          label: 'Labs',
           position: 'left',
         },
         {
           href: 'https://blog.aks.azure.com/',
-          label: '📖 Blog',
+          label: 'Blog',
           position: 'left',
         },
         {
           href: 'https://aksnewsletter.com',
-          label: '📰 Newsletter',
+          label: 'Newsletter',
           position: 'left',
         },
         {
@@ -114,7 +114,6 @@ const config: Config = {
           items: [
             { label: 'GitHub', href: 'https://github.com/aks-learning/learningpath' },
             { label: 'Contribute', href: 'https://github.com/aks-learning/learningpath/blob/main/CONTRIBUTING.md' },
-            { label: 'Miro Board', href: 'https://miro.com/app/board/uXjVKnmWkUs=/' },
           ],
         },
       ],

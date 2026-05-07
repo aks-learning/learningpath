@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 280" font-family="Segoe UI, Arial, sans-serif">
+  <!-- Start question -->
+  <rect x="130" y="10" width="300" height="50" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+  <text x="280" y="40" text-anchor="middle" font-size="12" fill="#1a3a5c">Do pods need to be directly routable in VNet?</text>
+
+  <!-- YES arrow -->
+  <line x1="200" y1="60" x2="120" y2="110" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="140" y="82" font-size="11" fill="#2e7d32" font-weight="bold">YES</text>
+
+  <!-- NO arrow -->
+  <line x1="360" y1="60" x2="400" y2="110" stroke="#c62828" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="385" y="82" font-size="11" fill="#c62828" font-weight="bold">NO</text>
+
+  <!-- Azure CNI answer -->
+  <rect x="30" y="115" width="180" height="45" rx="8" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="120" y="138" text-anchor="middle" font-weight="bold" font-size="12" fill="#1b5e20">Azure CNI</text>
+  <text x="120" y="152" text-anchor="middle" font-size="10" fill="#555">VNet-routed pod IPs</text>
+
+  <!-- Second question -->
+  <rect x="290" y="115" width="250" height="45" rx="8" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="415" y="142" text-anchor="middle" font-size="11" fill="#333">Need Cilium / advanced network policies?</text>
+
+  <!-- YES arrow 2 -->
+  <line x1="350" y1="160" x2="300" y2="210" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="305" y="185" font-size="11" fill="#2e7d32" font-weight="bold">YES</text>
+
+  <!-- NO arrow 2 -->
+  <line x1="470" y1="160" x2="470" y2="210" stroke="#c62828" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="485" y="185" font-size="11" fill="#c62828" font-weight="bold">NO</text>
+
+  <!-- Overlay + Cilium -->
+  <rect x="190" y="215" width="200" height="45" rx="8" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="290" y="237" text-anchor="middle" font-weight="bold" font-size="11" fill="#1b5e20">Azure CNI Overlay + Cilium</text>
+  <text x="290" y="252" text-anchor="middle" font-size="10" fill="#555">eBPF dataplane, policies</text>
+
+  <!-- Overlay default -->
+  <rect x="400" y="215" width="150" height="45" rx="8" fill="#c8e6c9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="475" y="237" text-anchor="middle" font-weight="bold" font-size="11" fill="#1b5e20">Azure CNI Overlay</text>
+  <text x="475" y="252" text-anchor="middle" font-size="10" fill="#555">Recommended default</text>
+
+  <!-- Warning -->
+  <text x="280" y="275" text-anchor="middle" font-size="10" fill="#c62828" font-style="italic">⚠ Kubenet is legacy — avoid for new clusters</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666"/>
+    </marker>
+  </defs>
+</svg>

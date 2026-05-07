@@ -4,7 +4,7 @@ const sidebars: SidebarsConfig = {
   learningPath: [
     {
       type: 'category',
-      label: '🚀 Getting Started',
+      label: 'Getting Started',
       link: { type: 'generated-index', slug: 'getting-started' },
       items: [
         'getting-started/what-is-kubernetes',
@@ -14,7 +14,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '🔧 Cluster Setup',
+      label: 'Cluster Setup',
       link: { type: 'generated-index', slug: 'cluster-setup' },
       items: [
         'cluster-setup/tooling',
@@ -23,7 +23,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '🌐 Networking',
+      label: 'Networking',
       link: { type: 'generated-index', slug: 'networking' },
       items: [
         'networking/concepts',
@@ -35,7 +35,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '🔒 Security',
+      label: 'Security',
       link: { type: 'generated-index', slug: 'security' },
       items: [
         'security/identity',
@@ -47,7 +47,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '📊 Observability',
+      label: 'Observability',
       link: { type: 'generated-index', slug: 'observability' },
       items: [
         'observability/azure-monitor',
@@ -57,7 +57,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '⚡ Scaling & Performance',
+      label: 'Scaling & Performance',
       link: { type: 'generated-index', slug: 'scaling' },
       items: [
         'scaling/hpa',
@@ -68,7 +68,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '💾 Storage',
+      label: 'Storage',
       link: { type: 'generated-index', slug: 'storage' },
       items: [
         'storage/concepts',
@@ -78,7 +78,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '🚢 Deployments & GitOps',
+      label: 'Deployments & GitOps',
       link: { type: 'generated-index', slug: 'deployments' },
       items: [
         'deployments/cicd-overview',
@@ -88,7 +88,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '🤖 AI/ML Workloads',
+      label: 'AI/ML Workloads',
       link: { type: 'generated-index', slug: 'ai-workloads' },
       items: [
         'ai-workloads/gpu-node-pools',
@@ -98,7 +98,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '🏢 Operations & Enterprise',
+      label: 'Operations & Enterprise',
       link: { type: 'generated-index', slug: 'operations' },
       items: [
         'operations/upgrades-maintenance',
@@ -109,7 +109,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: '📚 Best Practices',
+      label: 'Best Practices',
       link: { type: 'generated-index', slug: 'best-practices' },
       items: [
         'best-practices/architecture',
