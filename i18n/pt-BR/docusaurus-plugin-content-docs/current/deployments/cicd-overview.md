@@ -87,13 +87,13 @@ O repositório de manifestos é seu registro de deploys. Cada mudança é um com
 Conecte o ACR ao seu cluster AKS com managed identity. Isso dá a cada node acesso de pull sem senha e sem nenhum gerenciamento de secrets:
 
 ```bash
-# Conectar ACR ao AKS (configuracao unica)
+# Conectar ACR ao AKS (configuração única)
 az aks update \
   --resource-group myResourceGroup \
   --name myAKSCluster \
   --attach-acr myACRName
 
-# Verificar se a integracao funciona
+# Verificar se a integração funciona
 az aks check-acr \
   --resource-group myResourceGroup \
   --name myAKSCluster \
@@ -118,7 +118,7 @@ az security pricing create \
   --name Containers \
   --tier Standard
 
-# Bloquear imagens que nao sao do seu ACR
+# Bloquear imagens que não são do seu ACR
 az policy assignment create \
   --name 'only-allowed-registries' \
   --policy 'febd0533-8e55-448f-b837-bd0e06f16469' \

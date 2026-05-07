@@ -92,7 +92,7 @@ Consistência previne confusão em escala:
 |---------|--------|---------|
 | Cluster | `aks-{app}-{env}-{regiao}` | `aks-platform-prod-eus2` |
 | Node pool | `{workload}{tamanho}` | `apps`, `gpua100`, `system` |
-| Namespace | `{time}-{servico}` | `payments-api`, `data-pipeline` |
+| Namespace | `{time}-{serviço}` | `payments-api`, `data-pipeline` |
 | Resource group | `rg-{app}-{env}-{regiao}` | `rg-platform-prod-eus2` |
 
 :::info
