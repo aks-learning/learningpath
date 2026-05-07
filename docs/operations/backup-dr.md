@@ -23,9 +23,9 @@ Before designing your DR strategy, answer this: is your workload stateless or st
 For stateless applications, your Git repository plus your CI/CD pipeline IS your disaster recovery plan. You do not need AKS Backup to recover a deployment manifest. You need it to recover the data on a PersistentVolume.
 :::
 
-## AKS Backup
+## AKS backup
 
-AKS Backup is the Azure-native backup solution using Backup Vault and Trusted Access. It is managed, integrated, and does not require you to run any agents inside your cluster.
+AKS Backup is the Azure-native backup solutionusing Backup Vault and Trusted Access. It is managed, integrated, and does not require you to run any agents inside your cluster.
 
 ### What gets backed up
 
@@ -33,7 +33,7 @@ AKS Backup is the Azure-native backup solution using Backup Vault and Trusted Ac
 - **Persistent Volumes**: CSI disk snapshots (Azure Disk, Azure Files)
 - **Cluster-scoped resources**: Namespaces, ClusterRoles, StorageClasses
 
-### Enable AKS Backup
+### Enable AKS backup
 
 ```bash
 # Install the backup extension
@@ -73,7 +73,7 @@ Requirements:
 - Target cluster must exist in the secondary region
 - Network policies and ingress must be pre-configured in the DR cluster
 
-## AKS Backup vs Velero
+## AKS backup vs Velero
 
 | Criteria | AKS Backup | Velero |
 |----------|-----------|--------|

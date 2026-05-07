@@ -12,7 +12,7 @@ ALWAYS configure HPA for production workloads. A fixed replica count means you a
 
 The HPA controller checks metrics every 15 seconds (configurable). It compares current utilization against your target and adjusts replica count accordingly:
 
-```
+```text
 desiredReplicas = ceil(currentReplicas * (currentMetric / targetMetric))
 ```
 

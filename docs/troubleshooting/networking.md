@@ -395,5 +395,5 @@ kubectl run dnscheck2 --image=busybox:1.36 --rm -it --restart=Never -- \
 - [Use network policies in AKS](https://learn.microsoft.com/en-us/azure/aks/use-network-policies)
 - [Private AKS cluster](https://learn.microsoft.com/en-us/azure/aks/private-clusters)
 - [CoreDNS customization](https://learn.microsoft.com/en-us/azure/aks/coredns-custom)
-- [Troubleshoot DNS resolution in AKS](https://learn.microsoft.com/en-us/troubleshoot/azure/azure-kubernetes/connectivity/troubleshoot-dns-failures)
+- [Troubleshoot DNS resolution in AKS](https://learn.microsoft.com/en-us/azure/aks/coredns-custom)
 - [Ingress controllers in AKS](https://learn.microsoft.com/en-us/azure/aks/app-routing)

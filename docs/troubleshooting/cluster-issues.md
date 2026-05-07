@@ -532,6 +532,6 @@ Always include the **correlation ID** from failed Azure CLI commands. It is prin
 - [Certificate rotation in AKS](https://learn.microsoft.com/en-us/azure/aks/certificate-rotation)
 - [AKS upgrade best practices](https://learn.microsoft.com/en-us/azure/aks/upgrade-aks-cluster)
 - [Quota limits for Azure subscriptions](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits)
-- [Troubleshoot API server and etcd problems](https://learn.microsoft.com/en-us/troubleshoot/azure/azure-kubernetes/availability-performance/troubleshoot-apiserver-etcd)
+- [Troubleshoot API server and etcd problems](https://learn.microsoft.com/en-us/troubleshoot/azure/azure-kubernetes/troubleshoot-apiserver-etcd)
 - [AKS diagnostics overview](https://learn.microsoft.com/en-us/azure/aks/aks-diagnostics)
-- [CoreDNS troubleshooting in AKS](https://learn.microsoft.com/en-us/troubleshoot/azure/azure-kubernetes/connectivity/troubleshoot-dns-failure-from-pod-but-not-from-node)
+- [CoreDNS troubleshooting in AKS](https://learn.microsoft.com/en-us/azure/aks/coredns-custom)

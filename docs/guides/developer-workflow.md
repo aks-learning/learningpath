@@ -92,7 +92,7 @@ Never run containers as root in production. If your base image defaults to root,
 
 :::
 
-### ACR Build
+### ACR build
 
 Build images in the cloud with Azure Container Registry Build Tasks. This removes the need for a local Docker daemon in CI and avoids "works on my machine" issues.
 

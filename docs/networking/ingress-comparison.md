@@ -31,7 +31,7 @@ Four ingress options exist on AKS. This page compares them side by side so you c
 
 Start here and follow the path:
 
-```
+```text
 Do you need a WAF in front of your cluster?
 ├── Yes → Use AGC (Application Gateway for Containers)
 │         It is the only option with Azure WAF v2 integrated.
@@ -54,7 +54,7 @@ Default to App Routing. It covers 80% of workloads with zero operational overhea
 
 ## When to use each
 
-### App Routing: the default
+### App routing: the default
 
 Use App Routing when you need standard L7 ingress with TLS termination, path-based routing, and host-based routing. This covers most web apps and APIs.
 
@@ -204,9 +204,9 @@ AGIC (Application Gateway Ingress Controller v1) is legacy. If you are still run
 - [App Routing add-on](https://learn.microsoft.com/en-us/azure/aks/app-routing)
 - [Application Gateway for Containers overview](https://learn.microsoft.com/en-us/azure/application-gateway/for-containers/overview)
 - [Migrate from AGIC to AGC](https://learn.microsoft.com/en-us/azure/application-gateway/for-containers/migrate-from-agic-to-agc)
-- [Gateway API on AKS](https://learn.microsoft.com/en-us/azure/aks/gateway-api)
+- [Gateway API on AKS](https://learn.microsoft.com/en-us/azure/aks/istio-gateway-api)
 - [NGINX Ingress annotations](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/)
-- [Azure WAF on AGC](https://learn.microsoft.com/en-us/azure/application-gateway/for-containers/waf-overview)
+- [Application Gateway for Containers overview](https://learn.microsoft.com/en-us/azure/application-gateway/for-containers/overview)
 
 ---
 

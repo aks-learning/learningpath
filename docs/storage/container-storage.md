@@ -65,7 +65,7 @@ spec:
 Ephemeral NVMe data is gone when the node restarts, gets reimaged, or your pod moves to another node. Only use for data you can reconstruct. Never for databases.
 :::
 
-## Persistent pools (Azure Disks backend)
+## Persistent pools (Azure disks backend)
 
 ```yaml
 apiVersion: containerstorage.azure.com/v1
@@ -126,5 +126,5 @@ Azure Container Storage requires specific VM SKUs that have local NVMe disks (fo
 ## Resources
 
 - [Azure Container Storage overview](https://learn.microsoft.com/azure/storage/container-storage/container-storage-introduction)
-- [Enable Azure Container Storage](https://learn.microsoft.com/azure/aks/container-storage-enable)
+- [Enable Azure Container Storage](https://learn.microsoft.com/en-us/azure/storage/container-storage/container-storage-introduction)
 - [Ephemeral disk storage pools](https://learn.microsoft.com/azure/storage/container-storage/use-container-storage-with-local-disk)

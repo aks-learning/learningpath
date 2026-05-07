@@ -8,9 +8,9 @@ description: "Prioritized security hardening for AKS -- what to do first, what c
 
 If you only do 3 things: disable local accounts, enable network policies with default-deny, and use Workload Identity. Everything else is defense-in-depth on top of these.
 
-## Priority Matrix
+## Priority matrix
 
-### Critical (Do These First)
+### Critical (do these first)
 
 | Action | How | Impact |
 |--------|-----|--------|
@@ -39,7 +39,7 @@ spec:
 Without default-deny network policies, every pod can reach every other pod on any port. A compromised container in one namespace can attack databases in another. This is the single most common security gap in AKS clusters.
 :::
 
-### High Priority
+### High priority
 
 | Action | How | Impact |
 |--------|-----|--------|
@@ -62,7 +62,7 @@ az policy assignment create \
   --scope "/subscriptions/{sub-id}/resourceGroups/{rg}"
 ```
 
-### Medium Priority
+### Medium priority
 
 | Action | How | Impact |
 |--------|-----|--------|
@@ -72,7 +72,7 @@ az policy assignment create \
 | Limit egress with Azure Firewall | FQDN rules for allowed destinations | Block data exfiltration |
 | Enable mTLS with service mesh | Istio ambient mode or Linkerd | Encrypt pod-to-pod traffic |
 
-## CIS Kubernetes Benchmark
+## CIS Kubernetes benchmark
 
 Azure Policy includes the CIS benchmark as a built-in initiative. Assign it to get compliance scores.
 
@@ -90,7 +90,7 @@ az policy state list \
 Don't try to hit 100% CIS compliance on day one. Start with Critical items, then work through High, then Medium. Perfect compliance with no workloads running is not a useful state.
 :::
 
-## Supply Chain Security
+## Supply chain security
 
 ```bash
 # Scan images before deployment (in CI/CD pipeline)
@@ -106,7 +106,7 @@ helm install ratify ratify/ratify \
   --set featureFlags.RATIFY_CERT_ROTATION=true
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **Enabling local accounts "for emergencies"** -- If Entra ID is down, local accounts bypass all RBAC. Use break-glass procedures instead.
 2. **Network policies with allow-all defaults** -- Same as no network policies.

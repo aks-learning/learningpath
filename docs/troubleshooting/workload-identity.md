@@ -291,5 +291,5 @@ fi
 ## Resources
 
 - [Workload Identity Overview](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview)
-- [Troubleshoot Workload Identity](https://learn.microsoft.com/en-us/troubleshoot/azure/azure-kubernetes/extensions/troubleshoot-workload-identity)
+- [Troubleshoot Workload Identity](https://learn.microsoft.com/en-us/azure/aks/workload-identity-deploy-cluster)
 - [Deploy and Configure Workload Identity](https://learn.microsoft.com/en-us/azure/aks/workload-identity-deploy-cluster)

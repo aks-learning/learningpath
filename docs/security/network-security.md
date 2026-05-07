@@ -158,4 +158,4 @@ az network firewall application-rule create \
 - [Azure CNI Powered by Cilium](https://learn.microsoft.com/en-us/azure/aks/azure-cni-powered-by-cilium)
 - [AKS Egress with Azure Firewall](https://learn.microsoft.com/en-us/azure/aks/limit-egress-traffic)
 - [Cilium Network Policy Reference](https://docs.cilium.io/en/stable/security/policy/)
-- [Hubble Observability](https://docs.cilium.io/en/stable/observability/)
+- [Hubble Observability](https://docs.cilium.io/en/stable/observability/hubble/)

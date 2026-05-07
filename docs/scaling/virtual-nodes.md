@@ -12,7 +12,7 @@ Virtual Nodes are niche. Use them for batch jobs and burst scenarios ONLY. Do no
 
 Virtual Nodes use the Virtual Kubelet to present Azure Container Instances (ACI) as a node in your cluster. When pods are scheduled on the virtual node, they run as serverless containers on ACI instead of on VMs.
 
-```
+```text
 Pod scheduled to virtual node
     -> Virtual Kubelet intercepts
     -> Creates ACI container group

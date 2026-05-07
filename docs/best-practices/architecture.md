@@ -8,7 +8,7 @@ description: "Follow the AKS Baseline Architecture. Don't invent your own. Micro
 
 Follow the AKS Baseline. Don't invent your own architecture. Microsoft tested this at scale with hundreds of enterprise customers.
 
-## The AKS Baseline Architecture
+## The AKS baseline architecture
 
 The AKS Baseline is Microsoft's reference architecture for production Kubernetes. It covers networking, identity, security, operations, and deployment patterns. Start here, then customize.
 
@@ -17,7 +17,7 @@ The AKS Baseline is Microsoft's reference architecture for production Kubernetes
 Start with the baseline, then customize for your needs. Not the other way around. Teams that design from scratch inevitably rediscover every problem the baseline already solved.
 :::
 
-## Key Architectural Principles
+## Key architectural principles
 
 | Principle | Implementation | Why |
 |-----------|---------------|-----|
@@ -28,13 +28,13 @@ Start with the baseline, then customize for your needs. Not the other way around
 | GitOps | Flux or ArgoCD for deployments | Auditable, repeatable, recoverable |
 | Managed Identity | System + User assigned identities | No service principal secrets to rotate |
 
-## Hub-Spoke Network Topology
+## Hub-spoke network topology
 
 ![Hub-Spoke Network Topology](/img/hub-spoke-topology.svg)
 
 The hub contains shared services (Azure Firewall, Bastion, DNS). Each spoke is an isolated workload environment. AKS lives in its own spoke with a dedicated subnet for pods and another for nodes.
 
-## Baseline Components
+## Baseline components
 
 ```bash
 # The baseline includes all of these. Don't skip any for production:
@@ -81,7 +81,7 @@ spec:
     services.loadbalancers: "2"
 ```
 
-## Anti-Patterns to Avoid
+## Anti-patterns to avoid
 
 1. **Public API server** -- Your control plane is on the internet. Use private cluster.
 2. **Single namespace for all workloads** -- No isolation, no quotas, one team can starve another.

@@ -8,7 +8,7 @@ description: "Production LLM serving on AKS -- KAITO, vLLM, TGI, and autoscaling
 
 Start with KAITO for simplicity. Graduate to vLLM when you need to squeeze maximum throughput from expensive GPUs.
 
-## Serving Framework Comparison
+## Serving framework comparison
 
 | Framework | Throughput | Ease of Setup | Best For |
 |-----------|-----------|---------------|----------|
@@ -84,7 +84,7 @@ spec:
   type: ClusterIP
 ```
 
-## Autoscaling Inference
+## Autoscaling inference
 
 Use KEDA with custom metrics to scale inference replicas based on actual demand.
 
@@ -112,7 +112,7 @@ spec:
 Scale on queue depth (pending requests), not GPU utilization. GPU utilization stays high even when throughput is fine. Queue depth tells you when users are actually waiting.
 :::
 
-## Multi-Model GPU Sharing
+## Multi-model GPU sharing
 
 One GPU per model is wasteful for small models or low-traffic endpoints. Options:
 
@@ -141,7 +141,7 @@ data:
 
 This makes each physical GPU appear as 4 schedulable GPUs. Pods share the GPU via time-slicing.
 
-## Performance Optimization Checklist
+## Performance optimization checklist
 
 1. **Enable continuous batching** -- vLLM does this by default. TGI needs `--max-batch-prefill-tokens`.
 2. **Set appropriate max model length** -- Shorter context = more concurrent requests.
@@ -154,7 +154,7 @@ This makes each physical GPU appear as 4 schedulable GPUs. Pods share the GPU vi
 Downloading model weights from HuggingFace on every pod restart. A 13B model is 26GB. Use a PVC with pre-downloaded weights or an init container that caches to a shared volume.
 :::
 
-## When to Graduate from KAITO to Custom
+## When to graduate from KAITO to custom
 
 | Signal | Action |
 |--------|--------|

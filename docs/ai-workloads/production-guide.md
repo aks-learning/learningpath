@@ -182,7 +182,7 @@ spec:
 
 Loading a 16 GB model from the internet on every pod startup is the most common mistake in production AI on Kubernetes.
 
-### Azure Files NFS for shared model weights
+### Azure files NFS for shared model weights
 
 Use Azure Files with NFS for models that multiple pods need to access simultaneously. This avoids downloading the same model for each replica.
 

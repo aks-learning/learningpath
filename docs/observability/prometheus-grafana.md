@@ -21,7 +21,7 @@ Use managed Prometheus. Do not self-host Prometheus in your cluster. Self-hosted
 
 Self-hosted Grafana in the cluster is only justified if you have 50+ clusters and need advanced federation with custom data sources. For everyone else, use Azure Managed Grafana.
 
-## Enable Managed Prometheus
+## Enable managed Prometheus
 
 One command. Do this on every cluster.
 
@@ -50,7 +50,7 @@ az aks create \
 Create the Azure Monitor workspace and Managed Grafana instance first, then link them to your clusters. One Grafana instance can visualize metrics from multiple clusters.
 :::
 
-## Azure Managed Grafana
+## Azure managed Grafana
 
 What you get out of the box:
 

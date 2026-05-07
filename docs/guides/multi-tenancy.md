@@ -291,7 +291,7 @@ echo "Done. Update cost-center: kubectl label ns $NS cost-center=<value> --overw
 
 ## Resources
 
-- [AKS multi-tenancy best practices](https://learn.microsoft.com/en-us/azure/aks/best-practices-multi-tenancy)
+- [AKS multi-tenancy best practices](https://learn.microsoft.com/en-us/azure/architecture/guide/multitenant/service/aks)
 - [Resource quotas in AKS](https://learn.microsoft.com/en-us/azure/aks/operator-best-practices-scheduler#enforce-resource-quotas)
 - [Network policies in AKS](https://learn.microsoft.com/en-us/azure/aks/use-network-policies)
 - [Azure Policy for AKS](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes)

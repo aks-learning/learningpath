@@ -108,7 +108,7 @@ az aks nodepool add \
 | Real-time inference serving | No | Eviction causes user-facing downtime |
 | Fine-tuning (hours-long) | Yes, with checkpoints | Save significantly on long jobs |
 
-## Cost Management
+## Cost management
 
 GPUs are 5-10x more expensive than general compute. Manage costs aggressively:
 

@@ -57,7 +57,7 @@ az aks nodepool add \
 
 For nodes that run 24/7/365, buy RIs. The math is simple.
 
-```
+```text
 On-demand D8s_v5: ~$280/month
 1-year RI:        ~$180/month (36% savings)
 3-year RI:        ~$120/month (57% savings)

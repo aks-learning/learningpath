@@ -102,7 +102,7 @@ Always set `prune: true`. Without it, Flux will create and update resources but 
 
 Organize your manifest repo for multi-environment and multi-cluster:
 
-```
+```text
 k8s-manifests/
   clusters/
     production/

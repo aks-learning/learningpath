@@ -99,7 +99,7 @@ az role assignment create \
 | Running multiple instances without owner IDs | Conflicting updates, record flapping | Every cluster gets its own `txtOwnerId` |
 | Forgetting `--txt-prefix` | TXT ownership records collide with real TXT records | Set `--txt-prefix=extdns-` |
 
-## External Secrets Operator
+## External secrets operator
 
 Syncs secrets from Azure Key Vault into Kubernetes `Secret` objects. Use ESO instead of the Azure Key Vault CSI driver for most workloads — ESO supports templating, automatic rotation, and works with any pod without requiring CSI volume mounts.
 
@@ -270,7 +270,7 @@ Define the `Gateway` resource in an infrastructure namespace owned by the platfo
 | One Gateway per application | Wasted load balancer resources, higher cost | Share a Gateway across applications using HTTPRoute |
 | Missing `ReferenceGrant` for cross-namespace refs | Routes silently fail to attach | Create `ReferenceGrant` in the target namespace |
 
-## OpenTelemetry Collector
+## OpenTelemetry collector
 
 A vendor-neutral telemetry pipeline that receives, processes, and exports traces, metrics, and logs. Instrument once with OpenTelemetry SDKs, then route to Azure Monitor, Prometheus, or any OTLP-compatible backend without changing application code.
 
@@ -424,7 +424,7 @@ az k8s-extension list --cluster-type managedClusters \
 ## Resources
 
 - [AKS extensions overview](https://learn.microsoft.com/azure/aks/cluster-extensions)
-- [cert-manager on AKS](https://learn.microsoft.com/azure/aks/certificate-management)
+- [cert-manager on AKS](https://learn.microsoft.com/en-us/azure/aks/app-routing)
 - [External DNS with Azure DNS](https://learn.microsoft.com/azure/aks/workload-identity-deploy-cluster#configure-external-dns)
 - [External Secrets Operator with Key Vault](https://external-secrets.io/latest/provider/azure-key-vault/)
 - [Dapr AKS extension](https://learn.microsoft.com/azure/aks/dapr)

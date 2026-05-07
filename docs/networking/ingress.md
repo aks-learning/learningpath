@@ -22,7 +22,7 @@ You have three real options for L7 ingress on AKS: the App Routing add-on (manag
 Use App Routing for standard workloads. Use AGC for enterprise with WAF needs. Do not self-manage NGINX unless you need exotic configuration that the managed add-on cannot provide.
 :::
 
-## App Routing add-on (managed NGINX)
+## App routing add-on (managed NGINX)
 
 This is the default choice. Microsoft manages the NGINX ingress controller lifecycle, upgrades, and scaling. You write Ingress resources, it handles the rest.
 
@@ -72,7 +72,7 @@ App Routing gives you:
 - Multiple ingress controller instances (internal + external)
 - Prometheus metrics out of the box
 
-## Application Gateway for Containers (AGC)
+## Application Gateway for containers (AGC)
 
 AGC is the successor to AGIC (Application Gateway Ingress Controller). It is Kubernetes Gateway API-native, not legacy Ingress. Use it when you need WAF, advanced traffic management, or Azure-native L7 load balancing at scale.
 
@@ -215,9 +215,9 @@ Never expose Services as `type: LoadBalancer` with a public IP without a WAF or 
 
 - [App Routing Add-on](https://learn.microsoft.com/en-us/azure/aks/app-routing)
 - [Application Gateway for Containers](https://learn.microsoft.com/en-us/azure/application-gateway/for-containers/overview)
-- [Gateway API on AKS](https://learn.microsoft.com/en-us/azure/aks/gateway-api)
+- [Gateway API on AKS](https://learn.microsoft.com/en-us/azure/aks/istio-gateway-api)
 - [Internal Load Balancer](https://learn.microsoft.com/en-us/azure/aks/internal-lb)
-- [cert-manager on AKS](https://learn.microsoft.com/en-us/azure/aks/certificate-management)
+- [cert-manager on AKS](https://learn.microsoft.com/en-us/azure/aks/app-routing)
 - [AKS Labs](https://azure-samples.github.io/aks-labs)
 
 ---

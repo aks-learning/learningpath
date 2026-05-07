@@ -164,11 +164,11 @@ Do not try to set up everything at once. Follow this order:
 
 Enable Container Insights. Get logs, basic metrics, and portal dashboards working. This takes 10 minutes and covers 80% of what you need on day one.
 
-### Phase 2: Add Managed Prometheus and Grafana
+### Phase 2: add managed Prometheus and Grafana
 
 When you need better dashboards, custom metrics, or PromQL alerting, add Managed Prometheus. Import community Grafana dashboards for Kubernetes. Consider reducing Container Insights to logs-only to avoid paying for duplicate metrics.
 
-### Phase 3: Add OpenTelemetry
+### Phase 3: add OpenTelemetry
 
 When you have multiple microservices and need to trace requests across them, instrument your application with the OpenTelemetry SDK. Deploy the OTel Collector to export traces to Application Insights or Jaeger.
 

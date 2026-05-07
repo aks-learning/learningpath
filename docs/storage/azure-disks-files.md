@@ -8,7 +8,7 @@ description: "Block storage vs shared file systems -- choosing the right storage
 
 Azure Disks for databases and single-pod stateful workloads. Azure Files for shared storage across pods. Pick wrong and you get either poor performance or unnecessary complexity.
 
-## Azure Disks
+## Azure disks
 
 Block storage that attaches to a single node. Think of it as a virtual hard drive plugged into one VM.
 
@@ -27,7 +27,7 @@ Block storage that attaches to a single node. Think of it as a virtual hard driv
 Premium SSD v2 for production databases -- it offers configurable IOPS/throughput independent of disk size, so you don't overpay for capacity you don't need just to get more IOPS. Standard SSD for dev/test. Never HDD for anything in AKS.
 :::
 
-### PVC example: Azure Disk
+### PVC example: Azure disk
 
 ```yaml
 apiVersion: v1
@@ -60,7 +60,7 @@ spec:
             claimName: postgres-data
 ```
 
-## Azure Files
+## Azure files
 
 Network file shares (SMB or NFS) accessible from multiple pods simultaneously.
 
@@ -76,7 +76,7 @@ Network file shares (SMB or NFS) accessible from multiple pods simultaneously.
 Don't use Azure Files for databases. The network latency of a file share compared to a locally-attached disk will destroy your database performance. Use Azure Disks for anything that does frequent random I/O.
 :::
 
-### PVC example: Azure Files (NFS)
+### PVC example: Azure files (NFS)
 
 ```yaml
 apiVersion: v1
