@@ -35,6 +35,7 @@ spec:
 ```
 
 :::warning
+
 Without default-deny network policies, every pod can reach every other pod on any port. A compromised container in one namespace can attack databases in another. This is the single most common security gap in AKS clusters.
 :::
 
@@ -85,6 +86,7 @@ az policy state list \
 ```
 
 :::info
+
 Don't try to hit 100% CIS compliance on day one. Start with Critical items, then work through High, then Medium. Perfect compliance with no workloads running is not a useful state.
 :::
 
@@ -113,6 +115,7 @@ helm install ratify ratify/ratify \
 5. **Ignoring Defender alerts** -- Alert fatigue is real but suppressing all alerts is worse.
 
 :::tip Opinion
+
 Security is not optional. A compromised cluster can pivot to your entire Azure tenant via managed identity. Treat AKS security as tenant security.
 :::
 

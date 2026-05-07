@@ -19,6 +19,7 @@ Start with KAITO for simplicity. Graduate to vLLM when you need to squeeze maxim
 | **Custom** | Varies | Hard | Proprietary models, special requirements |
 
 :::tip Opinion
+
 KAITO for simplicity. vLLM for maximum throughput on production LLM serving. This is the decision tree for 90% of teams.
 :::
 
@@ -107,6 +108,7 @@ spec:
 ```
 
 :::info
+
 Scale on queue depth (pending requests), not GPU utilization. GPU utilization stays high even when throughput is fine. Queue depth tells you when users are actually waiting.
 :::
 
@@ -148,6 +150,7 @@ This makes each physical GPU appear as 4 schedulable GPUs. Pods share the GPU vi
 5. **Preload models** -- Use init containers or PVCs with cached weights. Don't download on every pod start.
 
 :::warning Common Mistake
+
 Downloading model weights from HuggingFace on every pod restart. A 13B model is 26GB. Use a PVC with pre-downloaded weights or an init container that caches to a shared volume.
 :::
 

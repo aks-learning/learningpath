@@ -17,6 +17,7 @@ KEDA (Kubernetes Event-Driven Autoscaling) watches external event sources and sc
 - **N to zero**: Deactivates deployments when the event source is empty
 
 :::info
+
 KEDA is built into AKS as a managed add-on. Do not install it manually with Helm. Enable the add-on and let AKS manage upgrades and availability.
 :::
 
@@ -73,6 +74,7 @@ This tells KEDA: scale the `order-processor` deployment so there is roughly 1 re
 ## KEDA + HPA: Complementary, Not Competing
 
 :::tip
+
 KEDA and HPA are complementary. Use KEDA for scale-to-zero and event-driven triggers. Use HPA for CPU/memory-based steady-state scaling. KEDA actually creates HPA resources under the hood once replicas are above zero.
 :::
 
@@ -116,6 +118,7 @@ spec:
 ```
 
 :::warning
+
 Use Workload Identity for authentication in production. Connection strings in environment variables are a security liability. KEDA supports `podIdentity` natively on AKS.
 :::
 

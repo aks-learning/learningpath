@@ -23,6 +23,7 @@ az aks nodepool add \
 ```
 
 :::tip If your region supports zones, use them. Always.
+
 The incremental cost is zero -- you pay the same per node whether it is in one zone or spread across three. But the resilience improvement is massive. A single-zone failure takes out 33% of your capacity instead of 100%.
 :::
 
@@ -61,6 +62,7 @@ spec:
 ```
 
 :::warning The most common reliability mistake
+
 Deploying all pods on one node, then losing everything when that node fails. Use topology spread constraints with `topologyKey: kubernetes.io/hostname` to distribute pods across nodes, and `topology.kubernetes.io/zone` to distribute across zones.
 :::
 
@@ -113,6 +115,7 @@ spec:
 ```
 
 :::info No probes = no production
+
 Kubernetes cannot help you if it does not know your pod is unhealthy. Without a liveness probe, a deadlocked pod sits there forever consuming resources. Without a readiness probe, traffic routes to pods that cannot serve it.
 :::
 
@@ -146,6 +149,7 @@ Requirements:
 - DNS TTL must be low (30-60 seconds) for fast failover
 
 :::tip Start with single-region, multi-zone
+
 Multi-region is expensive and complex. For most workloads, a single region with 3 availability zones gives you 99.99% SLA. Only go multi-region if your RTO is under 1 minute or you need geographic redundancy for compliance.
 :::
 

@@ -20,6 +20,7 @@ Spot for batch/dev, Reserved Instances for baseline prod, on-demand for burst. T
 | Right-sizing | 20-40% | Over-provisioned workloads | Requires analysis |
 
 :::tip Opinion
+
 Turn off dev/test clusters at night. That's 60% of the time they're running for nothing. A 3-node dev cluster costs ~$500/month. Shutting it down 14 hours/day saves $300/month per cluster.
 :::
 
@@ -63,6 +64,7 @@ On-demand D8s_v5: ~$280/month
 ```
 
 :::info
+
 Buy RIs for your system node pool and production baseline. These nodes always run. Use on-demand for autoscaler burst capacity that comes and goes.
 :::
 
@@ -105,6 +107,7 @@ kubectl top pod my-pod --containers
 ```
 
 :::warning Common Mistake
+
 Setting CPU requests at 1 core "just to be safe" when the pod uses 50m. Ten pods like this reserve 10 cores but use 0.5. That's 9.5 cores of wasted capacity you're paying for.
 :::
 

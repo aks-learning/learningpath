@@ -32,6 +32,7 @@ Still here? Good -- let's cover why, and the edge cases where you deviate.
 ## The Recommendation
 
 :::tip
+
 Use Azure CNI Overlay with Cilium dataplane for every new cluster unless you have a specific, documented reason not to.
 :::
 
@@ -78,6 +79,7 @@ az aks create \
 ```
 
 :::warning
+
 With Azure CNI (non-overlay), a 3-node cluster running 50 pods each consumes 153 VNet IPs (3 nodes + 150 pods). A /24 subnet (251 usable) barely fits one node pool. Plan a /21 or larger.
 :::
 
@@ -122,6 +124,7 @@ Existing clusters cannot switch CNI modes in-place. The migration path is:
 4. Decommission old cluster
 
 :::info
+
 Use blue-green cluster deployments. Do not attempt in-place CNI changes -- they are not supported and will break your cluster.
 :::
 

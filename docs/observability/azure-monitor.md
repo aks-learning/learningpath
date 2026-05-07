@@ -41,6 +41,7 @@ az aks enable-addons \
 ```
 
 :::warning
+
 Pick a Log Analytics workspace in the same region as your cluster. Cross-region ingestion adds latency and egress cost.
 :::
 
@@ -54,6 +55,7 @@ Log Analytics has two tiers. Use them deliberately.
 | Analytics (Standard) | ~$2.76/GB ingested | Full KQL, alerts, dashboards | 30-730 days | Critical alerts, SLO queries, audit logs |
 
 :::tip
+
 Use Basic logs tier for high-volume container logs. Use Analytics tier for tables you actively query and alert on. Do not pay Analytics prices for debug logs you query once a quarter.
 :::
 
@@ -115,6 +117,7 @@ InsightsMetrics
 4. **Wrong workspace region** -- cross-region ingestion adds latency and cost. Always co-locate.
 
 :::info
+
 Container Insights v2 uses ContainerLogV2 table with structured JSON parsing. If you are still on the legacy ContainerLog table, migrate. The v2 schema is cheaper to query and easier to filter.
 :::
 

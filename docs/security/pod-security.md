@@ -19,6 +19,7 @@ Kubernetes defines three security profiles. Only one is acceptable for productio
 | Restricted | Blocks all dangerous configurations. Non-root, no capabilities, read-only root. | Production. Always. |
 
 :::warning
+
 Pod Security Policies (PSP) were removed in Kubernetes 1.25. If you are running anything referencing PSP, it is doing nothing. You must migrate to Pod Security Admission (PSA).
 :::
 
@@ -106,6 +107,7 @@ az policy assignment create \
 ```
 
 :::tip
+
 Use Azure Policy and PSA together. PSA catches violations at pod creation time in-cluster. Azure Policy catches violations through the Azure control plane and provides compliance reporting. They complement each other -- one is not a substitute for the other.
 :::
 

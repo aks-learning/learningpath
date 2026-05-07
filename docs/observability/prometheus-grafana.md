@@ -46,6 +46,7 @@ az aks create \
 ```
 
 :::tip
+
 Create the Azure Monitor workspace and Managed Grafana instance first, then link them to your clusters. One Grafana instance can visualize metrics from multiple clusters.
 :::
 
@@ -118,6 +119,7 @@ spec:
 ```
 
 :::warning
+
 If your ServiceMonitor is not scraping, check these common issues: (1) the selector labels do not match the Service, (2) the port name does not match the Service port name, (3) the namespace selector is wrong. Use `kubectl get servicemonitors -A` to verify they exist.
 :::
 
@@ -163,6 +165,7 @@ az monitor account rule-group create \
 4. **Ignoring recording rules** -- If a dashboard query takes 10+ seconds, create a recording rule. Pre-compute it.
 
 :::info
+
 Azure Managed Prometheus charges per metrics ingested (samples/minute). Monitor your ingestion volume in the Azure Monitor workspace metrics. A typical AKS cluster with 50 pods generates 500K-2M samples/minute.
 :::
 

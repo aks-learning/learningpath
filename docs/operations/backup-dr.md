@@ -19,6 +19,7 @@ Before designing your DR strategy, answer this: is your workload stateless or st
 | Mixed (app + attached storage) | Git for manifests, AKS Backup for PVs | Yes, for the PV layer. |
 
 :::tip Your Git repo is your primary backup
+
 For stateless applications, your Git repository plus your CI/CD pipeline IS your disaster recovery plan. You do not need AKS Backup to recover a deployment manifest. You need it to recover the data on a PersistentVolume.
 :::
 
@@ -59,6 +60,7 @@ az dataprotection backup-policy create \
 ```
 
 :::warning Enable AKS Backup for all production clusters
+
 The cost is negligible compared to losing your workload state. A single unrecoverable PV loss will cost you more in incident response than a year of backup storage.
 :::
 
@@ -83,6 +85,7 @@ Requirements:
 | Cost model | Per-protected-instance | Storage + compute you manage |
 
 :::info Use AKS Backup over Velero for new deployments
+
 AKS Backup is integrated, managed, and does not require you to maintain an S3-compatible backend or worry about Velero version compatibility. If you already have Velero running and it works, keep it. For new clusters, choose AKS Backup.
 :::
 
@@ -129,6 +132,7 @@ Not everything needs to be backed up. Be deliberate about what you protect.
 | RBAC (Roles, Bindings) | Maybe | Only if manually managed, not GitOps |
 
 :::tip Backup what cannot be recreated
+
 The rule is simple: if it exists only inside the cluster and nowhere else, back it up. If it can be reconstructed from Git, CI/CD, or an external system, do not waste backup storage on it.
 :::
 

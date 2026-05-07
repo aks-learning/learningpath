@@ -9,6 +9,7 @@ description: "Opinionated guide to Fleet Manager for multi-cluster upgrade orche
 Fleet Manager lets you manage multiple AKS clusters as a single entity. Coordinated upgrades, workload placement, and multi-cluster networking from one control plane.
 
 :::tip You need Fleet Manager when you have 3+ clusters
+
 Below that threshold, manage clusters individually. The overhead of Fleet Manager is not justified for 1-2 clusters. At 3+, manual coordination of upgrades and deployments becomes error-prone and time-consuming.
 :::
 
@@ -103,6 +104,7 @@ The `stages.json` defines the rollout order:
 ```
 
 :::info Start with fleet-level upgrade orchestration
+
 That alone justifies Fleet Manager. The ability to stage upgrades across clusters with automatic wait periods between stages eliminates the most dangerous operational task in multi-cluster environments. Multi-cluster networking is a bonus feature on top of that.
 :::
 
@@ -130,6 +132,7 @@ Use cases:
 - Cross-cluster service discovery
 
 :::warning Multi-cluster networking adds complexity
+
 Do not enable multi-cluster services unless you have a clear need. It introduces cross-cluster network dependencies that complicate debugging. Most teams only need coordinated upgrades.
 :::
 

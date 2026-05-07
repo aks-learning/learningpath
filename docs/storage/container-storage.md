@@ -13,6 +13,7 @@ Use Azure Container Storage for stateful workloads that need pooled storage, vol
 Azure Container Storage is a Kubernetes-native storage management layer. Instead of one PVC mapping to one Azure Disk, it creates storage pools that can be carved into volumes with advanced features: replication across nodes, thin provisioning, snapshots, and ephemeral local NVMe volumes.
 
 :::info
+
 Think of it as a software-defined storage layer on top of Azure's infrastructure. It sits between your PVCs and the underlying storage backend (Azure Disks, Ephemeral NVMe, or Elastic SAN).
 :::
 
@@ -25,6 +26,7 @@ Think of it as a software-defined storage layer on top of Azure's infrastructure
 | Azure Elastic SAN | Persistent, shared | High IOPS at scale | Large-scale stateful deployments |
 
 :::tip Opinion
+
 Use Azure Container Storage for two scenarios: (1) ephemeral local NVMe volumes for caches and temp data that need raw speed, or (2) pooled persistent storage where you need replication across availability zones. For everything else, the standard CSI drivers are simpler.
 :::
 
@@ -59,6 +61,7 @@ spec:
 **Perfect for:** Redis caches, Elasticsearch temp storage, ML model caches, build artifact scratch space.
 
 :::warning
+
 Ephemeral NVMe data is gone when the node restarts, gets reimaged, or your pod moves to another node. Only use for data you can reconstruct. Never for databases.
 :::
 
@@ -110,6 +113,7 @@ az aks update \
 ```
 
 :::info
+
 Azure Container Storage requires specific VM SKUs that have local NVMe disks (for ephemeral) or sufficient capacity. L-series and Lsv2-series VMs have local NVMe. Standard D/E-series work with the Azure Disks backend.
 :::
 

@@ -17,6 +17,7 @@ This is the most important decision you will make when creating an AKS cluster. 
 **AKS Standard** is the full-control experience. You configure everything: node pools, networking, monitoring, scaling, security policies. More power, more responsibility, more things to get wrong.
 
 :::tip The analogy that works
+
 AKS Automatic is like a Tesla -- you get in and drive. AKS Standard is like building a car from a kit -- you can make it exactly what you want, but you better know what you are doing or you will end up with a vehicle that does not start.
 :::
 
@@ -51,6 +52,7 @@ Choose Automatic when:
 - You run **Linux-only workloads**
 
 :::info What you get without lifting a finger
+
 With AKS Automatic, the moment your cluster is created you have: Cilium network policies, Managed Prometheus, KEDA for event-driven scaling, Node Autoprovision for right-sized nodes, Workload Identity for secure Azure access, App Routing for ingress, and automated OS patching. On Standard, configuring all of that takes a full day of work.
 :::
 
@@ -69,6 +71,7 @@ Choose Standard when:
 ## The Number One Mistake Teams Make
 
 :::warning Don't over-engineer on day one
+
 The number one mistake is choosing AKS Standard "because we might need the flexibility later" and then spending 3 weeks configuring networking, monitoring, scaling, and security that AKS Automatic would have given you in 5 minutes. By the time you finish, you have burned your sprint on infrastructure instead of shipping features.
 
 Start with Automatic. If you hit a wall -- a real wall, not a hypothetical one -- migrate to Standard. The migration path exists and is supported.
@@ -118,6 +121,7 @@ They are independent. You can have:
 | AKS Standard + Premium tier | Full control + LTS + advanced features. For mission-critical workloads. |
 
 :::warning AKS Automatic always uses Standard tier at minimum
+
 You cannot run AKS Automatic on the Free tier. It requires Standard or Premium tier because it is designed for production use. If you want a free cluster for experimentation, use AKS Standard with Free tier.
 :::
 
@@ -178,6 +182,7 @@ Ask yourself these questions in order:
 ## Hands-on Lab
 
 :::tip Try it yourself
+
 **[Kubernetes the Easy Way with AKS Automatic](https://azure-samples.github.io/aks-labs/)**
 
 Create an AKS Automatic cluster, deploy a workload, and see how Node Autoprovision, monitoring, and ingress work without any manual configuration. About 45 minutes.

@@ -17,6 +17,7 @@ Most teams overcomplicate this. Use rolling updates as your default. Add canary 
 | Blue/Green | High | 2x | Instant (swap) | Stateful apps, databases, compliance-heavy |
 
 :::tip
+
 Use rolling updates as your default. Add canary for critical user-facing services where you need to validate with real traffic before full rollout. Blue/green is expensive (2x resources permanently) and rarely needed in Kubernetes -- the platform already gives you declarative rollbacks.
 :::
 
@@ -51,6 +52,7 @@ spec:
 ```
 
 :::warning
+
 Always set `maxUnavailable: 0` for production services. The default of 25% means Kubernetes will kill pods before new ones are ready. Combined with `maxSurge: 1`, you get zero-downtime deploys that are slightly slower but never drop requests.
 :::
 
@@ -65,6 +67,7 @@ Always set `maxUnavailable: 0` for production services. The default of 25% means
 Canary sends a small percentage of traffic to the new version. You watch error rates and latency, then either promote or roll back. Do not implement this manually with multiple Deployments and service selectors -- use a proper tool.
 
 :::tip
+
 If you need canary, use Argo Rollouts. It is mature, well-documented, and works with any service mesh or ingress controller. Flagger is the CNCF alternative but has a smaller community and less intuitive configuration.
 :::
 
@@ -141,6 +144,7 @@ kubectl rollout undo deployment/myapp --to-revision=3
 ```
 
 :::info
+
 Kubernetes keeps 10 revisions by default (`revisionHistoryLimit`). Do not set this to 0 -- you lose the ability to rollback. Keep at least 5.
 :::
 

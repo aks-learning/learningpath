@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#424242"/>
+    </marker>
+    <linearGradient id="hubGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E8EAF6"/>
+      <stop offset="100%" stop-color="#C5CAE9"/>
+    </linearGradient>
+    <linearGradient id="aksGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E3F2FD"/>
+      <stop offset="100%" stop-color="#BBDEFB"/>
+    </linearGradient>
+    <linearGradient id="dataGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E8F5E9"/>
+      <stop offset="100%" stop-color="#C8E6C9"/>
+    </linearGradient>
+    <linearGradient id="otherGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3E0"/>
+      <stop offset="100%" stop-color="#FFE0B2"/>
+    </linearGradient>
+  </defs>
+
+  <text x="300" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#283593">Hub-Spoke Network Topology</text>
+
+  <!-- Hub VNet -->
+  <rect x="200" y="40" width="200" height="90" rx="10" fill="url(#hubGrad)" stroke="#3F51B5" stroke-width="2"/>
+  <text x="300" y="65" text-anchor="middle" font-weight="bold" font-size="14" fill="#1A237E">Hub VNet</text>
+  <text x="300" y="85" text-anchor="middle" fill="#283593">Azure Firewall</text>
+  <text x="300" y="102" text-anchor="middle" fill="#283593">Bastion | Private DNS</text>
+
+  <!-- Peering lines -->
+  <line x1="300" y1="130" x2="300" y2="165" stroke="#424242" stroke-width="2"/>
+  <text x="330" y="153" font-size="11" fill="#616161">VNet Peering</text>
+  
+  <!-- Branch lines -->
+  <line x1="300" y1="165" x2="100" y2="200" stroke="#424242" stroke-width="1.5"/>
+  <line x1="300" y1="165" x2="300" y2="200" stroke="#424242" stroke-width="1.5"/>
+  <line x1="300" y1="165" x2="500" y2="200" stroke="#424242" stroke-width="1.5"/>
+
+  <!-- AKS Spoke -->
+  <rect x="30" y="205" width="160" height="100" rx="10" fill="url(#aksGrad)" stroke="#1565C0" stroke-width="2"/>
+  <text x="110" y="232" text-anchor="middle" font-weight="bold" font-size="13" fill="#0D47A1">AKS Spoke VNet</text>
+  <text x="110" y="255" text-anchor="middle" font-size="11" fill="#1565C0">Node Subnet</text>
+  <text x="110" y="272" text-anchor="middle" font-size="11" fill="#1565C0">Pod Subnet</text>
+  <text x="110" y="289" text-anchor="middle" font-size="11" fill="#1565C0">Private Endpoints</text>
+
+  <!-- Data Spoke -->
+  <rect x="220" y="205" width="160" height="100" rx="10" fill="url(#dataGrad)" stroke="#2E7D32" stroke-width="2"/>
+  <text x="300" y="232" text-anchor="middle" font-weight="bold" font-size="13" fill="#1B5E20">Data Spoke</text>
+  <text x="300" y="255" text-anchor="middle" font-size="11" fill="#2E7D32">SQL / Cosmos DB</text>
+  <text x="300" y="272" text-anchor="middle" font-size="11" fill="#2E7D32">Storage Accounts</text>
+  <text x="300" y="289" text-anchor="middle" font-size="11" fill="#2E7D32">Redis Cache</text>
+
+  <!-- Other Spokes -->
+  <rect x="410" y="205" width="160" height="100" rx="10" fill="url(#otherGrad)" stroke="#E65100" stroke-width="2"/>
+  <text x="490" y="232" text-anchor="middle" font-weight="bold" font-size="13" fill="#BF360C">Other Spokes</text>
+  <text x="490" y="255" text-anchor="middle" font-size="11" fill="#E65100">App Gateway / WAF</text>
+  <text x="490" y="272" text-anchor="middle" font-size="11" fill="#E65100">Shared Services</text>
+  <text x="490" y="289" text-anchor="middle" font-size="11" fill="#E65100">DevOps Agents</text>
+
+  <!-- Legend -->
+  <text x="300" y="332" text-anchor="middle" font-size="10" fill="#757575">Each spoke is isolated. Cross-spoke traffic routes through the Hub firewall.</text>
+</svg>

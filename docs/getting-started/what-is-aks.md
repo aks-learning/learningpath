@@ -26,6 +26,7 @@ The split is clean:
 | **Networking (VNet, LB, DNS)** | Shared | AKS provisions Azure resources in your subscription. You configure the topology. |
 
 :::info Key insight
+
 You pay zero for the control plane. Your cost is only the worker node VMs, storage, and networking in your subscription. This makes AKS the cheapest entry point for production Kubernetes on any cloud.
 :::
 
@@ -44,6 +45,7 @@ You pay zero for the control plane. Your cost is only the worker node VMs, stora
 ## Pricing Tiers: Pick the Right One
 
 :::warning Do not run production on the Free tier
+
 The Free tier has no SLA, no uptime guarantee, and limited API server resources. It exists for learning and dev/test only. Running production on Free tier is asking for an outage at the worst possible time.
 :::
 
@@ -58,6 +60,7 @@ The tier cost is ONLY for the control plane capabilities. You still pay for your
 ## Critical: Node OS Migration Required
 
 :::warning Azure Linux 2.0 deprecation -- November 2025
+
 If your node pools run Azure Linux 2.0 (Mariner 2.0), you must migrate to Azure Linux 3.0 before November 2025. Azure Linux 2.0 reaches end of life and will stop receiving security patches. Do not delay this.
 :::
 
@@ -142,6 +145,7 @@ kubectl get nodes
 ## Hands-on Lab
 
 :::tip Get hands-on
+
 **[Kubernetes the Easy Way with AKS Automatic](https://azure-samples.github.io/aks-labs/)**
 
 Deploy your first application on AKS. The lab walks you through cluster creation, deployment, and scaling in about 45 minutes.

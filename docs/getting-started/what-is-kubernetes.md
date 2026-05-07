@@ -22,6 +22,7 @@ But here is the real question: **do you actually need it?**
 ## You Do NOT Need Kubernetes When...
 
 :::warning Stop. Think before you adopt Kubernetes.
+
 The number one mistake beginners make is adopting Kubernetes for a 2-service application that could run perfectly well on Azure Container Apps or even App Service. Kubernetes adds operational complexity. If you don't need what it gives you, it will only slow you down.
 :::
 
@@ -89,6 +90,7 @@ spec:
 ## Why Managed Kubernetes (Not Self-Managed)
 
 :::tip Strong recommendation
+
 Do not run self-managed Kubernetes unless you have a dedicated platform team of 3+ engineers. Self-managed K8s means you own: etcd backup/restore, control plane upgrades, certificate rotation, API server availability, and every CVE patch. That is a full-time job for multiple people.
 :::
 
@@ -131,6 +133,7 @@ Kubernetes has a massive API surface. Do not try to learn everything at once. He
 5. **After that**: StatefulSets, DaemonSets, CRDs, Operators, service mesh -- only when you need them.
 
 :::warning What NOT to learn early
+
 Do not start with Helm charts, Operators, or service meshes. These are advanced patterns that solve problems you do not have yet. Learn the primitives first. If you cannot deploy an app with raw YAML, you should not be abstracting it with Helm.
 :::
 

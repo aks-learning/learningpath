@@ -9,6 +9,7 @@ description: "GitOps for AKS using Flux v2 as a Microsoft-supported extension, w
 GitOps means one thing: the desired state of your cluster lives in Git, and a controller inside the cluster continuously reconciles actual state to match. No human runs `kubectl apply` in production. No pipeline has cluster credentials. Git is the single source of truth, and the cluster pulls from it.
 
 :::warning
+
 Never `kubectl apply` from a laptop in production. All production changes go through Git. If it is not in the repo, it does not exist. If someone edits a resource directly, the GitOps controller reverts it within minutes.
 :::
 
@@ -24,6 +25,7 @@ Never `kubectl apply` from a laptop in production. All production changes go thr
 | Adoption | Growing in Azure ecosystem | Dominant in broader K8s community |
 
 :::tip
+
 Use Flux if you want Microsoft-supported GitOps with AKS. You get Azure support tickets, integration with Azure Policy, and a clean AKS extension lifecycle. Use ArgoCD if your team already knows it or you need the UI for visibility across many applications.
 :::
 
@@ -34,18 +36,7 @@ Flux operates through a reconciliation loop with two core resources:
 1. **GitRepository**: Points to your Git repo, polls for changes
 2. **Kustomization**: Defines what path in the repo to apply and how
 
-```
-Git Repo (source of truth)
-    |
-    v
-GitRepository (Flux watches for changes)
-    |
-    v
-Kustomization (applies manifests from specific path)
-    |
-    v
-Cluster state (continuously reconciled)
-```
+![Flux Reconciliation Loop](/img/flux-reconciliation.svg)
 
 When someone pushes a commit that changes a manifest, Flux detects it within the poll interval (default: 1 minute), pulls the new state, and applies it. If the apply fails, it reports the error and retries.
 
@@ -103,6 +94,7 @@ spec:
 ```
 
 :::info
+
 Always set `prune: true`. Without it, Flux will create and update resources but never delete them. You end up with orphaned resources that drift from your Git state -- defeating the entire purpose of GitOps.
 :::
 
@@ -156,6 +148,7 @@ az k8s-configuration flux create \
 - Skipping the staging branch: Apply to staging first, promote to production via PR
 
 :::warning
+
 Flux will happily apply broken manifests. Add health checks to your Kustomization so that Flux reports failures when Deployments do not become healthy. Without this, you only find out something is wrong when users complain.
 :::
 

@@ -21,16 +21,13 @@ AKS ships with these storage classes pre-configured. Don't create your own unles
 | `azureblob-nfs` | Blob NFS | ReadWriteMany | Large datasets, ML training data |
 
 :::tip Opinion
+
 Use `managed-csi` (Azure Disks) as your default for anything stateful. Only reach for Azure Files when multiple pods need simultaneous read/write access to the same data.
 :::
 
 ## PersistentVolume Lifecycle
 
-```
-PVC Created → Dynamic Provisioning → PV Created → PV Bound to PVC → Pod Mounts Volume
-                                                                            ↓
-Pod Deleted → PVC Deleted → Reclaim Policy Applied (Delete or Retain)
-```
+![PersistentVolume Lifecycle](/img/pv-lifecycle.svg)
 
 Always use dynamic provisioning unless you have pre-existing disks to import. Dynamic provisioning creates the Azure resource automatically when a PVC is submitted.
 
@@ -60,6 +57,7 @@ That's it. AKS creates a Premium SSD managed disk, attaches it to the node runni
 | `Retain` | Disk/share is preserved (orphaned) | Production databases, data you cannot lose |
 
 :::warning
+
 The default reclaim policy for `managed-csi` is `Delete`. If you delete the PVC, your disk and all data is gone. For production databases, create a custom StorageClass with `reclaimPolicy: Retain`.
 :::
 
@@ -85,6 +83,7 @@ allowVolumeExpansion: true
 | ReadWriteMany (RWX) | Multi-node read/write | Azure Files, Blob NFS |
 
 :::info
+
 Azure Disks are block devices -- they physically attach to one node at a time. If you need multiple pods on different nodes writing to the same volume, you need Azure Files or Blob NFS.
 :::
 

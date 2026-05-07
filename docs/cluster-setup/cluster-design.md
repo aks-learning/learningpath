@@ -13,6 +13,7 @@ Get these decisions right on day one. Changing cluster topology later means down
 Start with one cluster. Use namespace isolation with network policies to separate teams and environments. Graduate to multi-cluster only when you need blast radius reduction, multi-region failover, or hard compliance boundaries between workloads.
 
 :::warning Common Mistake
+
 Teams spin up a cluster per environment (dev, staging, prod) on day one. You end up managing 9 clusters before you have a single production workload. Start with one cluster, three namespaces.
 :::
 
@@ -53,6 +54,7 @@ az aks nodepool add \
 ```
 
 :::tip Opinion
+
 System node pool: `Standard_D4s_v5`, 3 nodes, tainted with `CriticalAddonsOnly`. User pools: pick based on workload. Never mix workloads in the system pool -- a misbehaving app pod should never starve CoreDNS.
 :::
 
@@ -67,6 +69,7 @@ System node pool: `Standard_D4s_v5`, 3 nodes, tainted with `CriticalAddonsOnly`.
 | F-series v2 | Compute-optimized batch processing | High CPU-to-memory ratio workloads |
 
 :::warning
+
 B-series VMs throttle CPU after consuming burst credits. Your production workload will randomly slow down under sustained load. Use D-series instead.
 :::
 
@@ -93,6 +96,7 @@ Consistency prevents confusion at scale:
 | Resource group | `rg-{app}-{env}-{region}` | `rg-platform-prod-eus2` |
 
 :::info
+
 Node pool names are limited to 12 characters (Linux) or 6 characters (Windows). Keep them short and meaningful.
 :::
 

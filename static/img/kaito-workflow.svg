@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 180" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0078D4"/>
+    </marker>
+    <linearGradient id="stepGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E3F2FD"/>
+      <stop offset="100%" stop-color="#BBDEFB"/>
+    </linearGradient>
+  </defs>
+  <text x="390" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#1565C0">KAITO Workflow</text>
+  
+  <!-- Step 1 -->
+  <rect x="10" y="50" width="130" height="60" rx="8" fill="url(#stepGrad)" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="75" y="75" text-anchor="middle" font-weight="600" fill="#0D47A1">Create</text>
+  <text x="75" y="92" text-anchor="middle" fill="#0D47A1">Workspace CR</text>
+  <line x1="140" y1="80" x2="165" y2="80" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 2 -->
+  <rect x="170" y="50" width="130" height="60" rx="8" fill="url(#stepGrad)" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="235" y="75" text-anchor="middle" font-weight="600" fill="#0D47A1">KAITO Provisions</text>
+  <text x="235" y="92" text-anchor="middle" fill="#0D47A1">GPU Nodes</text>
+  <line x1="300" y1="80" x2="325" y2="80" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 3 -->
+  <rect x="330" y="50" width="130" height="60" rx="8" fill="url(#stepGrad)" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="395" y="75" text-anchor="middle" font-weight="600" fill="#0D47A1">Downloads</text>
+  <text x="395" y="92" text-anchor="middle" fill="#0D47A1">Model Weights</text>
+  <line x1="460" y1="80" x2="485" y2="80" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 4 -->
+  <rect x="490" y="50" width="130" height="60" rx="8" fill="url(#stepGrad)" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="555" y="75" text-anchor="middle" font-weight="600" fill="#0D47A1">Starts Inference</text>
+  <text x="555" y="92" text-anchor="middle" fill="#0D47A1">Server</text>
+  <line x1="620" y1="80" x2="645" y2="80" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step 5 -->
+  <rect x="650" y="50" width="120" height="60" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="710" y="75" text-anchor="middle" font-weight="600" fill="#1B5E20">Exposes API</text>
+  <text x="710" y="92" text-anchor="middle" fill="#1B5E20">Endpoint</text>
+
+  <!-- Labels -->
+  <text x="75" y="135" text-anchor="middle" font-size="10" fill="#616161">You do this</text>
+  <text x="395" y="135" text-anchor="middle" font-size="10" fill="#616161">KAITO handles all of this automatically</text>
+  <line x1="160" y1="125" x2="160" y2="145" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="165" y="125" width="600" height="24" rx="4" fill="none" stroke="#9E9E9E" stroke-width="1" stroke-dasharray="3,3"/>
+</svg>

@@ -32,6 +32,7 @@ az aks update \
 ```
 
 :::tip
+
 Enable the AKS cost analysis add-on on every cluster. It is free and gives you namespace-level visibility without installing third-party tools. Add KubeCost only if you need team chargebacks or showback reports.
 :::
 
@@ -45,6 +46,7 @@ Enable the AKS cost analysis add-on on every cluster. It is free and gives you n
 | OpenCost | Free | CNCF standard, lightweight | Less polished UI than KubeCost |
 
 :::info
+
 Azure Cost Management sees your cluster as a VM cost. It cannot tell you which namespace or pod is responsible. That is why you need the AKS add-on or KubeCost for in-cluster attribution.
 :::
 
@@ -83,6 +85,7 @@ az aks nodepool add \
 ```
 
 :::warning
+
 Do not run production stateful workloads on Spot nodes. They can be evicted with 30 seconds notice. Use Spot for stateless batch processing, build agents, and development environments.
 :::
 
@@ -121,6 +124,7 @@ resources:
 ```
 
 :::warning
+
 Setting requests too high wastes nodes (you pay for empty capacity). Setting them too low causes scheduling failures and evictions. Base requests on actual P95 usage from your monitoring data, not guesses.
 :::
 

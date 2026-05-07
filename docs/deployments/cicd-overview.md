@@ -20,6 +20,7 @@ There are two delivery models for Kubernetes: push-based (your pipeline pushes t
 | Best for | Dev/test, quick iteration | Production, multi-cluster |
 
 :::tip
+
 Use GitOps (Flux or ArgoCD) for production. Push-based is fine for dev/test but does not give you drift detection or self-healing. When someone runs `kubectl edit` at 2 AM and breaks something, GitOps reverts it automatically. Push-based pipelines have no idea it happened.
 :::
 
@@ -66,6 +67,7 @@ jobs:
 ```
 
 :::warning
+
 Never use `latest` tags in production manifests. Every deployment should reference an immutable SHA-tagged image. The `latest` tag is a lie -- it just means "whatever was pushed last" and gives you zero reproducibility.
 :::
 
@@ -76,6 +78,7 @@ The CD side is handled by Flux or ArgoCD running inside your cluster. It watches
 This separation matters: CI owns "is the artifact good?" and CD owns "is the cluster in desired state?" Mixing them (pipeline does `kubectl apply`) means your pipeline needs cluster credentials, your cluster has no drift detection, and nobody can answer "what is actually running right now?" without checking the cluster directly.
 
 :::info
+
 The manifest repo is your deployment record. Every change is a Git commit with author, timestamp, and diff. When something breaks at 3 AM, `git log` tells you exactly what changed and who approved it.
 :::
 
@@ -98,6 +101,7 @@ az aks check-acr \
 ```
 
 :::warning
+
 Always use ACR with managed identity attachment. Never put Docker Hub credentials in your cluster. ImagePullSecrets with registry passwords are a security incident waiting to happen -- they get committed to repos, shared in Slack, and never rotated.
 :::
 
@@ -145,12 +149,10 @@ az policy assignment create \
 
 Promote through environments using branches or directories in your manifest repo:
 
-```
-dev  -->  staging  -->  production
-(auto)    (auto)       (PR approval required)
-```
+![Environment Promotion](/img/env-promotion.svg)
 
 :::info
+
 Never auto-deploy to production. Staging can auto-deploy on merge to the staging branch. Production should require a pull request with at least one approval. This gives you a human checkpoint without slowing down development.
 :::
 

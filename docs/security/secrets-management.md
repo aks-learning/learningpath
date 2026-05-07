@@ -22,6 +22,7 @@ That is not security. That is encoding. Kubernetes Secrets are:
 - Not versioned, not rotated automatically, not audited
 
 :::warning
+
 Never treat Kubernetes Secrets as secure storage. They are a convenience feature for non-sensitive configuration at best. For actual secrets (database passwords, API keys, certificates, connection strings), use Azure Key Vault.
 :::
 
@@ -33,6 +34,7 @@ Never treat Kubernetes Secrets as secure storage. They are a convenience feature
 | External Secrets Operator | Syncs Key Vault secrets into Kubernetes Secret objects | Legacy apps that must read from K8s Secret objects or env vars |
 
 :::tip
+
 Use CSI Driver for new applications. Use External Secrets Operator only if your application is hard-coded to read from Kubernetes Secret objects or environment variables and you cannot change it. The CSI Driver is the cleaner architecture -- secrets never exist as Kubernetes objects.
 :::
 
@@ -168,15 +170,7 @@ If your SecretProviderClass references a client secret or service principal, you
 
 ## Decision Tree
 
-```
-Does your app need secrets from Azure?
-├── Yes → Does it read from filesystem?
-│   ├── Yes → Use Secrets Store CSI Driver
-│   └── No → Can you change it?
-│       ├── Yes → Change it, use CSI Driver
-│       └── No → Use External Secrets Operator
-└── No → You probably still have secrets. Use Key Vault anyway.
-```
+![Secrets Management Decision Tree](/img/secrets-decision-tree.svg)
 
 ## Resources
 

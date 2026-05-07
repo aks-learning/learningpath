@@ -29,6 +29,7 @@ All three layers are required. NSGs alone do not see pod-to-pod traffic within t
 | Cilium | Yes | Yes (HTTP, gRPC, DNS) | Hubble (excellent) | Best (eBPF) | Use this. |
 
 :::tip
+
 Use Cilium. It is the only engine that gives you L7 policies (filter by HTTP path, gRPC method, DNS name) combined with eBPF-based observability through Hubble. You can see every network flow in your cluster in real time. Azure now supports Cilium natively via Azure CNI Powered by Cilium.
 :::
 
@@ -114,6 +115,7 @@ spec:
 ```
 
 :::info
+
 Always include a DNS egress rule. Without it, pods cannot resolve service names and will fail in confusing ways that look like application bugs rather than network policy issues.
 :::
 

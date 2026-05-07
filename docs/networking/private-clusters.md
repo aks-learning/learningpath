@@ -18,6 +18,7 @@ Every production AKS cluster should be private or at minimum have authorized IP 
 | **Private + authorized ranges** | Private endpoint + public with allowlist | Hybrid access | Transition state |
 
 :::warning
+
 Public API server in production is negligent. An attacker with a leaked kubeconfig or service account token has direct network access to your control plane. Defense in depth requires network-level restrictions.
 :::
 
@@ -67,6 +68,7 @@ az aks update \
 ```
 
 :::info
+
 Authorized IP ranges and private clusters are not mutually exclusive. You can enable both -- the private endpoint for VNet access and authorized ranges for specific public IPs (e.g., corporate office egress).
 :::
 
@@ -148,6 +150,7 @@ jobs:
 | Azure Deployment Environments | Low | Platform engineering teams |
 
 :::tip
+
 GitOps (Flux or ArgoCD) is the cleanest pattern for private clusters. The GitOps agent runs inside the cluster and pulls changes -- no inbound network path to the API server is needed from your CI system.
 :::
 

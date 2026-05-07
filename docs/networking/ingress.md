@@ -18,6 +18,7 @@ You have three real options for L7 ingress on AKS: the App Routing add-on (manag
 | Raw TCP/UDP without HTTP routing | **LoadBalancer Service** (skip ingress entirely) |
 
 :::tip
+
 Use App Routing for standard workloads. Use AGC for enterprise with WAF needs. Do not self-manage NGINX unless you need exotic configuration that the managed add-on cannot provide.
 :::
 
@@ -122,6 +123,7 @@ spec:
 ```
 
 :::info
+
 AGC uses the Kubernetes Gateway API (Gateway, HTTPRoute, GRPCRoute), not the legacy Ingress resource. This is the future direction of Kubernetes traffic management. If you are starting fresh, prefer Gateway API.
 :::
 
@@ -205,6 +207,7 @@ az aks approuting update \
 5. **Not rate-limiting ingress** -- A single bad client can saturate your ingress controller. Configure rate limiting annotations.
 
 :::warning
+
 Never expose Services as `type: LoadBalancer` with a public IP without a WAF or DDoS protection plan. Use AGC with WAF policies for internet-facing workloads that handle user input.
 :::
 

@@ -18,6 +18,7 @@ Workload Identity is THE modern way for pods to access Azure resources. Every po
 | Managed Identity on VMSS directly | Every pod on the node gets the same identity. Zero isolation. | Dangerous for multi-tenant. |
 
 :::warning
+
 Pod Identity (aad-pod-identity) is deprecated and will not receive security patches. If you are still using it, migrate to Workload Identity now. Not next sprint. Now.
 :::
 
@@ -71,6 +72,7 @@ az identity federated-credential create \
 ```
 
 :::tip
+
 The `--subject` must exactly match the format `system:serviceaccount:<namespace>:<service-account-name>`. A single typo here means silent authentication failures with no useful error message. Triple-check it.
 :::
 

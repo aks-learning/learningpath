@@ -31,6 +31,7 @@ Stay within N-1 Kubernetes version. Don't wait until your version is out of supp
 | Data recovery | Your database backups and PVC data |
 
 :::warning
+
 "My pods keep crashing" is not an AKS support issue unless the crash is caused by a platform bug. Pod crashes due to OOMKill, bad health probes, or application errors are your responsibility. Microsoft support will tell you this politely.
 :::
 
@@ -47,6 +48,7 @@ Example (as of early 2025):
 ```
 
 :::tip Opinion
+
 Stay on N-1. You get the stability of a proven version while keeping a comfortable buffer before end-of-support. Teams on N-2 are always one missed upgrade away from an emergency.
 :::
 
@@ -82,6 +84,7 @@ az aks get-upgrades --resource-group myrg --name myaks --output table
 | Windows Server 2022 | Supported | Required for Windows containers |
 
 :::warning
+
 Azure Linux 2.0 (formerly CBL-Mariner) reaches end of life November 2025. If your node pools use it, plan migration to AzureLinux 3. This is not optional -- you will stop receiving security patches.
 :::
 
@@ -110,6 +113,7 @@ az aks nodepool show \
 5. Steps already taken to troubleshoot
 
 :::info
+
 Before opening a ticket, check [AKS GitHub Issues](https://github.com/Azure/AKS/issues) -- known issues and release notes are posted there. Many "bugs" are already documented with workarounds.
 :::
 

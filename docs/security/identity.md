@@ -13,6 +13,7 @@ Entra ID integration is THE way to manage access to AKS. There is no debate here
 Never use local Kubernetes accounts. Disable them. Use Entra ID combined with Kubernetes RBAC for every cluster, every environment, no exceptions.
 
 :::warning
+
 Local accounts cannot be audited through Entra ID, cannot enforce MFA, and cannot be revoked centrally. A compromised kubeconfig with local admin credentials gives permanent cluster access until you rotate the certificates.
 :::
 
@@ -60,6 +61,7 @@ The cluster itself needs an identity to manage Azure resources (load balancers, 
 | User-assigned | Survives recreation, reusable, pre-configurable | Slightly more setup | Production always |
 
 :::tip
+
 Use user-assigned managed identity for production clusters. When you recreate a cluster (and you will -- upgrades, DR testing, IaC reprovisioning), the identity persists with all its role assignments intact. System-assigned identity means re-doing every RBAC assignment from scratch.
 :::
 
@@ -89,6 +91,7 @@ Entra ID Conditional Access policies apply to AKS authentication. This means you
 Configure a Conditional Access policy targeting the "Azure Kubernetes Service AAD Server" application in your Entra ID tenant. Require MFA and a compliant device for all users except the emergency admin group.
 
 :::info
+
 Conditional Access applies at token acquisition time. Once a user has a valid token (typically 1 hour), they can access the cluster without re-authentication until it expires. Plan your token lifetime accordingly.
 :::
 

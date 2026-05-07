@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 180" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0078D4"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#C62828"/>
+    </marker>
+  </defs>
+
+  <text x="350" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#1565C0">PersistentVolume Lifecycle</text>
+
+  <!-- Provisioning flow (top) -->
+  <rect x="10" y="45" width="110" height="44" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="65" y="72" text-anchor="middle" font-weight="600" fill="#0D47A1">PVC Created</text>
+
+  <line x1="120" y1="67" x2="145" y2="67" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="150" y="45" width="110" height="44" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="205" y="65" text-anchor="middle" font-weight="600" fill="#0D47A1">Dynamic</text>
+  <text x="205" y="80" text-anchor="middle" font-weight="600" fill="#0D47A1">Provisioning</text>
+
+  <line x1="260" y1="67" x2="285" y2="67" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="290" y="45" width="100" height="44" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="340" y="72" text-anchor="middle" font-weight="600" fill="#0D47A1">PV Created</text>
+
+  <line x1="390" y1="67" x2="415" y2="67" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="420" y="45" width="120" height="44" rx="8" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="480" y="72" text-anchor="middle" font-weight="600" fill="#0D47A1">PV Bound to PVC</text>
+
+  <line x1="540" y1="67" x2="565" y2="67" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="570" y="45" width="120" height="44" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="630" y="65" text-anchor="middle" font-weight="600" fill="#1B5E20">Pod Mounts</text>
+  <text x="630" y="80" text-anchor="middle" font-weight="600" fill="#1B5E20">Volume</text>
+
+  <!-- Deletion flow (bottom) -->
+  <line x1="630" y1="89" x2="630" y2="115" stroke="#C62828" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="648" y="107" font-size="10" fill="#C62828">delete</text>
+
+  <rect x="10" y="120" width="120" height="44" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="70" y="138" text-anchor="middle" font-weight="600" fill="#BF360C">Reclaim Policy</text>
+  <text x="70" y="153" text-anchor="middle" font-size="11" fill="#BF360C">(Delete or Retain)</text>
+
+  <line x1="255" y1="142" x2="135" y2="142" stroke="#C62828" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <rect x="260" y="120" width="110" height="44" rx="8" fill="#FFEBEE" stroke="#C62828" stroke-width="1.5"/>
+  <text x="315" y="147" text-anchor="middle" font-weight="600" fill="#C62828">PVC Deleted</text>
+
+  <line x1="490" y1="142" x2="375" y2="142" stroke="#C62828" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <rect x="495" y="120" width="110" height="44" rx="8" fill="#FFEBEE" stroke="#C62828" stroke-width="1.5"/>
+  <text x="550" y="147" text-anchor="middle" font-weight="600" fill="#C62828">Pod Deleted</text>
+
+  <line x1="625" y1="120" x2="610" y2="142" stroke="#C62828" stroke-width="1.5" stroke-dasharray="4,3"/>
+</svg>

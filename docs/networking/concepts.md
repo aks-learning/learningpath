@@ -17,6 +17,7 @@ AKS networking is not Kubernetes networking with an Azure wrapper. It is Azure V
 | **Kubenet** | Node-level NAT | VNet subnet IPs | Deprecated. Do not use. |
 
 :::tip The 90% Rule
+
 Use Azure CNI Overlay for 90% of workloads. Only use Azure CNI (non-overlay) when you need pods directly addressable from the VNet -- meaning external systems must initiate connections to specific pod IPs without going through a Service or Ingress.
 :::
 
@@ -45,6 +46,7 @@ az aks create \
 | **DNS Service IP** | Must be inside Service CIDR | Conventionally .10 of the range |
 
 :::warning
+
 You cannot change Pod CIDR or Service CIDR after cluster creation. Get this right on day one or face a cluster rebuild.
 :::
 
@@ -74,6 +76,7 @@ spec:
 Traditional AKS uses kube-proxy (iptables mode) for Service routing. This works but scales poorly past 5,000 Services and gives you zero observability into traffic flows.
 
 :::tip
+
 Enable Cilium for network policies. Do not use Azure NPM or Calico -- Cilium is the future and gives you eBPF observability for free. With ACNS (Advanced Container Networking Services), you get DNS-aware policies, flow logs, and Hubble UI out of the box.
 :::
 

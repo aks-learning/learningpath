@@ -12,11 +12,10 @@ KAITO is the fastest path from model selection to serving on AKS. Use it unless 
 
 KAITO (Kubernetes AI Toolchain Operator) deploys large language models on AKS with a single custom resource. It handles the hard parts: GPU node provisioning, model download, serving setup, and health management.
 
-```
-You create a Workspace CR → KAITO provisions GPU nodes → Downloads model weights → Starts inference server → Exposes API endpoint
-```
+![KAITO Workflow](/img/kaito-workflow.svg)
 
 :::tip Opinion
+
 KAITO handles the hard parts: GPU node provisioning, model download, serving setup. Don't reinvent this. If you're deploying a supported model, KAITO saves weeks of infrastructure work.
 :::
 
@@ -93,6 +92,7 @@ curl -X POST http://<SERVICE_IP>/chat \
 | Throughput tuning | Default settings | You optimize batch size, quantization |
 
 :::warning When NOT to Use KAITO
+
 - Your model isn't in the supported list
 - You need custom quantization (GPTQ, AWQ, GGUF)
 - You need maximum throughput optimization (custom vLLM configs)

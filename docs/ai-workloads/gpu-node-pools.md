@@ -18,6 +18,7 @@ GPUs are expensive. Configure them correctly, scale to zero when idle, and use s
 | NV v3 | M60 | 8 GB | Visualization only | Not for ML/AI |
 
 :::tip Opinion
+
 Use `Standard_NC24ads_A100_v4` for most ML/AI workloads. It handles inference, fine-tuning, and moderate training. Only move to ND H100 for large-scale distributed training. Use NC T4 for dev/test and light inference where cost matters more than throughput.
 :::
 
@@ -40,6 +41,7 @@ az aks nodepool add \
 ```
 
 :::warning
+
 Always taint GPU nodes with `NoSchedule`. Without taints, the scheduler will place regular workloads on your expensive GPU nodes. The taint ensures only pods with matching tolerations land there.
 :::
 
@@ -74,6 +76,7 @@ spec:
 ```
 
 :::info
+
 GPUs cannot be shared between containers natively. If you request `nvidia.com/gpu: 1`, you get a whole GPU. For sharing, look at NVIDIA MIG (Multi-Instance GPU) or time-slicing -- covered in [Inference Serving](./inference-serving).
 :::
 

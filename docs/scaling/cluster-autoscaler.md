@@ -16,6 +16,7 @@ The logic is straightforward:
 2. **Scale down**: A node is underutilized (below threshold) for a sustained period. CA drains and removes it.
 
 :::info
+
 Cluster Autoscaler does NOT look at CPU/memory utilization on nodes. It looks at **scheduling failures** (scale up) and **pod packing density** (scale down). This is a critical distinction most teams get wrong.
 :::
 
@@ -53,6 +54,7 @@ az aks create \
 | `scale-down-unneeded-time` | 10m | Node must be underutilized for 10 min before removal |
 
 :::warning
+
 Set `scale-down-delay-after-add` to at least 10 minutes. Without this, CA adds a node, pods schedule, some finish quickly, node looks underutilized, CA removes it, pods go Pending, CA adds again. This thrashing wastes money and creates instability.
 :::
 
@@ -94,6 +96,7 @@ az aks nodepool add --name gpu \
 ```
 
 :::tip
+
 Set `min-count 0` on specialized pools (GPU, high-memory). Let them scale to zero when no workloads need them. Only your general pool needs a non-zero minimum.
 :::
 

@@ -21,6 +21,7 @@ AKS offers five auto-upgrade channels. Pick one and stick with it.
 | `node-image` | Only upgrades node OS images, not K8s version | When you handle K8s upgrades separately |
 
 :::tip Use Stable for production
+
 Use `stable` channel for production. Use `rapid` for non-prod to catch issues early. Never use `none` -- you will fall behind and face a painful multi-version jump that requires rebuilding your cluster.
 :::
 
@@ -54,6 +55,7 @@ Maintenance windows apply to both control plane and node pool upgrades. Set a se
 Node image upgrades are separate from Kubernetes version upgrades. They patch the OS, containerd, and kubelet without changing your K8s version.
 
 :::warning Enable auto node image upgrade
+
 Enable `NodeImage` auto-upgrade at minimum. OS patches fix CVEs. Skipping them is a security incident waiting to happen.
 :::
 
@@ -83,6 +85,7 @@ az aks nodepool update \
 ```
 
 :::tip Set max-surge to 33% for production
+
 Slower but safer. With 33%, one-third of your nodes upgrade in parallel while the rest keep serving traffic. Use 1 node for dev/test where cost matters more than speed.
 :::
 
@@ -103,6 +106,7 @@ spec:
 ```
 
 :::warning The number one upgrade mistake
+
 Not having PDBs, then wondering why upgrades cause downtime. During a node drain, Kubernetes evicts pods as fast as it can. Without a PDB, all replicas can be evicted simultaneously, causing a full outage.
 :::
 
@@ -132,6 +136,7 @@ kubectl get --raw /metrics | grep apiserver_requested_deprecated_apis
 ```
 
 :::info Pre-upgrade checklist
+
 1. Run `kubectl deprecations` (or `kubent`) to find deprecated APIs
 2. Verify PDBs exist for all critical workloads
 3. Confirm cluster autoscaler has headroom for surge nodes

@@ -35,6 +35,7 @@ helm version
 | **Helm** | Install third-party components (ingress, cert-manager) | `winget install Helm.Helm` |
 
 :::warning
+
 kubelogin is not optional. Every production AKS cluster uses Entra ID integration. Without kubelogin, kubectl cannot authenticate. The `az aks install-cli` command installs both kubectl and kubelogin.
 :::
 
@@ -80,6 +81,7 @@ Use Helm for third-party charts. Use Kustomize for your own apps. Don't use both
 | Customize a Helm chart heavily | Helm + values file | Don't eject into Kustomize patches on top of Helm |
 
 :::tip Opinion
+
 If you find yourself patching Helm output with Kustomize, you've gone wrong. Either use the chart's values.yaml properly or fork the chart. The Helm-then-Kustomize pipeline is a maintenance nightmare.
 :::
 
@@ -92,6 +94,7 @@ If you find yourself patching Helm output with Kustomize, you've gone wrong. Eit
 | **ARM Templates** | Never for new projects. Legacy only. |
 
 :::info
+
 Bicep compiles to ARM but is human-readable. If you're Azure-only, use Bicep. Terraform makes sense if you also manage AWS/GCP resources or your team already knows it.
 :::
 

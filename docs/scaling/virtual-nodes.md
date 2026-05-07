@@ -21,6 +21,7 @@ Pod scheduled to virtual node
 ```
 
 :::info
+
 Virtual Nodes provision pods in seconds (not minutes like real nodes). This makes them useful for absorbing sudden spikes that cannot wait for Cluster Autoscaler to provision VMs.
 :::
 
@@ -47,6 +48,7 @@ az aks enable-addons \
 | Stateful workloads | No | No persistent volume support |
 
 :::tip
+
 The sweet spot for Virtual Nodes: workloads that are short-lived, stateless, embarrassingly parallel, and arrive in unpredictable bursts. Think image processing pipelines, report generation, or load testing.
 :::
 
@@ -102,6 +104,7 @@ Do not ignore these. They are not edge cases; they will bite you in production:
 | No GPU sharing | GPU containers supported but no fractional GPU |
 
 :::warning
+
 Virtual Nodes cannot run your standard monitoring stack (Prometheus node exporter, Fluent Bit DaemonSet). ACI pods need separate observability configuration. Use Azure Monitor container insights for ACI workloads.
 :::
 

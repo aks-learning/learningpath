@@ -13,6 +13,7 @@ Follow the AKS Baseline. Don't invent your own architecture. Microsoft tested th
 The AKS Baseline is Microsoft's reference architecture for production Kubernetes. It covers networking, identity, security, operations, and deployment patterns. Start here, then customize.
 
 :::tip Opinion
+
 Start with the baseline, then customize for your needs. Not the other way around. Teams that design from scratch inevitably rediscover every problem the baseline already solved.
 :::
 
@@ -29,21 +30,7 @@ Start with the baseline, then customize for your needs. Not the other way around
 
 ## Hub-Spoke Network Topology
 
-```
-                    ┌─────────────┐
-                    │   Hub VNet   │
-                    │  (Firewall,  │
-                    │   Bastion,   │
-                    │   DNS)       │
-                    └──────┬──────┘
-                           │ Peering
-              ┌────────────┼────────────┐
-              │            │            │
-       ┌──────┴──────┐  ┌──┴───┐  ┌───┴─────┐
-       │ AKS Spoke   │  │ Data │  │  Other  │
-       │  VNet       │  │Spoke │  │  Spokes │
-       └─────────────┘  └──────┘  └─────────┘
-```
+![Hub-Spoke Network Topology](/img/hub-spoke-topology.svg)
 
 The hub contains shared services (Azure Firewall, Bastion, DNS). Each spoke is an isolated workload environment. AKS lives in its own spoke with a dedicated subnet for pods and another for nodes.
 
@@ -62,6 +49,7 @@ The hub contains shared services (Azure Firewall, Bastion, DNS). Each spoke is a
 ```
 
 :::warning
+
 Skipping Azure Firewall for egress means your cluster can reach any internet endpoint. One compromised pod can exfiltrate data anywhere. The firewall adds cost but is non-negotiable for regulated workloads.
 :::
 
@@ -103,6 +91,7 @@ spec:
 6. **No egress filtering** -- Compromised pods can phone home to any C2 server.
 
 :::info
+
 The AKS Baseline reference implementation is fully deployable. Clone the repo, customize parameters, deploy. Don't build from scratch.
 :::
 

@@ -17,6 +17,7 @@ desiredReplicas = ceil(currentReplicas * (currentMetric / targetMetric))
 ```
 
 :::warning
+
 HPA uses **requests-based utilization**, not actual node capacity. If your pod requests 100m CPU and uses 80m, HPA sees 80% utilization. Get your requests wrong and HPA makes wrong decisions. Always right-size requests first.
 :::
 
@@ -73,6 +74,7 @@ spec:
 ```
 
 :::tip
+
 Scale up aggressively, scale down conservatively. The cost of over-provisioning for a few minutes is far less than the cost of dropping requests.
 :::
 

@@ -23,6 +23,7 @@ Block storage that attaches to a single node. Think of it as a virtual hard driv
 | Standard HDD | Up to 2,000 | Up to 500 MB/s | Never use in AKS |
 
 :::tip Opinion
+
 Premium SSD v2 for production databases -- it offers configurable IOPS/throughput independent of disk size, so you don't overpay for capacity you don't need just to get more IOPS. Standard SSD for dev/test. Never HDD for anything in AKS.
 :::
 
@@ -71,6 +72,7 @@ Network file shares (SMB or NFS) accessible from multiple pods simultaneously.
 | SMB 3.0 | Linux + Windows | Good for large sequential I/O | Windows containers, cross-platform |
 
 :::warning Common Mistake
+
 Don't use Azure Files for databases. The network latency of a file share compared to a locally-attached disk will destroy your database performance. Use Azure Disks for anything that does frequent random I/O.
 :::
 
@@ -119,6 +121,7 @@ allowVolumeExpansion: true
 ```
 
 :::info
+
 Premium SSD v2 lets you set IOPS and throughput independently of disk size. A 100Gi disk can have 5000 IOPS instead of being locked to the size-based tier. This is why it's the best choice for production.
 :::
 

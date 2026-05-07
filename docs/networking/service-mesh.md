@@ -23,6 +23,7 @@ Service meshes add operational complexity, increase resource consumption (sideca
 | L7 observability (HTTP metrics) | Application instrumentation | Automatic from sidecars |
 
 :::tip
+
 Network policies (Cilium) + application-level retries + OpenTelemetry cover 80% of what teams think they need a mesh for. Only add a mesh when you genuinely need transparent mTLS between all services or advanced L7 traffic management that you cannot do at the ingress layer.
 :::
 
@@ -150,6 +151,7 @@ spec:
 Linkerd is lighter than Istio but is not offered as an AKS-managed add-on. You own the lifecycle. Use it only if you have strong Linkerd expertise and need its Rust-based proxy (lower resource footprint than Envoy).
 
 :::warning
+
 If you choose a non-managed mesh (Linkerd, self-hosted Istio, Consul Connect), Microsoft support cannot help you debug mesh-related networking issues. You own it entirely.
 :::
 
