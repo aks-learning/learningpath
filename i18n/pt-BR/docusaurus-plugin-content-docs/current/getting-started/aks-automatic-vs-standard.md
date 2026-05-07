@@ -65,7 +65,7 @@ Escolha Standard quando:
 - Você tem **requisitos de compliance** exigindo imagens de SO de node específicas, agendas de patches ou configurações
 - Você roda **workloads especializados** que precisam de controle exato sobre node affinity, taints, tolerations e topology spread constraints em múltiplos node pools customizados
 - Você precisa de **múltiplos node pools com SKUs de VM diferentes** gerenciados explicitamente (não via autoprovision)
-- Você tem **IaC existente em Terraform/Bicep** que gerencia a configuração do cluster de forma acoplada e você não pode adapta-lo ao modelo do Automatic
+- Você tem **IaC existente em Terraform/Bicep** que gerencia a configuração do cluster de forma acoplada e você não pode adaptá-lo ao modelo do Automatic
 - Você precisa de **customização do kubelet** ou parâmetros customizados de kernel nos nodes
 
 ## O erro número um que times cometem
@@ -115,7 +115,7 @@ Eles são independentes. Você pode ter:
 
 | Combinação | O que Significa |
 |------------|-----------------|
-| AKS Automatic + tier Standard | Operações opinativas + SLA de produção. **Este e o padrão para Automatic.** |
+| AKS Automatic + tier Standard | Operações opinativas + SLA de produção. **Este é o padrão para Automatic.** |
 | AKS Standard + tier Free | Controle total + sem SLA. Bom apenas para dev/test. |
 | AKS Standard + tier Standard | Controle total + SLA de produção. **Configuração de produção mais comum.** |
 | AKS Standard + tier Premium | Controle total + LTS + recursos avançados. Para workloads de missão crítica. |

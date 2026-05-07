@@ -57,7 +57,7 @@ O tier Free não tem SLA, nenhuma garantia de uptime e recursos limitados do API
 
 O custo do tier é APENAS para as capacidades do control plane. Você ainda paga pelas VMs dos seus nodes separadamente.
 
-## Crítico: migração de SO dos nodes necessaria
+## Crítico: migração de SO dos nodes necessária
 
 :::warning Descontinuação do Azure Linux 2.0 -- Novembro de 2025
 

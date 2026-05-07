@@ -23,7 +23,7 @@ Use Azure CNI Overlay para 90% dos workloads. Só use Azure CNI (sem overlay) qu
 
 ## Planejamento de endereçamento IP
 
-E aqui que os times se queimam. Planeje seus CIDRs antes de criar o cluster:
+É aqui que os times se queimam. Planeje seus CIDRs antes de criar o cluster:
 
 ```bash
 # Example: Creating a cluster with proper CIDR planning
@@ -119,7 +119,7 @@ Comece com deny-all em cada namespace e depois abra exceções conforme necessá
 
 ## Erros comuns
 
-1. **Usar Kubenet para clusters novos** -- Ele está depreciado. Não há razão para escolhe-lo em 2025.
+1. **Usar Kubenet para clusters novos** -- Ele está depreciado. Não há razão para escolhê-lo em 2025.
 2. **Subdimensionar a subnet dos nodes** -- Esquecer que o AKS reserva IPs para pods de sistema, upgrades (surge) e load balancers.
 3. **Ignorar ndots** -- Um pod fazendo 10 chamadas de API externas gera 50 consultas DNS com o ndots:5 padrão.
 4. **Escolher Azure NPM para network policies** -- Está em modo de manutenção. Cilium é desenvolvido ativamente e oferece funcionalidade superior.

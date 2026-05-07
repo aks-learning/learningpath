@@ -13,7 +13,7 @@ Todo cluster AKS de produção deveria ser privado ou, no mínimo, ter faixas de
 | Modo | Endpoint do API Server | Quem Pode Acessar | Caso de Uso |
 |------|----------------------|-------------------|-------------|
 | **Público (padrão)** | IP público, sem restrições | Qualquer pessoa na internet | Apenas dev/test |
-| **Faixas de IP autorizadas** | IP público, allowlist de IPs | Apenas CIDRs especificados | Produção minimamente viavel |
+| **Faixas de IP autorizadas** | IP público, allowlist de IPs | Apenas CIDRs especificados | Produção minimamente viável |
 | **Cluster privado** | Private endpoint na VNet | Apenas clientes conectados a VNet | Padrão de produção |
 | **Privado + faixas autorizadas** | Private endpoint + público com allowlist | Acesso híbrido | Estado de transição |
 
@@ -24,7 +24,7 @@ API server público em produção é negligência. Um atacante com um kubeconfig
 
 ## Arquitetura de cluster privado
 
-Um cluster AKS privado coloca o API server atras de um Private Endpoint na sua VNet. O API server recebe um endereço IP privado, e a resolução de DNS é tratada via zona de Azure Private DNS (`privatelink.<region>.azmk8s.io`).
+Um cluster AKS privado coloca o API server atrás de um Private Endpoint na sua VNet. O API server recebe um endereço IP privado, e a resolução de DNS é tratada via zona de Azure Private DNS (`privatelink.<region>.azmk8s.io`).
 
 ```bash
 # Create a private cluster
@@ -144,9 +144,9 @@ jobs:
 | Abordagem | Complexidade | Melhor Para |
 |-----------|-------------|-------------|
 | `az aks command invoke` | Baixa | Deployments simples, times pequenos |
-| Self-hosted runners na VNet | Media | GitHub Actions, Azure DevOps |
-| Agentes Azure DevOps em VMSS | Media | Pipelines Azure DevOps |
-| Flux/ArgoCD (GitOps) | Media | Deployment pull-based (sem acesso ao API necessário a partir do CI) |
+| Self-hosted runners na VNet | Média | GitHub Actions, Azure DevOps |
+| Agentes Azure DevOps em VMSS | Média | Pipelines Azure DevOps |
+| Flux/ArgoCD (GitOps) | Média | Deployment pull-based (sem acesso ao API necessário a partir do CI) |
 | Azure Deployment Environments | Baixa | Times de platform engineering |
 
 :::tip

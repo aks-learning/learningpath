@@ -37,7 +37,7 @@ Network policies (Cilium) + retries no nível da aplicação + OpenTelemetry cob
 
 **Trilha de auditoria regulatória**: Você precisa de logs de acesso por requisição entre serviços para compliance, sem modificar o código da aplicação.
 
-## Quando você NAO precisa de um service mesh
+## Quando você NÃO precisa de um service mesh
 
 - Você tem menos de 20 serviços -- o overhead não compensa
 - Seus serviços já lidam com retries e timeouts (a maioria dos frameworks modernos faz isso)
@@ -152,7 +152,7 @@ Linkerd é mais leve que Istio, mas não é oferecido como add-on gerenciado do 
 
 :::warning
 
-Se você escolher um mesh não gerenciado (Linkerd, Istio autogerenciado, Consul Connect), o suporte dá Microsoft não pode ajudar a debugar problemas de rede relacionados ao mesh. A responsabilidade é inteiramente sua.
+Se você escolher um mesh não gerenciado (Linkerd, Istio autogerenciado, Consul Connect), o suporte da Microsoft não pode ajudar a debugar problemas de rede relacionados ao mesh. A responsabilidade é inteiramente sua.
 :::
 
 ## Impacto em recursos

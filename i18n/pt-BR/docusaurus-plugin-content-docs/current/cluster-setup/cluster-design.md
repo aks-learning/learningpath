@@ -82,7 +82,7 @@ Escolha uma região que suporte Availability Zones e esteja próxima dos seus us
 az vm list-skus --location eastus2 --size Standard_D8s_v5 --output table
 ```
 
-Regiões preferidas para novos deployments: East US 2, West US 3, North Europe, West Europe. Todas tem suporte completo a AZ e ampla disponibilidade de SKUs.
+Regiões preferidas para novos deployments: East US 2, West US 3, North Europe, West Europe. Todas têm suporte completo a AZ e ampla disponibilidade de SKUs.
 
 ## Convenções de nomenclatura
 

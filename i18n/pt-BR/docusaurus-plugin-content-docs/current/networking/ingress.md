@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 title: "Ingress e Balanceamento de Carga"
-description: "Use App Routing para workloads padrão. Use AGC para WAF corporativo. Não gerencie NGINX manualmente a menos que tenha requisitos exoticos."
+description: "Use App Routing para workloads padrão. Use AGC para WAF corporativo. Não gerencie NGINX manualmente a menos que tenha requisitos exóticos."
 ---
 
 # Ingress e balanceamento de carga
@@ -69,7 +69,7 @@ O App Routing oferece:
 - Ciclo de vida gerenciado do NGINX (sem ficar babando Helm chart)
 - Integração nativa com Azure DNS zone
 - Integração com Key Vault para certificados TLS
-- Multiplas instâncias de ingress controller (interno + externo)
+- Múltiplas instâncias de ingress controller (interno + externo)
 - Métricas Prometheus prontas para uso
 
 ## Application Gateway for Containers (AGC)

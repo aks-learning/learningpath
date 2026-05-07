@@ -19,7 +19,7 @@ Mas a pergunta real é: **você realmente precisa disso?**
 - Você está rodando **workloads stateful** (bancos de dados, filas, treinamento de ML) junto com stateless na mesma infraestrutura
 - Você precisa de **infraestrutura portável** entre clouds ou ambientes híbridos
 
-## Você NAO precisa de Kubernetes quando...
+## Você NÃO precisa de Kubernetes quando...
 
 :::warning Pare. Pense antes de adotar Kubernetes.
 

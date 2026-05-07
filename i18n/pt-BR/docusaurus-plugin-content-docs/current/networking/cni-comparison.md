@@ -1,14 +1,14 @@
 ---
 sidebar_position: 2
 title: "Opções de CNI: Qual Escolher"
-description: "Pare de deliberar. Use Azure CNI Overlay com Cilium. Aqui está o porque, e os raros casos em que você deve desviar."
+description: "Pare de deliberar. Use Azure CNI Overlay com Cilium. Aqui está o porquê, e os raros casos em que você deve desviar."
 ---
 
 # Opções de CNI: qual escolher
 
 Azure CNI Overlay + Cilium. Essa é a recomendação para 2025. Se você está começando um cluster novo e não tem restrições legadas, pare de ler depois desta frase e vá construir.
 
-Ainda aqui? Ótimo -- vamos cobrir o porque e os casos extremos em que você desvia.
+Ainda aqui? Ótimo -- vamos cobrir o porquê e os casos extremos em que você desvia.
 
 ## Árvore de decisão
 
@@ -27,13 +27,13 @@ Ainda aqui? Ótimo -- vamos cobrir o porque e os casos extremos em que você des
 | **eBPF dataplane** | Não | Não | Sim | Não | Varia |
 | **Observabilidade Hubble** | Não | Não | Sim | Não | Não |
 | **Substituição do kube-proxy** | Não | Não | Sim | Não | Varia |
-| **Status** | GA, suportado | GA, recomendado | GA, recomendado | Depreciado | Sem suporte dá MS |
+| **Status** | GA, suportado | GA, recomendado | GA, recomendado | Depreciado | Sem suporte da MS |
 
 ## A recomendação
 
 :::tip
 
-Use Azure CNI Overlay com Cilium dataplane para todo cluster novo, a menos que você tenha um motivo específico e documentado para não faze-lo.
+Use Azure CNI Overlay com Cilium dataplane para todo cluster novo, a menos que você tenha um motivo específico e documentado para não fazê-lo.
 :::
 
 ```bash
@@ -130,7 +130,7 @@ Use deployments blue-green de cluster. Não tente mudanças de CNI in-place -- e
 
 ## Erros comuns
 
-1. **Escolher Azure CNI sem planejamento de IP** -- Ficar sem IPs as 2 da manhã durante um evento de autoscale.
+1. **Escolher Azure CNI sem planejamento de IP** -- Ficar sem IPs às 2 da manhã durante um evento de autoscale.
 2. **Selecionar Kubenet "porque é mais simples"** -- Você está escolhendo dívida técnica desde o primeiro dia.
 3. **Usar Azure NPM quando Cilium está disponível** -- Azure NPM está em modo de manutenção. Cilium é o investimento.
 4. **Esquecer dual-stack** -- Se você precisa de IPv6, apenas Azure CNI Overlay suporta de forma limpa.
