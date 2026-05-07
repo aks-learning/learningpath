@@ -284,6 +284,13 @@ blob_service = BlobServiceClient(
 
 ### GitHub Actions
 
+A minimal pipeline that builds your container, pushes to ACR, and deploys to AKS. Uses Workload Identity (federated credentials) for authentication — no secrets stored in GitHub.
+
+**Prerequisites:**
+1. An Azure AD app registration with federated credential trusting your GitHub repo
+2. The app must have `AcrPush` role on your ACR and `Azure Kubernetes Service Cluster User Role` on the cluster
+3. GitHub repository secrets: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`
+
 ```yaml
 name: Build and Deploy
 
@@ -301,11 +308,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
+      id-token: write   # Required for Workload Identity federation
       contents: read
     steps:
       - uses: actions/checkout@v4
 
+      # Authenticate to Azure using Workload Identity (OIDC) -- no secrets
       - name: Azure login
         uses: azure/login@v2
         with:
@@ -313,18 +321,21 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      # Build the container image in ACR (no local Docker needed)
       - name: Build and push to ACR
         run: |
           az acr build \
             --registry ${{ env.ACR_NAME }} \
             --image myservice:${{ github.sha }} .
 
+      # Get cluster credentials for kubectl
       - name: Set AKS context
         uses: azure/aks-set-context@v4
         with:
           resource-group: ${{ env.RESOURCE_GROUP }}
           cluster-name: ${{ env.CLUSTER_NAME }}
 
+      # Update the deployment image and wait for rollout
       - name: Deploy to AKS
         run: |
           kubectl set image deployment/myservice \
@@ -332,6 +343,19 @@ jobs:
             -n ${{ env.NAMESPACE }}
           kubectl rollout status deployment/myservice -n ${{ env.NAMESPACE }} --timeout=300s
 ```
+
+:::tip
+
+Use `az acr build` instead of building locally and pushing. It builds in the cloud, eliminates Docker-in-Docker complexity, and works from any CI runner without Docker installed.
+:::
+
+**What this pipeline does step by step:**
+1. Triggers on every push to `main`
+2. Authenticates to Azure using OIDC federation (no stored credentials)
+3. Builds the container image directly in ACR using `az acr build`
+4. Connects to the AKS cluster
+5. Updates the Deployment with the new image tag (git SHA)
+6. Waits for the rollout to complete (fails the pipeline if rollout fails)
 
 ### GitOps with Flux
 
