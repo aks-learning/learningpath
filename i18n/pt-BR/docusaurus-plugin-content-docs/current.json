@@ -122,5 +122,21 @@
   "sidebar.learningPath.doc.Developer workflow": {
     "message": "Fluxo de trabalho do desenvolvedor",
     "description": "The label for doc Developer workflow in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.Platform extensions": {
+    "message": "Extensões da plataforma",
+    "description": "The label for doc Platform extensions in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.Multi-tenancy and governance": {
+    "message": "Multi-tenancy e governança",
+    "description": "The label for doc Multi-tenancy and governance in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.Cluster troubleshooting": {
+    "message": "Solução de problemas do cluster",
+    "description": "The label for doc Cluster troubleshooting in sidebar learningPath"
+  },
+  "sidebar.learningPath.doc.AI/ML production guide": {
+    "message": "Guia de produção AI/ML",
+    "description": "The label for doc AI/ML production guide in sidebar learningPath"
   }
 }

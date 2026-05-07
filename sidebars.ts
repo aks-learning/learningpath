@@ -97,6 +97,7 @@ const sidebars: SidebarsConfig = {
         'ai-workloads/gpu-node-pools',
         'ai-workloads/kaito',
         'ai-workloads/inference-serving',
+        'ai-workloads/production-guide',
       ],
     },
     {
@@ -128,6 +129,8 @@ const sidebars: SidebarsConfig = {
       items: [
         'guides/sre-on-call',
         'guides/developer-workflow',
+        'guides/platform-extensions',
+        'guides/multi-tenancy',
       ],
     },
     {
@@ -147,6 +150,7 @@ const sidebars: SidebarsConfig = {
         'troubleshooting/pod-issues',
         'troubleshooting/workload-identity',
         'troubleshooting/networking',
+        'troubleshooting/cluster-issues',
       ],
     },
   ],
