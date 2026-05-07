@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "AKS Learning Path",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Logo AKS Learning Path",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Learn": {
+    "message": "Aprender",
+    "description": "Navbar item with label Learn"
+  },
+  "item.label.Labs": {
+    "message": "Labs",
+    "description": "Navbar item with label Labs"
+  },
+  "item.label.Blog": {
+    "message": "Blog",
+    "description": "Navbar item with label Blog"
+  },
+  "item.label.Newsletter": {
+    "message": "Newsletter",
+    "description": "Navbar item with label Newsletter"
+  }
+}

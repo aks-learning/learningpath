@@ -1,0 +1,50 @@
+{
+  "version.label": {
+    "message": "Atual",
+    "description": "The label for version current"
+  },
+  "sidebar.learningPath.category.Getting Started": {
+    "message": "Primeiros Passos",
+    "description": "The label for category 'Getting Started' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Cluster Setup": {
+    "message": "Configuracao do Cluster",
+    "description": "The label for category 'Cluster Setup' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Networking": {
+    "message": "Rede",
+    "description": "The label for category 'Networking' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Security": {
+    "message": "Seguranca",
+    "description": "The label for category 'Security' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Observability": {
+    "message": "Observabilidade",
+    "description": "The label for category 'Observability' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Scaling & Performance": {
+    "message": "Escalabilidade e Performance",
+    "description": "The label for category 'Scaling & Performance' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Storage": {
+    "message": "Armazenamento",
+    "description": "The label for category 'Storage' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Deployments & GitOps": {
+    "message": "Deployments e GitOps",
+    "description": "The label for category 'Deployments & GitOps' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.AI/ML Workloads": {
+    "message": "Cargas de Trabalho AI/ML",
+    "description": "The label for category 'AI/ML Workloads' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Operations & Enterprise": {
+    "message": "Operacoes e Enterprise",
+    "description": "The label for category 'Operations & Enterprise' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Best Practices": {
+    "message": "Boas Praticas",
+    "description": "The label for category 'Best Practices' in sidebar 'learningPath'"
+  }
+}

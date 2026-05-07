@@ -1,0 +1,50 @@
+{
+  "link.title.Learn": {
+    "message": "Aprender",
+    "description": "The title of the footer links column with title=Learn in the footer"
+  },
+  "link.title.Ecosystem": {
+    "message": "Ecossistema",
+    "description": "The title of the footer links column with title=Ecosystem in the footer"
+  },
+  "link.title.Community": {
+    "message": "Comunidade",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.item.label.Getting Started": {
+    "message": "Primeiros Passos",
+    "description": "The label of footer link with label=Getting Started linking to /docs/getting-started/"
+  },
+  "link.item.label.All Topics": {
+    "message": "Todos os Temas",
+    "description": "The label of footer link with label=All Topics linking to /docs/"
+  },
+  "link.item.label.AKS Labs (Workshops)": {
+    "message": "AKS Labs (Workshops)",
+    "description": "The label of footer link with label=AKS Labs (Workshops) linking to https://azure-samples.github.io/aks-labs"
+  },
+  "link.item.label.AKS Blog": {
+    "message": "Blog do AKS",
+    "description": "The label of footer link with label=AKS Blog linking to https://blog.aks.azure.com/"
+  },
+  "link.item.label.AKS Newsletter": {
+    "message": "AKS Newsletter",
+    "description": "The label of footer link with label=AKS Newsletter linking to https://aksnewsletter.com"
+  },
+  "link.item.label.AKS Documentation": {
+    "message": "Documentacao do AKS",
+    "description": "The label of footer link with label=AKS Documentation linking to https://learn.microsoft.com/en-us/azure/aks/"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/aks-learning/aks-learning.github.io"
+  },
+  "link.item.label.Contribute": {
+    "message": "Contribuir",
+    "description": "The label of footer link with label=Contribute linking to https://github.com/aks-learning/aks-learning.github.io/blob/master/CONTRIBUTING.md"
+  },
+  "copyright": {
+    "message": "Copyright © 2026 AKS Learning Path. Construido com Docusaurus. Open source e mantido pela comunidade.",
+    "description": "The footer copyright"
+  }
+}

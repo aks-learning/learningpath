@@ -17,7 +17,11 @@ const config: Config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'pt-BR'],
+    localeConfigs: {
+      en: { label: 'English' },
+      'pt-BR': { label: 'Português (BR)' },
+    },
   },
 
   themes: [
@@ -82,6 +86,10 @@ const config: Config = {
           href: 'https://aksnewsletter.com',
           label: 'Newsletter',
           position: 'left',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
         {
           href: 'https://github.com/aks-learning/aks-learning.github.io',
