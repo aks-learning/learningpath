@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 320" font-family="Segoe UI, Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0078D4"/>
+    </marker>
+    <linearGradient id="questionGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E3F2FD"/>
+      <stop offset="100%" stop-color="#BBDEFB"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Question 1: How many clusters? -->
+  <rect x="130" y="10" width="260" height="50" rx="8" fill="url(#questionGrad)" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="260" y="32" text-anchor="middle" font-weight="bold" fill="#0D47A1">How many AKS clusters</text>
+  <text x="260" y="48" text-anchor="middle" font-weight="bold" fill="#0D47A1">do you manage?</text>
+
+  <!-- Branch: < 3 -->
+  <line x1="200" y1="60" x2="100" y2="100" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="130" y="78" text-anchor="middle" font-size="11" font-weight="600" fill="#D32F2F">&lt; 3</text>
+
+  <!-- Answer: No -->
+  <rect x="20" y="105" width="170" height="45" rx="8" fill="#FFEBEE" stroke="#D32F2F" stroke-width="1.5"/>
+  <text x="105" y="125" text-anchor="middle" font-weight="bold" fill="#B71C1C">No.</text>
+  <text x="105" y="140" text-anchor="middle" font-size="11" fill="#C62828">Manage individually.</text>
+
+  <!-- Branch: >= 3 -->
+  <line x1="320" y1="60" x2="380" y2="100" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="365" y="78" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">&gt;= 3</text>
+
+  <!-- Question 2: Same workloads? -->
+  <rect x="250" y="105" width="260" height="50" rx="8" fill="url(#questionGrad)" stroke="#1565C0" stroke-width="1.5"/>
+  <text x="380" y="127" text-anchor="middle" font-weight="bold" fill="#0D47A1">Same workloads or need</text>
+  <text x="380" y="143" text-anchor="middle" font-weight="bold" fill="#0D47A1">coordinated upgrades?</text>
+
+  <!-- Branch: No -->
+  <line x1="310" y1="155" x2="200" y2="200" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="240" y="178" text-anchor="middle" font-size="11" font-weight="600" fill="#D32F2F">No</text>
+
+  <!-- Answer: Probably not -->
+  <rect x="70" y="205" width="260" height="45" rx="8" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="200" y="225" text-anchor="middle" font-weight="bold" fill="#BF360C">Probably not.</text>
+  <text x="200" y="240" text-anchor="middle" font-size="11" fill="#E65100">They are independent clusters.</text>
+
+  <!-- Branch: Yes -->
+  <line x1="440" y1="155" x2="440" y2="200" stroke="#0078D4" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="455" y="180" text-anchor="middle" font-size="11" font-weight="600" fill="#2E7D32">Yes</text>
+
+  <!-- Answer: Use Fleet Manager -->
+  <rect x="340" y="205" width="170" height="45" rx="8" fill="#E8F5E9" stroke="#2E7D32" stroke-width="2"/>
+  <text x="425" y="225" text-anchor="middle" font-weight="bold" font-size="13" fill="#1B5E20">Use Fleet Manager</text>
+  <text x="425" y="241" text-anchor="middle" font-size="10" fill="#2E7D32">Orchestrate as one fleet</text>
+</svg>

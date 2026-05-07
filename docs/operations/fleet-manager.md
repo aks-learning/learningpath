@@ -155,13 +155,7 @@ Do not enable multi-cluster services unless you have a clear need. It introduces
 
 ## Decision: Do You Need Fleet Manager?
 
-```
-How many AKS clusters do you manage?
-  < 3  --> No. Manage individually.
-  >= 3 --> Do they run the same workloads or need coordinated upgrades?
-    No  --> Probably not. They are independent.
-    Yes --> Use Fleet Manager.
-```
+![Fleet Manager Decision Tree](/img/fleet-manager-decision.svg)
 
 ## Resources
 
