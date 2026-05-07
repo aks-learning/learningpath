@@ -7,25 +7,17 @@ const config: Config = {
   tagline: 'From zero to production on Azure Kubernetes Service',
   favicon: 'img/favicon.svg',
 
-  future: {
-    v4: true,
-  },
-
   url: 'https://aks-learning.github.io',
   baseUrl: '/',
 
   organizationName: 'aks-learning',
-  projectName: 'learningpath',
+  projectName: 'aks-learning.github.io',
 
   onBrokenLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'pt-BR'],
-    localeConfigs: {
-      en: { label: 'English' },
-      'pt-BR': { label: 'Português (BR)' },
-    },
+    locales: ['en'],
   },
 
   presets: [
@@ -79,11 +71,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          type: 'localeDropdown',
-          position: 'right',
-        },
-        {
-          href: 'https://github.com/aks-learning/learningpath',
+          href: 'https://github.com/aks-learning/aks-learning.github.io',
           position: 'right',
           className: 'header-github-link',
           'aria-label': 'GitHub repository',
@@ -112,8 +100,8 @@ const config: Config = {
         {
           title: 'Community',
           items: [
-            { label: 'GitHub', href: 'https://github.com/aks-learning/learningpath' },
-            { label: 'Contribute', href: 'https://github.com/aks-learning/learningpath/blob/main/CONTRIBUTING.md' },
+            { label: 'GitHub', href: 'https://github.com/aks-learning/aks-learning.github.io' },
+            { label: 'Contribute', href: 'https://github.com/aks-learning/aks-learning.github.io/blob/master/CONTRIBUTING.md' },
           ],
         },
       ],
@@ -128,3 +116,4 @@ const config: Config = {
 };
 
 export default config;
+
