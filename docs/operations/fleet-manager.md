@@ -122,6 +122,24 @@ az fleet updatestrategy create \
 
 Then reference the strategy in update runs. This gives you consistent, repeatable upgrade patterns.
 
+## Auto-upgrade profiles
+
+Instead of triggering update runs manually, Fleet Manager can automatically keep member clusters upgraded using auto-upgrade profiles.
+
+| Channel | Behavior |
+|---------|----------|
+| `Stable` | Upgrades to N-1 minor version after GA+30 days |
+| `Rapid` | Upgrades to latest GA minor version immediately |
+| `NodeImage` | Upgrades node OS images only |
+| `TargetKubernetesVersion` (preview) | Upgrades to a specific K8s version you define |
+
+Auto-upgrade profiles use the same UpdateStrategy staging logic, so clusters upgrade in the order you defined (staging -> prod-wave1 -> prod-wave2).
+
+:::tip Pair auto-upgrade profiles with update strategies
+
+Set the fleet auto-upgrade profile to `Stable` and reference your standard-rollout update strategy. This gives you hands-off staged upgrades across your entire fleet -- staging upgrades first, then prod regions in sequence.
+:::
+
 ## Multi-cluster services (preview)
 
 Fleet Manager can expose Kubernetes Services across member clusters using L4 multi-cluster load balancing. Traffic from one cluster can reach pods in another cluster.

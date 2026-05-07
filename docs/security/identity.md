@@ -114,6 +114,7 @@ Start with Reader for all developers. Promote to Writer only for namespaces they
 4. **Skipping Entra ID groups** -- Assigning roles to individual users instead of groups creates unmaintainable sprawl.
 5. **Forgetting conditional access** -- Entra ID supports requiring MFA, compliant devices, or specific locations for cluster access. Use it.
 6. **Not reviewing access regularly** -- Use Entra ID access reviews to periodically validate that group memberships are still appropriate. People change teams; permissions should follow.
+7. **Using pod identity instead of workload identity** -- Azure AD pod identity (aad-pod-identity) is deprecated. Use Microsoft Entra Workload ID with file-based token projection for pod-level Azure access. It is more secure, works without CRDs, and is the only supported path forward.
 
 ## Resources
 
@@ -121,3 +122,4 @@ Start with Reader for all developers. Promote to Writer only for namespaces they
 - [Azure RBAC for Kubernetes Authorization](https://learn.microsoft.com/en-us/azure/aks/manage-azure-rbac)
 - [Disable Local Accounts](https://learn.microsoft.com/en-us/azure/aks/managed-aad#disable-local-accounts)
 - [AKS Managed Identity](https://learn.microsoft.com/en-us/azure/aks/use-managed-identity)
+- [Microsoft Entra Workload ID for Pods](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview)

@@ -18,11 +18,11 @@ AKS offers five auto-upgrade channels. Pick one and stick with it.
 | `patch` | Auto-applies patch versions (e.g., 1.28.3 to 1.28.5) | Legacy clusters you cannot touch often |
 | `stable` | Moves to N-1 minor version after GA+30 days | Production clusters |
 | `rapid` | Moves to latest GA minor version immediately | Non-prod, staging, canary |
-| `node-image` | Only upgrades node OS images, not K8s version | When you handle K8s upgrades separately |
+| `node-image` | Only upgrades node OS images, not K8s version | Legacy -- planned for deprecation. Use node OS auto-upgrade channels instead. |
 
 :::tip Use Stable for production
 
-Use `stable` channel for production. Use `rapid` for non-prod to catch issues early. Never use `none` -- you will fall behind and face a painful multi-version jump that requires rebuilding your cluster.
+Use `stable` channel for production. Use `rapid` for non-prod to catch issues early. Never use `none` -- you will fall behind and face a painful multi-version jump that requires rebuilding your cluster. AKS Automatic defaults to `stable` cluster channel + `NodeImage` node OS channel.
 :::
 
 ```bash
@@ -49,6 +49,19 @@ az aks maintenanceconfiguration add \
 ```
 
 Maintenance windows apply to both control plane and node pool upgrades. Set a separate `aksManagedNodeOSUpgradeSchedule` for node image updates if you want different timing.
+
+## Node OS auto-upgrade channels
+
+Node OS auto-upgrade is separate from the cluster auto-upgrade channel. It controls how node OS images are patched.
+
+| Channel | Behavior |
+|---------|----------|
+| `None` | No automatic OS updates |
+| `Unmanaged` | OS patches applied via apt/yum, no reboot |
+| `SecurityPatch` | Security patches only, minimal disruption |
+| `NodeImage` | Full node image replacement weekly (Linux) or monthly (Windows). **Recommended.** |
+
+The default for new clusters (API 2023-06-01+) is `NodeImage`.
 
 ## Node image upgrades
 
@@ -112,7 +125,7 @@ Not having PDBs, then wondering why upgrades cause downtime. During a node drain
 
 ## Long-term support (LTS)
 
-AKS Premium tier provides Long-Term Support: 2 years of patch support per minor version instead of the standard 1 year. Use LTS when:
+AKS Premium tier provides Long-Term Support: 24 months of patch support per minor version instead of the standard 12 months. Use LTS when:
 
 - You have compliance requirements that prevent frequent version changes
 - Your application has hard dependencies on specific K8s API versions
@@ -163,6 +176,7 @@ This is why staging clusters with `rapid` channel matter. Catch breaking changes
 5. **Setting max-surge to 100%** -- Doubles your node count temporarily and can exhaust subnet IPs
 6. **Not checking deprecated APIs** -- Upgrade succeeds but workloads break because manifests use removed APIs
 7. **Upgrading production first** -- Always upgrade non-prod first. Always.
+8. **Still running Azure Linux 2.0** -- End of support was November 30, 2025. Node images are frozen. Migrate to Azure Linux 3 (AzureLinux3) immediately.
 
 ## Resources
 

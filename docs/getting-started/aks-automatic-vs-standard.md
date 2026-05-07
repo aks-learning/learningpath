@@ -26,12 +26,12 @@ AKS Automatic is like a Tesla -- you get in and drive. AKS Standard is like buil
 | Capability | AKS Automatic | AKS Standard |
 |-----------|---------------|--------------|
 | **Node management** | Node Autoprovision -- K8s picks the right VM SKU based on your workload requirements | You create and manage node pools manually. You pick VM sizes. |
-| **Networking** | Azure CNI Overlay + Cilium. Pre-configured. Done. | You choose: kubenet, Azure CNI, Azure CNI Overlay, Cilium, BYO CNI. |
+| **Networking** | Azure CNI Overlay + Cilium, Managed NAT Gateway for egress. Pre-configured. Done. | You choose: kubenet, Azure CNI, Azure CNI Overlay, Cilium, BYO CNI. |
 | **Network policies** | Cilium-based, enabled by default | You enable and configure. Calico or Cilium or Azure NPM. |
 | **Ingress** | App Routing (managed NGINX) included | Install and manage your own ingress controller. |
 | **Monitoring** | Azure Monitor, Managed Prometheus, Container Insights -- all enabled | You enable each one. Or don't. Your choice. |
-| **Scaling** | HPA + Node Autoprovision + KEDA built-in | You configure HPA, Cluster Autoscaler, optionally KEDA. |
-| **Security defaults** | Workload Identity enabled, RBAC enforced, Pod Security Standards | You opt in to each security feature individually. |
+| **Scaling** | HPA + VPA + KEDA + Node Autoprovision built-in | You configure HPA, Cluster Autoscaler, optionally KEDA and VPA. |
+| **Security defaults** | Workload Identity, Deployment Safeguards (enforcement mode), Image Cleaner, RBAC enforced, Pod Security Standards | You opt in to each security feature individually. |
 | **Maintenance** | Automated, Microsoft-managed schedule | You configure maintenance windows and upgrade channels. |
 | **OS image** | Azure Linux (latest), auto-upgraded | You choose Ubuntu or Azure Linux, manage upgrades. |
 | **GPU support** | Yes, via node autoprovision | Yes, via dedicated GPU node pools. |
@@ -53,7 +53,7 @@ Choose Automatic when:
 
 :::info What you get without lifting a finger
 
-With AKS Automatic, the moment your cluster is created you have: Cilium network policies, Managed Prometheus, KEDA for event-driven scaling, Node Autoprovision for right-sized nodes, Workload Identity for secure Azure access, App Routing for ingress, and automated OS patching. On Standard, configuring all of that takes a full day of work.
+With AKS Automatic, the moment your cluster is created you have: Cilium network policies, Managed Prometheus, KEDA for event-driven scaling, VPA, Node Autoprovision for right-sized nodes, Workload Identity for secure Azure access, Deployment Safeguards in enforcement mode, Image Cleaner, Managed NAT Gateway for egress, App Routing for ingress, and automated OS patching. On Standard, configuring all of that takes a full day of work.
 :::
 
 ## When to choose AKS Standard (you will know when you need it)
@@ -100,25 +100,28 @@ Start with Automatic. If you hit a wall -- a real wall, not a hypothetical one -
 # Check your current cluster SKU
 az aks show --resource-group myRG --name myCluster --query "sku" -o json
 
-# Migrate from Automatic to Standard (when you need more control)
-az aks update --resource-group myRG --name myCluster --sku standard
+# Migrate from Automatic to Base SKU (when you need more control)
+az aks update --resource-group myRG --name myCluster --sku base
+
+# Migrate from Base to Automatic SKU (when you want managed operations)
+az aks update --resource-group myRG --name myCluster --sku automatic
 ```
 
 ## Pricing: SKU vs tier (they are different things)
 
 This confuses everyone. Let me be clear:
 
-- **SKU** (Automatic vs Standard) = determines your operational model (how much Microsoft manages for you)
+- **SKU** (Automatic vs Base) = determines your operational model (how much Microsoft manages for you). The Base SKU is what most documentation calls "AKS Standard."
 - **Tier** (Free vs Standard vs Premium) = determines your SLA and control plane capabilities
 
 They are independent. You can have:
 
 | Combination | What It Means |
 |-------------|---------------|
-| AKS Automatic + Standard tier | Opinionated operations + production SLA. **This is the default for Automatic.** |
-| AKS Standard + Free tier | Full control + no SLA. Good for dev/test only. |
-| AKS Standard + Standard tier | Full control + production SLA. **Most common production setup.** |
-| AKS Standard + Premium tier | Full control + LTS + advanced features. For mission-critical workloads. |
+| AKS Automatic + Standard tier | Opinionated operations + production SLA (up to 5,000 nodes). **This is the default for Automatic.** |
+| AKS Base + Free tier | Full control + no SLA (up to 1,000 nodes). Good for dev/test only. **This is the default for Base SKU.** |
+| AKS Base + Standard tier | Full control + production SLA (up to 5,000 nodes). **Most common production setup.** |
+| AKS Base + Premium tier | Full control + LTS (24-month K8s version support) + advanced features. For mission-critical workloads. |
 
 :::warning AKS Automatic always uses Standard tier at minimum
 
@@ -145,7 +148,7 @@ az aks create \
 az aks create \
   --resource-group myRG \
   --name my-standard-cluster \
-  --sku standard \
+  --sku base \
   --tier standard \
   --network-plugin azure \
   --network-plugin-mode overlay \

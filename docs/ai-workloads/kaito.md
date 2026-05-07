@@ -28,7 +28,29 @@ KAITO handles the hard parts: GPU node provisioning, model download, serving set
 | Falcon | Falcon-7b, Falcon-40b | 1-4 GPUs |
 | Phi | Phi-2, Phi-3-mini | 1 GPU |
 
-## Deploying a model
+## Deploying a custom model from HuggingFace
+
+KAITO is not limited to preset models. You can deploy any compatible model from HuggingFace:
+
+```yaml
+apiVersion: kaito.sh/v1alpha1
+kind: Workspace
+metadata:
+  name: custom-model
+spec:
+  resource:
+    instanceType: Standard_NC24ads_A100_v4
+    count: 1
+    labelSelector:
+      matchLabels:
+        apps: custom-model
+  inference:
+    model:
+      name: "SmolLM2-1.7B-Instruct"
+      registry: "HuggingFace"
+```
+
+## Deploying a preset model
 
 ```yaml
 apiVersion: kaito.sh/v1alpha1
@@ -88,15 +110,16 @@ curl -X POST http://<SERVICE_IP>/chat \
 | Node provisioning | Automatic | Manual nodepool creation |
 | Model download | Handled | You manage storage + download |
 | Serving framework | Pre-configured | You pick, configure, tune |
-| Customization | Limited to supported models | Full control |
+| Customization | Preset models + custom models via HuggingFace | Full control |
 | Throughput tuning | Default settings | You optimize batch size, quantization |
 
 :::warning When NOT to Use KAITO
 
-- Your model isn't in the supported list
 - You need custom quantization (GPTQ, AWQ, GGUF)
 - You need maximum throughput optimization (custom vLLM configs)
 - You need multi-model serving on shared GPUs
+
+KAITO supports custom models from HuggingFace (e.g., SmolLM2-1.7B-Instruct) in addition to preset models, so an unsupported model alone is no longer a blocker.
 
 In these cases, deploy vLLM or TGI directly. See [Inference Serving](./inference-serving).
 :::
