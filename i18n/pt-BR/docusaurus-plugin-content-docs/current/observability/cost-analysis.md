@@ -4,11 +4,11 @@ title: "Gestão de Custos para AKS"
 description: "O desperdício número um de custos no AKS são nodes superdimensionados. Dimensione agressivamente e acompanhe custos por namespace."
 ---
 
-# Gestão de Custos para AKS
+# Gestão de custos para AKS
 
 O desperdício número um de custos no AKS são nodes superdimensionados. Times solicitam 4 CPU e 8 GB de memória para um pod que usa 0.3 CPU e 200 MB. Multiplique isso por 50 pods e você está pagando por 10 nodes quando precisa de 3. Dimensione agressivamente.
 
-## De Onde Vem o Custo do AKS
+## De onde vem o custo do AKS
 
 | Componente | Pelo Que Você Paga | % Típica do Total |
 |-----------|-----------------|-------------------|
@@ -20,7 +20,7 @@ O desperdício número um de custos no AKS são nodes superdimensionados. Times 
 
 O control plane é gratuito no Standard tier. Seu custo real são as VMs por baixo. Todo o resto é otimização nas margens.
 
-## Habilitar o Add-on de Análise de Custos do AKS
+## Habilitar o add-on de análise de custos do AKS
 
 Isso é gratuito. Habilite. Ele fornece visibilidade de custos por namespace e por workload diretamente no portal do Azure.
 
@@ -36,7 +36,7 @@ az aks update \
 Habilite o add-on de análise de custos do AKS em todo cluster. É gratuito e fornece visibilidade por namespace sem instalar ferramentas de terceiros. Adicione KubeCost apenas se você precisar de chargebacks ou relatórios de showback por time.
 :::
 
-## Ferramentas de Visibilidade de Custos
+## Ferramentas de visibilidade de custos
 
 | Ferramenta | Custo | Melhor Para | Limitação |
 |------|------|----------|------------|
@@ -50,9 +50,9 @@ Habilite o add-on de análise de custos do AKS em todo cluster. É gratuito e fo
 Azure Cost Management vê seu cluster como um custo de VM. Ele não consegue dizer qual namespace ou pod é responsável. Por isso você precisa do add-on do AKS ou do KubeCost para atribuição de custos dentro do cluster.
 :::
 
-## Estratégias-Chave de Custo
+## Estratégias-chave de custo
 
-### 1. Dimensione Suas VMs Corretamente
+### 1. Dimensione suas VMs corretamente
 
 Não escolha D16s_v5 porque "a gente pode precisar." Comece pequeno, monitore o uso real, e escale para cima apenas quando a utilização justificar.
 
@@ -68,7 +68,7 @@ kubectl top nodes
 
 Se seus nodes consistentemente rodam abaixo de 40% de CPU e memória, você está pagando a mais. Reduza o SKU da VM ou diminua a contagem de nodes.
 
-### 2. Instâncias Spot para Workloads Não-Críticas
+### 2. Instâncias Spot para workloads não-críticas
 
 Use node pools Spot para jobs em lote, dev/test, runners de CI e qualquer workload que tolere interrupção. VMs Spot custam 60-90% menos que sob demanda.
 
@@ -89,11 +89,11 @@ az aks nodepool add \
 Não rode workloads stateful de produção em nodes Spot. Eles podem ser despejados com 30 segundos de aviso. Use Spot para processamento em lote stateless, agentes de build e ambientes de desenvolvimento.
 :::
 
-### 3. Instâncias Reservadas para Estado Estacionário
+### 3. Instâncias reservadas para estado estacionário
 
 Se você sabe que vai rodar 10 nodes D4s_v5 por 12 meses, compre Reserved Instances. Economia: 30-60% comparado a pay-as-you-go.
 
-### 4. Reduza Ambientes Não-Produção à Noite
+### 4. Reduza ambientes não-produção à noite
 
 Um cluster de dev rodando 24/7 custa 3x o que custaria rodando apenas em horário comercial. Use o recurso de stop/start do AKS ou scaling de node pool.
 
@@ -109,7 +109,7 @@ az aks nodepool scale \
   --node-count 1
 ```
 
-### 5. Resource Requests e Limits: Acerte Nisso
+### 5. Resource requests e limits: acerte nisso
 
 Esta é a coisa mais impactante para eficiência de custos. O scheduler do Kubernetes usa **requests** para empacotar pods nos nodes. Se você solicita 2 CPU mas usa 0.1 CPU, o scheduler acha que aquele slot do node está cheio.
 
@@ -128,7 +128,7 @@ resources:
 Definir requests muito altos desperdiça nodes (você paga por capacidade vazia). Defini-los muito baixos causa falhas de agendamento e evictions. Baseie os requests no uso real P95 dos seus dados de monitoramento, não em suposições.
 :::
 
-## Medindo Uso Real vs Requests
+## Medindo uso real vs requests
 
 ```bash
 # Compare requested vs actual for all pods in a namespace
@@ -144,7 +144,7 @@ Perf
 ) on $left.InstanceName == $right.ContainerName
 ```
 
-## Erros Comuns
+## Erros comuns
 
 1. **Nunca olhar o custo** -- Times fazem deploy e esquecem. Configure revisões mensais de custo por dono de namespace.
 2. **Node pools uniformes** -- Use múltiplos node pools com diferentes tamanhos de VM. Workloads GPU precisam de nodes GPU. Servidores web precisam de nodes general-purpose baratos. Não coloque tudo no mesmo SKU caro.
@@ -152,7 +152,7 @@ Perf
 4. **Super-alocar PVCs** -- Um SSD Premium de 1 TB custa dinheiro real mesmo se você usa 10 GB. Dimensione PVCs para a necessidade real e use Standard SSD onde os requisitos de IOPS permitirem.
 5. **Rodar monitoramento em nodes caros** -- Coloque workloads de observabilidade (Prometheus, agentes de logging) em seu próprio node pool custo-efetivo.
 
-## Checklist de Revisão Mensal de Custos
+## Checklist de revisão mensal de custos
 
 - [ ] Verificar utilização dos nodes (meta: 60-80% CPU, 60-80% memória)
 - [ ] Revisar breakdown de custos por namespace no add-on do AKS

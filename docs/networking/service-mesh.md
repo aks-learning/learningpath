@@ -4,13 +4,13 @@ title: "Service Mesh: Do You Need One?"
 description: "You probably do not need a service mesh. Start without one. Here is how to decide, and what to use if you genuinely need it."
 ---
 
-# Service Mesh: Do You Need One?
+# Service mesh: do you need one?
 
 You probably do not need a service mesh. Start without one.
 
 Service meshes add operational complexity, increase resource consumption (sidecar proxies on every pod), and solve problems most teams do not actually have. Before reaching for Istio, ask yourself: can network policies + ingress routing solve this?
 
-## The Decision Framework
+## The decision framework
 
 | You need... | Without mesh | With mesh |
 |-------------|-------------|-----------|
@@ -27,7 +27,7 @@ Service meshes add operational complexity, increase resource consumption (sideca
 Network policies (Cilium) + application-level retries + OpenTelemetry cover 80% of what teams think they need a mesh for. Only add a mesh when you genuinely need transparent mTLS between all services or advanced L7 traffic management that you cannot do at the ingress layer.
 :::
 
-## When You DO Need a Service Mesh
+## When you DO need a service mesh
 
 **Zero-trust networking requirements**: Compliance mandates that every service-to-service call is encrypted and mutually authenticated. Network policies control who can connect (L3/L4), but a mesh adds L7 identity and encryption.
 
@@ -37,7 +37,7 @@ Network policies (Cilium) + application-level retries + OpenTelemetry cover 80% 
 
 **Regulatory audit trail**: You need per-request access logs between services for compliance, without modifying application code.
 
-## When You DO NOT Need a Service Mesh
+## When you DO NOT need a service mesh
 
 - You have fewer than 20 services -- the overhead is not worth it
 - Your services already handle retries and timeouts (most modern frameworks do)
@@ -45,7 +45,7 @@ Network policies (Cilium) + application-level retries + OpenTelemetry cover 80% 
 - You only need traffic splitting at the edge -- use AGC or App Routing
 - You want "observability" -- use OpenTelemetry, not a mesh
 
-## The Istio-Based Service Mesh Add-on
+## The Istio-based service mesh add-on
 
 If you do need a mesh, use the AKS-managed Istio add-on. Do not self-manage Istio -- it is operationally expensive.
 
@@ -110,9 +110,9 @@ What the managed add-on gives you:
 - Revision-based canary upgrades of the mesh itself
 - No Helm chart management, no manual CRD upgrades
 
-## Alternatives to a Full Mesh
+## Alternatives to a full mesh
 
-### Cilium Service Mesh (Lighter)
+### Cilium service mesh (lighter)
 
 If you already run Cilium (which you should -- see [CNI Comparison](./cni-comparison)), you get basic mesh capabilities without sidecars:
 
@@ -146,7 +146,7 @@ spec:
                 path: "/api/v1/.*"
 ```
 
-### Linkerd (Not AKS-Managed)
+### Linkerd (not AKS-managed)
 
 Linkerd is lighter than Istio but is not offered as an AKS-managed add-on. You own the lifecycle. Use it only if you have strong Linkerd expertise and need its Rust-based proxy (lower resource footprint than Envoy).
 
@@ -155,7 +155,7 @@ Linkerd is lighter than Istio but is not offered as an AKS-managed add-on. You o
 If you choose a non-managed mesh (Linkerd, self-hosted Istio, Consul Connect), Microsoft support cannot help you debug mesh-related networking issues. You own it entirely.
 :::
 
-## Resource Impact
+## Resource impact
 
 A service mesh is not free. Budget for:
 
@@ -167,7 +167,7 @@ A service mesh is not free. Budget for:
 
 For a 100-pod cluster, the sidecar tax is roughly 10 additional CPU cores and 12 GiB RAM. This is significant. Make sure the value justifies the cost.
 
-## Common Mistakes
+## Common mistakes
 
 1. **Adding a mesh "because Netflix uses one"** -- Netflix has thousands of services. You have 12. Network policies are fine.
 2. **Self-managing Istio** -- Istio upgrades are notoriously painful. Use the managed add-on or do not use Istio.
@@ -176,7 +176,7 @@ For a 100-pod cluster, the sidecar tax is roughly 10 additional CPU cores and 12
 5. **Using a mesh for encryption only** -- If you only need encryption in transit, consider Cilium WireGuard encryption (node-level, no sidecars) or pod-level TLS.
 6. **Not training the team** -- A mesh adds Envoy, VirtualServices, DestinationRules, PeerAuthentication, and AuthorizationPolicy to your operational surface. Budget learning time.
 
-## Decision Checklist
+## Decision checklist
 
 Before enabling a service mesh, answer yes to at least two:
 

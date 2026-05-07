@@ -8,7 +8,7 @@ description: "The number one cost waste in AKS is overprovisioned nodes. Right-s
 
 The number one cost waste in AKS is overprovisioned nodes. Teams request 4 CPU and 8 GB memory for a pod that uses 0.3 CPU and 200 MB. Multiply that across 50 pods and you are paying for 10 nodes when you need 3. Right-size aggressively.
 
-## Where AKS Cost Comes From
+## Where AKS cost comes from
 
 | Component | What You Pay For | Typical % of Total |
 |-----------|-----------------|-------------------|
@@ -20,7 +20,7 @@ The number one cost waste in AKS is overprovisioned nodes. Teams request 4 CPU a
 
 The control plane is free on Standard tier. Your real cost is the VMs underneath. Everything else is optimization at the margins.
 
-## Enable the AKS Cost Analysis Add-on
+## Enable the AKS cost analysis add-on
 
 This is free. Enable it. It gives you namespace-level and workload-level cost visibility directly in the Azure portal.
 
@@ -36,7 +36,7 @@ az aks update \
 Enable the AKS cost analysis add-on on every cluster. It is free and gives you namespace-level visibility without installing third-party tools. Add KubeCost only if you need team chargebacks or showback reports.
 :::
 
-## Cost Visibility Tools
+## Cost visibility tools
 
 | Tool | Cost | Best For | Limitation |
 |------|------|----------|------------|
@@ -50,9 +50,9 @@ Enable the AKS cost analysis add-on on every cluster. It is free and gives you n
 Azure Cost Management sees your cluster as a VM cost. It cannot tell you which namespace or pod is responsible. That is why you need the AKS add-on or KubeCost for in-cluster attribution.
 :::
 
-## Key Cost Strategies
+## Key cost strategies
 
-### 1. Right-Size Your VMs
+### 1. Right-size your VMs
 
 Do not pick D16s_v5 because "we might need it." Start small, monitor actual usage, scale up only when utilization justifies it.
 
@@ -68,7 +68,7 @@ kubectl top nodes
 
 If your nodes consistently run below 40% CPU and memory, you are overpaying. Downsize the VM SKU or reduce node count.
 
-### 2. Spot Instances for Non-Critical Workloads
+### 2. Spot instances for non-critical workloads
 
 Use Spot node pools for batch jobs, dev/test, CI runners, and any workload that tolerates interruption. Spot VMs cost 60-90% less than on-demand.
 
@@ -89,11 +89,11 @@ az aks nodepool add \
 Do not run production stateful workloads on Spot nodes. They can be evicted with 30 seconds notice. Use Spot for stateless batch processing, build agents, and development environments.
 :::
 
-### 3. Reserved Instances for Steady-State
+### 3. Reserved instances for steady-state
 
 If you know you will run 10 D4s_v5 nodes for 12 months, buy Reserved Instances. Savings: 30-60% compared to pay-as-you-go.
 
-### 4. Scale Down Non-Production at Night
+### 4. Scale down non-production at night
 
 A dev cluster running 24/7 costs 3x what it would cost running only business hours. Use the AKS stop/start feature or node pool scaling.
 
@@ -109,7 +109,7 @@ az aks nodepool scale \
   --node-count 1
 ```
 
-### 5. Resource Requests and Limits: Get Them Right
+### 5. Resource requests and limits: get them right
 
 This is the single most impactful thing for cost efficiency. The Kubernetes scheduler uses **requests** to bin-pack pods onto nodes. If you request 2 CPU but use 0.1 CPU, the scheduler thinks that node slot is full.
 
@@ -128,7 +128,7 @@ resources:
 Setting requests too high wastes nodes (you pay for empty capacity). Setting them too low causes scheduling failures and evictions. Base requests on actual P95 usage from your monitoring data, not guesses.
 :::
 
-## Measuring Actual Usage vs Requests
+## Measuring actual usage vs requests
 
 ```bash
 # Compare requested vs actual for all pods in a namespace
@@ -144,7 +144,7 @@ Perf
 ) on $left.InstanceName == $right.ContainerName
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **Never looking at cost** -- Teams deploy and forget. Set up monthly cost reviews per namespace owner.
 2. **Uniform node pools** -- Use multiple node pools with different VM sizes. GPU workloads need GPU nodes. Web servers need cheap general-purpose nodes. Do not put them on the same expensive SKU.
@@ -152,7 +152,7 @@ Perf
 4. **Over-allocating PVCs** -- A 1 TB Premium SSD costs real money even if you use 10 GB. Size PVCs to actual need and use Standard SSD where IOPS requirements allow.
 5. **Running monitoring on expensive nodes** -- Put observability workloads (Prometheus, logging agents) on their own cost-effective node pool.
 
-## Monthly Cost Review Checklist
+## Monthly cost review checklist
 
 - [ ] Check node utilization (target: 60-80% CPU, 60-80% memory)
 - [ ] Review namespace cost breakdown from AKS add-on

@@ -1,38 +1,38 @@
 ---
 sidebar_position: 3
 title: "Azure Container Storage"
-description: "Armazenamento pooled nativo do Kubernetes com replicacao, NVMe efemero e thin provisioning"
+description: "Armazenamento pooled nativo do Kubernetes com replicação, NVMe efêmero e thin provisioning"
 ---
 
 # Azure Container Storage
 
-Use o Azure Container Storage para workloads stateful que precisam de armazenamento pooled, replicacao de volumes ou volumes locais efemeros de alto desempenho. Para PVCs simples de disco unico, fique com os drivers CSI regulares.
+Use o Azure Container Storage para workloads stateful que precisam de armazenamento pooled, replicação de volumes ou volumes locais efêmeros de alto desempenho. Para PVCs simples de disco único, fique com os drivers CSI regulares.
 
-## O que e
+## O que é
 
-O Azure Container Storage e uma camada de gerenciamento de armazenamento nativa do Kubernetes. Em vez de um PVC mapeando para um Azure Disk, ele cria storage pools que podem ser divididos em volumes com recursos avancados: replicacao entre nodes, thin provisioning, snapshots e volumes NVMe locais efemeros.
+O Azure Container Storage é uma camada de gerenciamento de armazenamento nativa do Kubernetes. Em vez de um PVC mapeando para um Azure Disk, ele cria storage pools que podem ser divididos em volumes com recursos avançados: replicação entre nodes, thin provisioning, snapshots e volumes NVMe locais efêmeros.
 
 :::info
 
-Pense nisso como uma camada de armazenamento definida por software sobre a infraestrutura do Azure. Ele fica entre seus PVCs e o backend de armazenamento subjacente (Azure Disks, NVMe Efemero ou Elastic SAN).
+Pense nisso como uma camada de armazenamento definida por software sobre a infraestrutura do Azure. Ele fica entre seus PVCs e o backend de armazenamento subjacente (Azure Disks, NVMe Efêmero ou Elastic SAN).
 :::
 
-## Backends de Armazenamento
+## Backends de armazenamento
 
-| Backend | Persistencia | Desempenho | Caso de Uso |
+| Backend | Persistência | Desempenho | Caso de Uso |
 |---------|-------------|------------|-------------|
-| Azure Disks | Persistente, sobrevive a falha do node | Bom (conectado via rede) | Apps stateful que precisam de replicacao |
-| Efemero (NVMe Local) | Perdido ao reiniciar o node | Extremamente rapido (I/O local) | Caches, dados temporarios, espaco de rascunho |
-| Azure Elastic SAN | Persistente, compartilhado | IOPS alto em escala | Implantacoes stateful em larga escala |
+| Azure Disks | Persistente, sobrevive a falha do node | Bom (conectado via rede) | Apps stateful que precisam de replicação |
+| Efêmero (NVMe Local) | Perdido ao reiniciar o node | Extremamente rápido (I/O local) | Caches, dados temporários, espaço de rascunho |
+| Azure Elastic SAN | Persistente, compartilhado | IOPS alto em escala | Implantações stateful em larga escala |
 
-:::tip Opiniao
+:::tip Opinião
 
-Use o Azure Container Storage para dois cenarios: (1) volumes NVMe locais efemeros para caches e dados temporarios que precisam de velocidade bruta, ou (2) armazenamento persistente pooled onde voce precisa de replicacao entre zonas de disponibilidade. Para todo o resto, os drivers CSI padrao sao mais simples.
+Use o Azure Container Storage para dois cenários: (1) volumes NVMe locais efêmeros para caches e dados temporários que precisam de velocidade bruta, ou (2) armazenamento persistente pooled onde você precisa de replicação entre zonas de disponibilidade. Para todo o resto, os drivers CSI padrão são mais simples.
 :::
 
-## Discos Efemeros (NVMe Local)
+## Discos efêmeros (NVMe local)
 
-Discos NVMe locais no node. Incrivelmente rapidos. Sem salto de rede. Sem garantias de persistencia.
+Discos NVMe locais no node. Incrivelmente rápidos. Sem salto de rede. Sem garantias de persistência.
 
 ```yaml
 apiVersion: storage.k8s.io/v1
@@ -58,14 +58,14 @@ spec:
       storage: 50Gi
 ```
 
-**Perfeito para:** Caches Redis, armazenamento temporario do Elasticsearch, caches de modelos de ML, espaco de rascunho para artefatos de build.
+**Perfeito para:** Caches Redis, armazenamento temporário do Elasticsearch, caches de modelos de ML, espaço de rascunho para artefatos de build.
 
 :::warning
 
-Dados em NVMe efemero sao perdidos quando o node reinicia, e reimageado ou seu pod e movido para outro node. Use apenas para dados que voce pode reconstruir. Nunca para bancos de dados.
+Dados em NVMe efêmero são perdidos quando o node reinicia, é reimageado ou seu pod é movido para outro node. Use apenas para dados que você pode reconstruir. Nunca para bancos de dados.
 :::
 
-## Pools Persistentes (Backend Azure Disks)
+## Pools persistentes (backend Azure Disks)
 
 ```yaml
 apiVersion: containerstorage.azure.com/v1
@@ -82,19 +82,19 @@ spec:
       storage: 1Ti
 ```
 
-Volumes criados a partir deste pool recebem replicacao e thin provisioning automaticamente. O pool pre-provisiona capacidade para que novos PVCs sejam vinculados instantaneamente em vez de esperar pela criacao do disco.
+Volumes criados a partir deste pool recebem replicação e thin provisioning automaticamente. O pool pré-provisiona capacidade para que novos PVCs sejam vinculados instantaneamente em vez de esperar pela criação do disco.
 
-## Quando Usar Container Storage vs Drivers CSI
+## Quando usar Container Storage vs drivers CSI
 
 | Requisito | Use Container Storage | Use Drivers CSI |
 |-----------|----------------------|-----------------|
-| PVC simples de disco unico | Nao | Sim -- mais simples, menos partes moveis |
-| Volumes NVMe locais efemeros | Sim | N/A -- drivers CSI nao suportam isso |
-| Replicacao de volume entre nodes | Sim | Nao -- nao suportado |
-| Thin provisioning (overcommit) | Sim | Nao |
-| Gerenciamento de armazenamento pooled | Sim | Nao |
-| Banco de dados em producao (escritor unico) | Ambos funcionam | Mais simples com CSI |
-| I/O local mais rapido possivel | Sim (NVMe) | Nao |
+| PVC simples de disco único | Não | Sim -- mais simples, menos partes móveis |
+| Volumes NVMe locais efêmeros | Sim | N/A -- drivers CSI não suportam isso |
+| Replicação de volume entre nodes | Sim | Não -- não suportado |
+| Thin provisioning (overcommit) | Sim | Não |
+| Gerenciamento de armazenamento pooled | Sim | Não |
+| Banco de dados em produção (escritor único) | Ambos funcionam | Mais simples com CSI |
+| I/O local mais rápido possível | Sim (NVMe) | Não |
 
 ## Habilitando o Azure Container Storage
 
@@ -114,17 +114,17 @@ az aks update \
 
 :::info
 
-O Azure Container Storage requer SKUs de VM especificas que tenham discos NVMe locais (para efemero) ou capacidade suficiente. VMs das series L e Lsv2 possuem NVMe local. Series D/E padrao funcionam com o backend Azure Disks.
+O Azure Container Storage requer SKUs de VM específicas que tenham discos NVMe locais (para efêmero) ou capacidade suficiente. VMs das séries L e Lsv2 possuem NVMe local. Séries D/E padrão funcionam com o backend Azure Disks.
 :::
 
-## Erros Comuns
+## Erros comuns
 
-1. **Usar NVMe efemero para dados persistentes** -- Seus dados serao perdidos. Isso e por design.
-2. **Habilitar Container Storage quando voce so precisa de um PVC simples** -- Adiciona complexidade operacional sem beneficio.
-3. **Nao verificar compatibilidade do SKU da VM** -- NVMe efemero requer VMs com drives NVMe locais.
+1. **Usar NVMe efêmero para dados persistentes**-- Seus dados serão perdidos. Isso é por design.
+2. **Habilitar Container Storage quando você só precisa de um PVC simples** -- Adiciona complexidade operacional sem benefício.
+3. **Não verificar compatibilidade do SKU da VM** -- NVMe efêmero requer VMs com drives NVMe locais.
 
 ## Recursos
 
-- [Visao geral do Azure Container Storage](https://learn.microsoft.com/azure/storage/container-storage/container-storage-introduction)
+- [Visão geral do Azure Container Storage](https://learn.microsoft.com/azure/storage/container-storage/container-storage-introduction)
 - [Habilitar Azure Container Storage](https://learn.microsoft.com/azure/aks/container-storage-enable)
-- [Storage pools com disco efemero](https://learn.microsoft.com/azure/storage/container-storage/use-container-storage-with-local-disk)
+- [Storage pools com disco efêmero](https://learn.microsoft.com/azure/storage/container-storage/use-container-storage-with-local-disk)

@@ -28,17 +28,17 @@ function HeroBanner() {
 }
 
 const topics = [
-  { id: 'gettingStarted', title: 'Getting Started', description: 'Kubernetes basics & AKS intro', link: '/docs/getting-started/' },
-  { id: 'clusterSetup', title: 'Cluster Setup', description: 'Tooling, IaC & design decisions', link: '/docs/cluster-setup/' },
+  { id: 'gettingStarted', title: 'Getting started', description: 'Kubernetes basics & AKS intro', link: '/docs/getting-started/' },
+  { id: 'clusterSetup', title: 'Cluster setup', description: 'Tooling, IaC & design decisions', link: '/docs/cluster-setup/' },
   { id: 'networking', title: 'Networking', description: 'CNI, Ingress, Service Mesh', link: '/docs/networking/' },
   { id: 'security', title: 'Security', description: 'Identity, policies & secrets', link: '/docs/security/' },
   { id: 'observability', title: 'Observability', description: 'Monitor, Prometheus & Grafana', link: '/docs/observability/' },
   { id: 'scaling', title: 'Scaling', description: 'HPA, KEDA & Cluster Autoscaler', link: '/docs/scaling/' },
   { id: 'storage', title: 'Storage', description: 'Disks, Files & Container Storage', link: '/docs/storage/' },
   { id: 'deployments', title: 'Deployments & GitOps', description: 'CI/CD, Flux & Argo CD', link: '/docs/deployments/' },
-  { id: 'aiMl', title: 'AI/ML Workloads', description: 'GPUs, KAITO & inference', link: '/docs/ai-workloads/' },
+  { id: 'aiMl', title: 'AI/ML workloads', description: 'GPUs, KAITO & inference', link: '/docs/ai-workloads/' },
   { id: 'operations', title: 'Operations', description: 'Upgrades, DR & Fleet', link: '/docs/operations/' },
-  { id: 'bestPractices', title: 'Best Practices', description: 'Architecture & cost optimization', link: '/docs/best-practices/' },
+  { id: 'bestPractices', title: 'Best practices', description: 'Architecture & cost optimization', link: '/docs/best-practices/' },
 ];
 
 function TopicGrid() {
@@ -63,7 +63,7 @@ function LearningPaths() {
   return (
     <section className={styles.paths}>
       <div className="container">
-        <h2 className={styles.sectionTitle}><Translate id="homepage.paths.title">Choose Your Path</Translate></h2>
+        <h2 className={styles.sectionTitle}><Translate id="homepage.paths.title">Choose your path</Translate></h2>
         <div className="topic-grid">
           <Link className="topic-card" to="/docs/getting-started/" style={{borderTop: '4px solid var(--aks-beginner)'}}>
             <h3><Translate id="homepage.paths.beginner.title">New to AKS</Translate></h3>
@@ -90,7 +90,7 @@ function Ecosystem() {
   return (
     <section className={styles.ecosystem}>
       <div className="container">
-        <h2 className={styles.sectionTitle}><Translate id="homepage.ecosystem.title">AKS Ecosystem</Translate></h2>
+        <h2 className={styles.sectionTitle}><Translate id="homepage.ecosystem.title">AKS ecosystem</Translate></h2>
         <div className="topic-grid">
           <a className="topic-card" href="https://azure-samples.github.io/aks-labs" target="_blank" rel="noopener noreferrer">
             <h3>AKS Labs</h3>
@@ -115,7 +115,7 @@ function NewsletterCTA() {
     <section className={styles.newsletter}>
       <div className="container">
         <div className="newsletter-banner">
-          <h2><Translate id="homepage.newsletter.title">Stay Current with AKS</Translate></h2>
+          <h2><Translate id="homepage.newsletter.title">Stay current with AKS</Translate></h2>
           <p><Translate id="homepage.newsletter.desc">Monthly curated updates on features, docs, and community highlights.</Translate></p>
           <a href="https://aksnewsletter.com" target="_blank" rel="noopener noreferrer">
             <Translate id="homepage.newsletter.cta">Subscribe free at aksnewsletter.com →</Translate>

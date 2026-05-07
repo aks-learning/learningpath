@@ -371,7 +371,7 @@
     "message": "Tópicos"
   },
   "homepage.paths.title": {
-    "message": "Escolha Sua Trilha"
+    "message": "Escolha sua trilha"
   },
   "homepage.paths.beginner.title": {
     "message": "Novo no AKS"
@@ -413,7 +413,7 @@
     "message": "Atualizações mensais curadas. Sem spam, cancele quando quiser."
   },
   "homepage.newsletter.title": {
-    "message": "Fique Atualizado com o AKS"
+    "message": "Fique atualizado com o AKS"
   },
   "homepage.newsletter.desc": {
     "message": "Atualizações mensais sobre funcionalidades, documentação e destaques da comunidade."
@@ -422,13 +422,13 @@
     "message": "Assine grátis em aksnewsletter.com →"
   },
   "homepage.topics.gettingStarted.title": {
-    "message": "Primeiros Passos"
+    "message": "Primeiros passos"
   },
   "homepage.topics.gettingStarted.desc": {
     "message": "Fundamentos do Kubernetes e introdução ao AKS"
   },
   "homepage.topics.clusterSetup.title": {
-    "message": "Configuração do Cluster"
+    "message": "Configuração do cluster"
   },
   "homepage.topics.clusterSetup.desc": {
     "message": "Ferramentas, IaC e decisões de design"
@@ -470,7 +470,7 @@
     "message": "CI/CD, Flux e Argo CD"
   },
   "homepage.topics.aiMl.title": {
-    "message": "Cargas de Trabalho AI/ML"
+    "message": "Cargas de trabalho AI/ML"
   },
   "homepage.topics.aiMl.desc": {
     "message": "GPUs, KAITO e inferência"
@@ -482,7 +482,7 @@
     "message": "Upgrades, DR e Fleet"
   },
   "homepage.topics.bestPractices.title": {
-    "message": "Boas Práticas"
+    "message": "Boas práticas"
   },
   "homepage.topics.bestPractices.desc": {
     "message": "Arquitetura e otimização de custos"

@@ -4,11 +4,11 @@ title: "Essential Tools"
 description: "The tools you actually need to manage AKS clusters, and which ones to skip"
 ---
 
-# Essential Tools
+# Essential tools
 
 kubectl + kubelogin + helm is the minimum. Add k9s for interactive debugging. Skip GUIs until you know the CLI.
 
-## Required Tools
+## Required tools
 
 Install these before touching any AKS cluster:
 
@@ -39,7 +39,7 @@ helm version
 kubelogin is not optional. Every production AKS cluster uses Entra ID integration. Without kubelogin, kubectl cannot authenticate. The `az aks install-cli` command installs both kubectl and kubelogin.
 :::
 
-## Connecting to Your Cluster
+## Connecting to your cluster
 
 ```bash
 # Get credentials (merges into ~/.kube/config)
@@ -52,7 +52,7 @@ kubelogin convert-kubeconfig -l azurecli
 kubectl get nodes
 ```
 
-## Recommended (Not Required)
+## Recommended (not required)
 
 | Tool | Purpose | Opinion |
 |------|---------|---------|
@@ -85,7 +85,7 @@ Use Helm for third-party charts. Use Kustomize for your own apps. Don't use both
 If you find yourself patching Helm output with Kustomize, you've gone wrong. Either use the chart's values.yaml properly or fork the chart. The Helm-then-Kustomize pipeline is a maintenance nightmare.
 :::
 
-## Infrastructure as Code
+## Infrastructure as code
 
 | Tool | When to Use |
 |------|-------------|
@@ -98,7 +98,7 @@ If you find yourself patching Helm output with Kustomize, you've gone wrong. Eit
 Bicep compiles to ARM but is human-readable. If you're Azure-only, use Bicep. Terraform makes sense if you also manage AWS/GCP resources or your team already knows it.
 :::
 
-## Skip These (For Now)
+## Skip these (for now)
 
 - **Lens/OpenLens**: GUI Kubernetes IDE. Learn kubectl first so you understand what the GUI is doing.
 - **Docker Desktop Kubernetes**: Use AKS directly or kind/minikube for local dev.

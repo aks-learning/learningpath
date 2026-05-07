@@ -1,53 +1,53 @@
 ---
 sidebar_position: 5
-title: "Service Mesh: Voce Precisa de Um?"
-description: "Voce provavelmente nao precisa de um service mesh. Comece sem. Aqui esta como decidir, e o que usar se voce genuinamente precisar."
+title: "Service Mesh: Você Precisa de Um?"
+description: "Você provavelmente não precisa de um service mesh. Comece sem. Aqui está como decidir, e o que usar se você genuinamente precisar."
 ---
 
-# Service Mesh: Voce Precisa de Um?
+# Service mesh: você precisa de um?
 
-Voce provavelmente nao precisa de um service mesh. Comece sem.
+Você provavelmente não precisa de um service mesh. Comece sem.
 
-Service meshes adicionam complexidade operacional, aumentam o consumo de recursos (sidecar proxies em cada pod) e resolvem problemas que a maioria dos times nao tem de verdade. Antes de recorrer ao Istio, pergunte a si mesmo: network policies + roteamento de ingress resolvem isso?
+Service meshes adicionam complexidade operacional, aumentam o consumo de recursos (sidecar proxies em cada pod) e resolvem problemas que a maioria dos times não tem de verdade. Antes de recorrer ao Istio, pergunte a si mesmo: network policies + roteamento de ingress resolvem isso?
 
-## O Framework de Decisao
+## O framework de decisão
 
-| Voce precisa de... | Sem mesh | Com mesh |
+| Você precisa de... | Sem mesh | Com mesh |
 |--------------------|----------|----------|
-| Criptografia pod-a-pod (mTLS) | Network policies + pod identity | mTLS automatico em todos os lugares |
-| Traffic splitting (canary) | Canary no nivel de ingress (Flagger, AGC) | Traffic splitting L7 por servico |
-| Policies de retry/timeout | No nivel da aplicacao (SDK) | No nivel do sidecar (transparente) |
-| Circuit breaking | No nivel da aplicacao | No nivel do sidecar |
-| Distributed tracing | SDK OpenTelemetry na sua app | Geracao automatica de spans |
-| Comunicacao cross-cluster | Configuracao manual | Multi-cluster integrado |
-| Observabilidade L7 (metricas HTTP) | Instrumentacao da aplicacao | Automatico a partir dos sidecars |
+| Criptografia pod-a-pod (mTLS) | Network policies + pod identity | mTLS automático em todos os lugares |
+| Traffic splitting (canary) | Canary no nível de ingress (Flagger, AGC) | Traffic splitting L7 por serviço |
+| Policies de retry/timeout | No nível da aplicação (SDK) | No nível do sidecar (transparente) |
+| Circuit breaking | No nível da aplicação | No nível do sidecar |
+| Distributed tracing | SDK OpenTelemetry na sua app | Geração automática de spans |
+| Comunicação cross-cluster | Configuração manual | Multi-cluster integrado |
+| Observabilidade L7 (métricas HTTP) | Instrumentação da aplicação | Automático a partir dos sidecars |
 
 :::tip
 
-Network policies (Cilium) + retries no nivel da aplicacao + OpenTelemetry cobrem 80% do que os times acham que precisam de um mesh. So adicione um mesh quando voce genuinamente precisar de mTLS transparente entre todos os servicos ou gerenciamento avancado de trafego L7 que nao pode ser feito na camada de ingress.
+Network policies (Cilium) + retries no nível da aplicação + OpenTelemetry cobrem 80% do que os times acham que precisam de um mesh. Só adicione um mesh quando você genuinamente precisar de mTLS transparente entre todos os serviços ou gerenciamento avançado de tráfego L7 que não pode ser feito na camada de ingress.
 :::
 
-## Quando Voce PRECISA de um Service Mesh
+## Quando você PRECISA de um service mesh
 
-**Requisitos de networking zero-trust**: Compliance exige que toda chamada servico-a-servico seja criptografada e mutuamente autenticada. Network policies controlam quem pode conectar (L3/L4), mas um mesh adiciona identidade L7 e criptografia.
+**Requisitos de networking zero-trust**: Compliance exige que toda chamada serviço-a-serviço seja criptografada e mutuamente autenticada. Network policies controlam quem pode conectar (L3/L4), mas um mesh adiciona identidade L7 e criptografia.
 
-**Canary deployments no nivel do servico**: Voce precisa enviar 5% do trafego para a v2 de um servico interno (nao apenas no limite do ingress). Isso e traffic splitting L7 de verdade.
+**Canary deployments no nível do serviço**: Você precisa enviar 5% do tráfego para a v2 de um serviço interno (não apenas no limite do ingress). Isso é traffic splitting L7 de verdade.
 
-**Comunicacao cross-cluster de servicos**: Servicos no Cluster A precisam chamar servicos no Cluster B de forma transparente com balanceamento de carga, retries e mTLS.
+**Comunicação cross-cluster de serviços**: Serviços no Cluster A precisam chamar serviços no Cluster B de forma transparente com balanceamento de carga, retries e mTLS.
 
-**Trilha de auditoria regulatoria**: Voce precisa de logs de acesso por requisicao entre servicos para compliance, sem modificar o codigo da aplicacao.
+**Trilha de auditoria regulatória**: Você precisa de logs de acesso por requisição entre serviços para compliance, sem modificar o código da aplicação.
 
-## Quando Voce NAO Precisa de um Service Mesh
+## Quando você NAO precisa de um service mesh
 
-- Voce tem menos de 20 servicos -- o overhead nao compensa
-- Seus servicos ja lidam com retries e timeouts (a maioria dos frameworks modernos faz isso)
-- Voce so precisa de criptografia em transito -- considere TLS no nivel do pod
-- Voce so precisa de traffic splitting na borda -- use AGC ou App Routing
-- Voce quer "observabilidade" -- use OpenTelemetry, nao um mesh
+- Você tem menos de 20 serviços -- o overhead não compensa
+- Seus serviços já lidam com retries e timeouts (a maioria dos frameworks modernos faz isso)
+- Você só precisa de criptografia em trânsito -- considere TLS no nível do pod
+- Você só precisa de traffic splitting na borda -- use AGC ou App Routing
+- Você quer "observabilidade" -- use OpenTelemetry, não um mesh
 
-## O Add-on de Service Mesh Baseado em Istio
+## O add-on de service mesh baseado em Istio
 
-Se voce realmente precisa de um mesh, use o add-on Istio gerenciado pelo AKS. Nao gerencie Istio sozinho -- e operacionalmente caro.
+Se você realmente precisa de um mesh, use o add-on Istio gerenciado pelo AKS. Não gerencie Istio sozinho -- é operacionalmente caro.
 
 ```bash
 # Enable the managed Istio add-on
@@ -62,7 +62,7 @@ az aks show \
   --query "serviceMeshProfile"
 ```
 
-Habilite injecao de sidecar por namespace:
+Habilite injeção de sidecar por namespace:
 
 ```bash
 # Label namespace for automatic sidecar injection
@@ -106,21 +106,21 @@ spec:
 
 O que o add-on gerenciado oferece:
 - Microsoft gerencia upgrades do control plane do Istio
-- Integrado com Azure Monitor para metricas
-- Upgrades canary do proprio mesh baseados em revisao
+- Integrado com Azure Monitor para métricas
+- Upgrades canary do próprio mesh baseados em revisão
 - Sem gerenciamento de Helm chart, sem upgrades manuais de CRDs
 
-## Alternativas a um Mesh Completo
+## Alternativas a um mesh completo
 
-### Cilium Service Mesh (Mais Leve)
+### Cilium service mesh (mais leve)
 
-Se voce ja roda Cilium (e deveria -- veja [Comparacao de CNI](./cni-comparison)), voce ganha capacidades basicas de mesh sem sidecars:
+Se você já roda Cilium (e deveria -- veja [Comparação de CNI](./cni-comparison)), você ganha capacidades básicas de mesh sem sidecars:
 
-- **mTLS** via criptografia baseada em identidade do Cilium (WireGuard ou IPsec no nivel do node)
-- **Policies L7** via integracao Cilium Envoy (sem sidecar por pod)
+- **mTLS** via criptografia baseada em identidade do Cilium (WireGuard ou IPsec no nível do node)
+- **Policies L7** via integração Cilium Envoy (sem sidecar por pod)
 - **Hubble** para observabilidade L7
 
-Isso nao e um service mesh completo, mas cobre a lacuna de criptografia e observabilidade para muitos times sem o custo de sidecars.
+Isso não é um service mesh completo, mas cobre a lacuna de criptografia e observabilidade para muitos times sem o custo de sidecars.
 
 ```yaml
 # Cilium Network Policy with L7 rules (no mesh needed)
@@ -146,47 +146,47 @@ spec:
                 path: "/api/v1/.*"
 ```
 
-### Linkerd (Nao Gerenciado pelo AKS)
+### Linkerd (não gerenciado pelo AKS)
 
-Linkerd e mais leve que Istio, mas nao e oferecido como add-on gerenciado do AKS. Voce e responsavel pelo ciclo de vida. Use apenas se tiver forte experiencia com Linkerd e precisar do proxy baseado em Rust (menor consumo de recursos que o Envoy).
+Linkerd é mais leve que Istio, mas não é oferecido como add-on gerenciado do AKS. Você é responsável pelo ciclo de vida. Use apenas se tiver forte experiência com Linkerd e precisar do proxy baseado em Rust (menor consumo de recursos que o Envoy).
 
 :::warning
 
-Se voce escolher um mesh nao gerenciado (Linkerd, Istio autogerenciado, Consul Connect), o suporte da Microsoft nao pode ajudar a debugar problemas de rede relacionados ao mesh. A responsabilidade e inteiramente sua.
+Se você escolher um mesh não gerenciado (Linkerd, Istio autogerenciado, Consul Connect), o suporte dá Microsoft não pode ajudar a debugar problemas de rede relacionados ao mesh. A responsabilidade é inteiramente sua.
 :::
 
-## Impacto em Recursos
+## Impacto em recursos
 
-Um service mesh nao e de graca. Planeje para:
+Um service mesh não é de graça. Planeje para:
 
 | Componente | Custo de Recursos |
 |-----------|-------------------|
-| Control plane do Istio (istiod) | ~500m CPU, ~1Gi RAM por replica |
+| Control plane do Istio (istiod) | ~500m CPU, ~1Gi RAM por réplica |
 | Sidecar proxy (por pod) | ~100m CPU, ~128Mi RAM baseline |
 | Overhead de sidecar em cluster de 100 pods | ~10 CPU cores, ~12Gi RAM |
 
-Para um cluster de 100 pods, o custo de sidecars e de aproximadamente 10 CPU cores adicionais e 12 GiB de RAM. Isso e significativo. Certifique-se de que o valor justifique o custo.
+Para um cluster de 100 pods, o custo de sidecars é de aproximadamente 10 CPU cores adicionais e 12 GiB de RAM. Isso é significativo. Certifique-se de que o valor justifique o custo.
 
-## Erros Comuns
+## Erros comuns
 
-1. **Adicionar um mesh "porque a Netflix usa um"** -- A Netflix tem milhares de servicos. Voce tem 12. Network policies resolvem.
-2. **Autogerenciar Istio** -- Upgrades do Istio sao notoriamente dolorosos. Use o add-on gerenciado ou nao use Istio.
-3. **Habilitar injecao de sidecar em todo o cluster** -- Comece com um namespace. Depure problemas isoladamente antes de expandir.
-4. **Ignorar overhead de recursos** -- O custo de memoria dos sidecars se acumula. Um deployment de 100 pods de repente precisa de 12Gi a mais de RAM.
-5. **Usar um mesh apenas para criptografia** -- Se voce so precisa de criptografia em transito, considere criptografia WireGuard do Cilium (no nivel do node, sem sidecars) ou TLS no nivel do pod.
-6. **Nao treinar o time** -- Um mesh adiciona Envoy, VirtualServices, DestinationRules, PeerAuthentication e AuthorizationPolicy a sua superficie operacional. Reserve tempo para aprendizado.
+1. **Adicionar um mesh "porque a Netflix usa um"** -- A Netflix tem milhares de serviços. Você tem 12. Network policies resolvem.
+2. **Autogerenciar Istio** -- Upgrades do Istio são notoriamente dolorosos. Use o add-on gerenciado ou não use Istio.
+3. **Habilitar injeção de sidecar em todo o cluster** -- Comece com um namespace. Depure problemas isoladamente antes de expandir.
+4. **Ignorar overhead de recursos** -- O custo de memória dos sidecars se acumula. Um deployment de 100 pods de repente precisa de 12Gi a mais de RAM.
+5. **Usar um mesh apenas para criptografia** -- Se você só precisa de criptografia em trânsito, considere criptografia WireGuard do Cilium (no nível do node, sem sidecars) ou TLS no nível do pod.
+6. **Não treinar o time** -- Um mesh adiciona Envoy, VirtualServices, DestinationRules, PeerAuthentication e AuthorizationPolicy a sua superfície operacional. Reserve tempo para aprendizado.
 
-## Checklist de Decisao
+## Checklist de decisão
 
 Antes de habilitar um service mesh, responda sim para pelo menos duas:
 
-- [ ] Voce tem mais de 20 servicos se comunicando internamente?
-- [ ] mTLS entre todos os servicos e um requisito rigido de compliance?
-- [ ] Voce precisa de traffic splitting por servico (nao apenas no ingress)?
-- [ ] Voce precisa de retries/timeouts automaticos sem alteracoes na aplicacao?
-- [ ] Voce opera em uma topologia multi-cluster?
+- [ ] Você tem mais de 20 serviços se comunicando internamente?
+- [ ] mTLS entre todos os serviços é um requisito rígido de compliance?
+- [ ] Você precisa de traffic splitting por serviço (não apenas no ingress)?
+- [ ] Você precisa de retries/timeouts automáticos sem alterações na aplicação?
+- [ ] Você opera em uma topologia multi-cluster?
 
-Se voce marcou zero ou uma: use Cilium network policies e pronto.
+Se você marcou zero ou uma: use Cilium network policies e pronto.
 
 ## Recursos
 

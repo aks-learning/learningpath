@@ -1,22 +1,22 @@
 ---
 sidebar_position: 2
-title: "Checklist de Hardening de Seguranca"
-description: "Hardening de seguranca priorizado para AKS -- o que fazer primeiro, o que pode esperar"
+title: "Checklist de Hardening de Segurança"
+description: "Hardening de segurança priorizado para AKS -- o que fazer primeiro, o que pode esperar"
 ---
 
-# Checklist de Hardening de Seguranca
+# Checklist de Hardening de Segurança
 
-Se voce so fizer 3 coisas: desabilite contas locais, habilite network policies com default-deny e use Workload Identity. Todo o resto e defesa em profundidade sobre essa base.
+Se você só fizer 3 coisas: desabilite contas locais, habilite network policies com default-deny e use Workload Identity. Todo o resto é defesa em profundidade sobre essa base.
 
 ## Matriz de Prioridade
 
-### Critico (Faca Isso Primeiro)
+### Crítico (Faça Isso Primeiro)
 
-| Acao | Como | Impacto |
+| Ação | Como | Impacto |
 |------|------|---------|
-| Desabilitar contas locais | `az aks update --disable-local-accounts` | Previne bypass da autenticacao do Entra ID |
+| Desabilitar contas locais | `az aks update --disable-local-accounts` | Previne bypass da autenticação do Entra ID |
 | Habilitar Workload Identity | Credenciais federadas, sem secrets nos pods | Elimina credenciais armazenadas |
-| Network policies default-deny | Aplicar deny-all ingress/egress por namespace | Previne movimentacao lateral |
+| Network policies default-deny | Aplicar deny-all ingress/egress por namespace | Previne movimentação lateral |
 | API server privado | `--enable-private-cluster` | Control plane fora da internet |
 | Desabilitar SSH nos nodes | `--disable-ssh` no node pool | Sem acesso backdoor aos nodes |
 
@@ -36,18 +36,18 @@ spec:
 
 :::warning
 
-Sem network policies default-deny, todo pod pode alcancar qualquer outro pod em qualquer porta. Um container comprometido em um namespace pode atacar bancos de dados em outro. Esta e a falha de seguranca mais comum em clusters AKS.
+Sem network policies default-deny, todo pod pode alcançar qualquer outro pod em qualquer porta. Um container comprometido em um namespace pode atacar bancos de dados em outro. Esta é a falha de segurança mais comum em clusters AKS.
 :::
 
 ### Alta Prioridade
 
-| Acao | Como | Impacto |
+| Ação | Como | Impacto |
 |------|------|---------|
-| Defender for Containers | Habilitar no Defender for Cloud | Deteccao de ameacas em runtime, scan de vulnerabilidades |
-| Azure Policy (restritiva) | Atribuir `Kubernetes cluster pods should only use allowed images` | Bloquear imagens nao confiaveis |
+| Defender for Containers | Habilitar no Defender for Cloud | Detecção de ameaças em runtime, scan de vulnerabilidades |
+| Azure Policy (restritiva) | Atribuir `Kubernetes cluster pods should only use allowed images` | Bloquear imagens não confiáveis |
 | Pull de imagens apenas do ACR | Network policy + admission controller | Sem pull do Docker Hub em prod |
 | Pod Security Admission | Aplicar perfil `restricted` | Bloquear containers privilegiados |
-| Logs de auditoria | Diagnostic settings -> Log Analytics | Rastrear todas as operacoes do API server |
+| Logs de auditoria | Diagnostic settings -> Log Analytics | Rastrear todas as operações do API server |
 
 ```bash
 # Enable Defender for Containers
@@ -62,15 +62,15 @@ az policy assignment create \
   --scope "/subscriptions/{sub-id}/resourceGroups/{rg}"
 ```
 
-### Media Prioridade
+### Média Prioridade
 
-| Acao | Como | Impacto |
+| Ação | Como | Impacto |
 |------|------|---------|
 | Assinatura de imagens (Ratify) | Notation + Ratify admission controller | Executar apenas imagens verificadas |
-| Rotacao de secrets | Key Vault + CSI driver com rotacao | Rotacionar secrets automaticamente |
-| Auto-upgrade do OS dos nodes | `--node-os-upgrade-channel SecurityPatch` | Patches de seguranca automatizados |
-| Limitar egress com Azure Firewall | Regras de FQDN para destinos permitidos | Bloquear exfiltracao de dados |
-| Habilitar mTLS com service mesh | Istio ambient mode ou Linkerd | Criptografar trafego pod-to-pod |
+| Rotação de secrets | Key Vault + CSI driver com rotação | Rotacionar secrets automaticamente |
+| Auto-upgrade do OS dos nodes | `--node-os-upgrade-channel SecurityPatch` | Patches de segurança automatizados |
+| Limitar egress com Azure Firewall | Regras de FQDN para destinos permitidos | Bloquear exfiltração de dados |
+| Habilitar mTLS com service mesh | Istio ambient mode ou Linkerd | Criptografar tráfego pod-to-pod |
 
 ## CIS Kubernetes Benchmark
 
@@ -87,10 +87,10 @@ az policy state list \
 
 :::info
 
-Nao tente atingir 100% de compliance CIS no primeiro dia. Comece pelos itens Criticos, depois trabalhe nos de Alta prioridade, depois Media. Compliance perfeita sem workloads rodando nao e um estado util.
+Não tente atingir 100% de compliance CIS no primeiro dia. Comece pelos itens Críticos, depois trabalhe nos de Alta prioridade, depois Média. Compliance perfeita sem workloads rodando não é um estado útil.
 :::
 
-## Seguranca da Cadeia de Suprimentos
+## Segurança da Cadeia de Suprimentos
 
 ```bash
 # Scan images before deployment (in CI/CD pipeline)
@@ -108,20 +108,20 @@ helm install ratify ratify/ratify \
 
 ## Erros Comuns
 
-1. **Habilitar contas locais "para emergencias"** -- Se o Entra ID cair, contas locais ignoram todo o RBAC. Use procedimentos de break-glass em vez disso.
-2. **Network policies com defaults allow-all** -- O mesmo que nao ter network policies.
-3. **Armazenar secrets em Kubernetes Secrets** -- Sao codificados em base64, nao criptografados em repouso por padrao. Use Key Vault.
-4. **Rodar como root em containers** -- A maioria das imagens nao precisa de root. Defina `runAsNonRoot: true`.
-5. **Ignorar alertas do Defender** -- Fadiga de alertas e real, mas suprimir todos os alertas e pior.
+1. **Habilitar contas locais "para emergências"** -- Se o Entra ID cair, contas locais ignoram todo o RBAC. Use procedimentos de break-glass em vez disso.
+2. **Network policies com defaults allow-all** -- O mesmo que não ter network policies.
+3. **Armazenar secrets em Kubernetes Secrets** -- São codificados em base64, não criptografados em repouso por padrão. Use Key Vault.
+4. **Rodar como root em containers** -- A maioria das imagens não precisa de root. Defina `runAsNonRoot: true`.
+5. **Ignorar alertas do Defender** -- Fadiga de alertas é real, mas suprimir todos os alertas é pior.
 
-:::tip Opiniao
+:::tip Opinião
 
-Seguranca nao e opcional. Um cluster comprometido pode fazer pivot para todo o seu tenant Azure via managed identity. Trate a seguranca do AKS como seguranca do tenant.
+Segurança não é opcional. Um cluster comprometido pode fazer pivot para todo o seu tenant Azure via managed identity. Trate a segurança do AKS como segurança do tenant.
 :::
 
 ## Recursos
 
-- [Boas praticas de seguranca do AKS](https://learn.microsoft.com/azure/aks/operator-best-practices-cluster-security)
+- [Boas práticas de segurança do AKS](https://learn.microsoft.com/azure/aks/operator-best-practices-cluster-security)
 - [CIS Benchmark para AKS](https://learn.microsoft.com/azure/aks/cis-kubernetes)
-- [Visao geral do Workload Identity](https://learn.microsoft.com/azure/aks/workload-identity-overview)
+- [Visão geral do Workload Identity](https://learn.microsoft.com/azure/aks/workload-identity-overview)
 - [Microsoft Defender for Containers](https://learn.microsoft.com/azure/defender-for-cloud/defender-for-containers-introduction)

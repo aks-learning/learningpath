@@ -27,7 +27,7 @@ Block storage that attaches to a single node. Think of it as a virtual hard driv
 Premium SSD v2 for production databases -- it offers configurable IOPS/throughput independent of disk size, so you don't overpay for capacity you don't need just to get more IOPS. Standard SSD for dev/test. Never HDD for anything in AKS.
 :::
 
-### PVC Example: Azure Disk
+### PVC example: Azure Disk
 
 ```yaml
 apiVersion: v1
@@ -76,7 +76,7 @@ Network file shares (SMB or NFS) accessible from multiple pods simultaneously.
 Don't use Azure Files for databases. The network latency of a file share compared to a locally-attached disk will destroy your database performance. Use Azure Disks for anything that does frequent random I/O.
 :::
 
-### PVC Example: Azure Files (NFS)
+### PVC example: Azure Files (NFS)
 
 ```yaml
 apiVersion: v1
@@ -92,7 +92,7 @@ spec:
       storage: 100Gi
 ```
 
-## Decision Matrix
+## Decision matrix
 
 | Requirement | Use | Why |
 |-------------|-----|-----|
@@ -102,7 +102,7 @@ spec:
 | ML training data (large files) | Azure Blob NFS | Cheapest for large datasets |
 | Temp/cache data | emptyDir or ephemeral disks | No persistence needed |
 
-## Performance Tuning
+## Performance tuning
 
 ```yaml
 # Custom StorageClass for Premium SSD v2 with specific IOPS

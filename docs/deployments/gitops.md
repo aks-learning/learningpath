@@ -13,7 +13,7 @@ GitOps means one thing: the desired state of your cluster lives in Git, and a co
 Never `kubectl apply` from a laptop in production. All production changes go through Git. If it is not in the repo, it does not exist. If someone edits a resource directly, the GitOps controller reverts it within minutes.
 :::
 
-## Flux vs ArgoCD: Pick One
+## Flux vs ArgoCD: pick one
 
 | Aspect | Flux v2 | ArgoCD |
 |--------|---------|--------|
@@ -29,7 +29,7 @@ Never `kubectl apply` from a laptop in production. All production changes go thr
 Use Flux if you want Microsoft-supported GitOps with AKS. You get Azure support tickets, integration with Azure Policy, and a clean AKS extension lifecycle. Use ArgoCD if your team already knows it or you need the UI for visibility across many applications.
 :::
 
-## How Flux Works
+## How Flux works
 
 Flux operates through a reconciliation loop with two core resources:
 
@@ -55,7 +55,7 @@ az k8s-extension create \
 
 This installs the Flux controllers (source-controller, kustomize-controller, helm-controller, notification-controller) into the `flux-system` namespace.
 
-## Configuring a GitOps Source
+## Configuring a GitOps source
 
 After Flux is installed, create a `GitRepository` and `Kustomization` to point at your manifests:
 
@@ -98,7 +98,7 @@ spec:
 Always set `prune: true`. Without it, Flux will create and update resources but never delete them. You end up with orphaned resources that drift from your Git state -- defeating the entire purpose of GitOps.
 :::
 
-## Repository Structure
+## Repository structure
 
 Organize your manifest repo for multi-environment and multi-cluster:
 
@@ -121,7 +121,7 @@ k8s-manifests/
       replica-count.yaml
 ```
 
-## Multi-Cluster and Fleet Management
+## Multi-cluster and fleet management
 
 Flux supports multi-tenancy natively. For fleet-level configuration across multiple AKS clusters, use Azure Arc with Flux:
 
@@ -139,7 +139,7 @@ az k8s-configuration flux create \
   --kustomization name=apps path=./apps/production prune=true dependsOn=infra
 ```
 
-## Common Mistakes
+## Common mistakes
 
 - Not setting `prune: true`: Resources pile up in the cluster with no Git reference
 - Polling interval too long: Set `interval: 1m` for source, not 10m -- you want fast feedback

@@ -4,11 +4,11 @@ title: "Ingress and Load Balancing"
 description: "Use App Routing for standard workloads. Use AGC for enterprise WAF. Do not self-manage NGINX unless you have exotic requirements."
 ---
 
-# Ingress and Load Balancing
+# Ingress and load balancing
 
 You have three real options for L7 ingress on AKS: the App Routing add-on (managed NGINX), Application Gateway for Containers (AGC), or self-managed NGINX. Pick one and commit.
 
-## The Decision
+## The decision
 
 | Requirement | Use This |
 |-------------|----------|
@@ -22,7 +22,7 @@ You have three real options for L7 ingress on AKS: the App Routing add-on (manag
 Use App Routing for standard workloads. Use AGC for enterprise with WAF needs. Do not self-manage NGINX unless you need exotic configuration that the managed add-on cannot provide.
 :::
 
-## App Routing Add-on (Managed NGINX)
+## App Routing add-on (managed NGINX)
 
 This is the default choice. Microsoft manages the NGINX ingress controller lifecycle, upgrades, and scaling. You write Ingress resources, it handles the rest.
 
@@ -127,7 +127,7 @@ spec:
 AGC uses the Kubernetes Gateway API (Gateway, HTTPRoute, GRPCRoute), not the legacy Ingress resource. This is the future direction of Kubernetes traffic management. If you are starting fresh, prefer Gateway API.
 :::
 
-## Internal vs External Load Balancers
+## Internal vs external load balancers
 
 For L4 (TCP/UDP) services or internal-only exposure:
 
@@ -165,7 +165,7 @@ spec:
     app: public-api
 ```
 
-## TLS and Certificate Management
+## TLS and certificate management
 
 Use cert-manager with Let's Encrypt for automated certificate lifecycle. Do not manually manage certificates.
 
@@ -198,7 +198,7 @@ az aks approuting update \
   --attach-kv /subscriptions/.../vaults/prod-kv
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **Self-managing NGINX "for control"** -- You inherit upgrade burden, CVE patching, and HPA tuning. App Routing handles all of this.
 2. **Using AGIC (v1) for new projects** -- AGIC is legacy. AGC with Gateway API is the replacement.

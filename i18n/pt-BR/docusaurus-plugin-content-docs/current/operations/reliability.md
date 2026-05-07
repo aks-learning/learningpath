@@ -4,11 +4,11 @@ title: "Confiabilidade e Alta Disponibilidade"
 description: "Guia opinativo sobre padrões de confiabilidade do AKS, zonas de disponibilidade, probes e arquitetura multi-region."
 ---
 
-# Confiabilidade e Alta Disponibilidade
+# Confiabilidade e alta disponibilidade
 
 Um único cluster AKS com configurações padrão vai te deixar na mão em produção. Nodes morrem. Zonas ficam offline. Pods quebram silenciosamente. Você precisa projetar para falhas desde o primeiro dia, não improvisar depois da primeira indisponibilidade.
 
-## Zonas de Disponibilidade
+## Zonas de disponibilidade
 
 Distribua seus nodes por 3 zonas de disponibilidade. Isso é inegociável para produção.
 
@@ -33,7 +33,7 @@ O custo incremental é zero -- você paga o mesmo por node estando em uma zona o
 | 2 zonas | 50% de perda | Marginal |
 | 3 zonas | 33% de perda (sobrevive) | Sim |
 
-## Pod Topology Spread Constraints
+## Pod topology spread constraints
 
 Zonas de disponibilidade protegem contra falha de infraestrutura. Topology spread constraints protegem contra agendamento ruim. Sem eles, o Kubernetes pode agendar todas as suas réplicas no mesmo node.
 
@@ -84,7 +84,7 @@ spec:
 
 Use `minAvailable` para serviços que precisam de N instâncias rodando o tempo todo. Use `maxUnavailable` quando quiser expressar "no máximo 1 pod fora por vez."
 
-## Liveness e Readiness Probes
+## Liveness e readiness probes
 
 Todo pod de produção DEVE ter tanto um liveness probe quanto um readiness probe. Eles servem para propósitos diferentes.
 
@@ -136,7 +136,7 @@ az aks update \
   --tier standard
 ```
 
-## Arquitetura Multi-Region
+## Arquitetura multi-region
 
 Para workloads mission-critical que precisam de downtime quase zero, faça deploy de dois clusters em regiões diferentes atrás do Azure Front Door.
 
@@ -153,7 +153,7 @@ Requisitos:
 Multi-region é caro e complexo. Para a maioria dos workloads, uma única região com 3 zonas de disponibilidade oferece 99.99% de SLA. Só vá para multi-region se seu RTO for menor que 1 minuto ou se você precisa de redundância geográfica por compliance.
 :::
 
-## Checklist de Confiabilidade
+## Checklist de confiabilidade
 
 - [ ] Node pools distribuídos em 3 zonas de disponibilidade
 - [ ] Topology spread constraints em todos os deployments

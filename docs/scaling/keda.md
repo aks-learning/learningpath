@@ -4,11 +4,11 @@ title: "KEDA: Event-Driven Autoscaling"
 description: "Scale workloads from zero to N based on external events. Queues, HTTP, cron, and custom triggers."
 ---
 
-# KEDA: Event-Driven Autoscaling
+# KEDA: event-driven autoscaling
 
 Use KEDA for any workload driven by external events. HPA alone cannot scale to zero or react to queue depth. KEDA fills that gap and is the correct choice for event-driven architectures.
 
-## What KEDA Does
+## What KEDA does
 
 KEDA (Kubernetes Event-Driven Autoscaling) watches external event sources and scales your workloads accordingly:
 
@@ -34,7 +34,7 @@ az aks update \
 kubectl get pods -n kube-system -l app=keda-operator
 ```
 
-## Core Concept: ScaledObject
+## Core concept: ScaledObject
 
 A `ScaledObject` maps an event source to a Deployment and defines how to scale:
 
@@ -60,7 +60,7 @@ spec:
 
 This tells KEDA: scale the `order-processor` deployment so there is roughly 1 replica per 5 messages in the queue. When the queue is empty, scale to zero.
 
-## Key Scalers for AKS Workloads
+## Key scalers for AKS workloads
 
 | Scaler | Use Case | Trigger |
 |--------|----------|---------|
@@ -71,7 +71,7 @@ This tells KEDA: scale the `order-processor` deployment so there is roughly 1 re
 | `cron` | Scheduled scaling | Time-based schedule |
 | `http` | HTTP workloads | Request rate (KEDA HTTP add-on) |
 
-## KEDA + HPA: Complementary, Not Competing
+## KEDA + HPA: complementary, not competing
 
 :::tip
 
@@ -84,7 +84,7 @@ A common pattern:
 - Once running, HPA takes over for CPU-based scaling from 1 to N
 - When the queue drains and CPU drops, KEDA scales back to 0
 
-## Production Example: Service Bus with Workload Identity
+## Production example: service bus with workload identity
 
 ```yaml
 apiVersion: keda.sh/v1alpha1
@@ -122,7 +122,7 @@ spec:
 Use Workload Identity for authentication in production. Connection strings in environment variables are a security liability. KEDA supports `podIdentity` natively on AKS.
 :::
 
-## Common Mistakes
+## Common mistakes
 
 **Setting pollingInterval too low.** A 1-second polling interval against Azure Service Bus will hit API rate limits. Use 10-30 seconds for most sources. The queue is not going anywhere.
 
@@ -134,7 +134,7 @@ Use Workload Identity for authentication in production. Connection strings in en
 
 **Forgetting to handle graceful shutdown.** When KEDA scales down, pods get terminated. If your worker does not handle SIGTERM and finish in-progress messages, you lose work. Implement graceful shutdown with `terminationGracePeriodSeconds`.
 
-## Decision: When to Use KEDA
+## Decision: when to use KEDA
 
 | Workload Pattern | Scaling Solution |
 |-----------------|-----------------|

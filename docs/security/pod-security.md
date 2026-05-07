@@ -4,11 +4,11 @@ title: "Pod Security"
 description: "Enforce Pod Security Standards with PSA and Azure Policy to prevent privileged containers and insecure configurations."
 ---
 
-# Pod Security
+# Pod security
 
 Enforce the Restricted security profile in production namespaces. No exceptions without documented approval signed off by a security lead. A single privileged container is all an attacker needs to escape to the node and own your cluster.
 
-## Pod Security Standards (PSS)
+## Pod security standards (PSS)
 
 Kubernetes defines three security profiles. Only one is acceptable for production:
 
@@ -23,7 +23,7 @@ Kubernetes defines three security profiles. Only one is acceptable for productio
 Pod Security Policies (PSP) were removed in Kubernetes 1.25. If you are running anything referencing PSP, it is doing nothing. You must migrate to Pod Security Admission (PSA).
 :::
 
-## Pod Security Admission (PSA)
+## Pod security admission (PSA)
 
 PSA is built into Kubernetes. No addon required. Apply it per-namespace with labels:
 
@@ -52,7 +52,7 @@ labels:
   pod-security.kubernetes.io/enforce: restricted
 ```
 
-## What Restricted Actually Requires
+## What restricted actually requires
 
 Your pod spec must comply with these rules. No negotiation:
 
@@ -93,7 +93,7 @@ Key points:
 - `capabilities.drop: ALL` -- no Linux capabilities whatsoever
 - `seccompProfile: RuntimeDefault` -- system calls are filtered
 
-## Azure Policy: Belt and Suspenders
+## Azure Policy: belt and suspenders
 
 PSA enforces at the Kubernetes API level. Azure Policy enforces at the Azure resource level. Use both.
 
@@ -117,7 +117,7 @@ Built-in Azure Policy initiatives for AKS pod security:
 - `Kubernetes cluster pods should only use approved host network and port range`
 - `Kubernetes cluster containers should run with a read only root file system`
 
-## Dealing with Exceptions
+## Dealing with exceptions
 
 Some workloads genuinely need elevated permissions (monitoring agents, CNI plugins, log collectors). Handle them properly:
 
@@ -139,7 +139,7 @@ metadata:
 
 This enforces baseline (blocks the worst offenders) while auditing against restricted (shows you what would fail if you tightened further).
 
-## Common Mistakes
+## Common mistakes
 
 1. **Not setting seccompProfile** -- Missing seccomp means unrestricted system calls. Always set `RuntimeDefault` at minimum.
 2. **Forgetting readOnlyRootFilesystem** -- Applications that write to the container filesystem (logs, temp files) break. Fix the app to write to mounted volumes instead.

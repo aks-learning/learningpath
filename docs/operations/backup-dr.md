@@ -4,11 +4,11 @@ title: "Backup and Disaster Recovery"
 description: "Opinionated guide to AKS backup strategies, disaster recovery patterns, and when to use what."
 ---
 
-# Backup and Disaster Recovery
+# Backup and disaster recovery
 
 Treat Kubernetes as cattle, not pets. Your Git repo IS your primary backup for manifests. AKS Backup exists for the things Git cannot capture: persistent volume data and runtime cluster state.
 
-## The Fundamental Question
+## The fundamental question
 
 Before designing your DR strategy, answer this: is your workload stateless or stateful?
 
@@ -27,7 +27,7 @@ For stateless applications, your Git repository plus your CI/CD pipeline IS your
 
 AKS Backup is the Azure-native backup solution using Backup Vault and Trusted Access. It is managed, integrated, and does not require you to run any agents inside your cluster.
 
-### What Gets Backed Up
+### What gets backed up
 
 - **Kubernetes resources**: Deployments, Services, ConfigMaps, Secrets, CRDs
 - **Persistent Volumes**: CSI disk snapshots (Azure Disk, Azure Files)
@@ -64,7 +64,7 @@ az dataprotection backup-policy create \
 The cost is negligible compared to losing your workload state. A single unrecoverable PV loss will cost you more in incident response than a year of backup storage.
 :::
 
-## Cross-Region Restore
+## Cross-region restore
 
 Use a geo-redundant backup vault to enable cross-region restore. When your primary region goes down, you can restore workloads into a cluster in the paired region.
 
@@ -89,9 +89,9 @@ Requirements:
 AKS Backup is integrated, managed, and does not require you to maintain an S3-compatible backend or worry about Velero version compatibility. If you already have Velero running and it works, keep it. For new clusters, choose AKS Backup.
 :::
 
-## Disaster Recovery Patterns
+## Disaster recovery patterns
 
-### Active-Passive (Recommended for most teams)
+### Active-passive (recommended for most teams)
 
 Two clusters in different regions. Primary handles all traffic. Secondary is warm (running, but no traffic). Failover via Azure Traffic Manager or Front Door DNS switch.
 
@@ -99,7 +99,7 @@ Two clusters in different regions. Primary handles all traffic. Secondary is war
 - **RPO**: Depends on backup frequency (hourly = up to 1 hour of data loss)
 - **Cost**: ~1.5x a single cluster (secondary runs smaller node pools)
 
-### Active-Active (Mission-critical only)
+### Active-active (mission-critical only)
 
 Two clusters both serving traffic via Azure Front Door or Traffic Manager. No failover needed because both are always active.
 
@@ -108,7 +108,7 @@ Two clusters both serving traffic via Azure Front Door or Traffic Manager. No fa
 - **Cost**: 2x a single cluster
 - **Complexity**: High. Requires stateless apps or distributed data layer.
 
-### GitOps-Based Recovery
+### GitOps-based recovery
 
 For fully stateless workloads: delete the broken cluster, create a new one, point Flux/ArgoCD at your Git repo, and let it reconcile. No backup needed.
 
@@ -118,7 +118,7 @@ az aks create --resource-group dr-rg --name recovery-cluster ...
 flux bootstrap github --owner=myorg --repository=k8s-manifests --path=clusters/prod
 ```
 
-## Backup Scope Decisions
+## Backup scope decisions
 
 Not everything needs to be backed up. Be deliberate about what you protect.
 
@@ -136,7 +136,7 @@ Not everything needs to be backed up. Be deliberate about what you protect.
 The rule is simple: if it exists only inside the cluster and nowhere else, back it up. If it can be reconstructed from Git, CI/CD, or an external system, do not waste backup storage on it.
 :::
 
-## Testing Your DR Plan
+## Testing your DR plan
 
 A backup you have never restored is not a backup. Schedule quarterly DR drills.
 
@@ -155,7 +155,7 @@ Validate after restore:
 3. Services are reachable and responding
 4. CRDs and custom resources are intact
 
-## Common Mistakes
+## Common mistakes
 
 1. **Backing up only manifests** -- Your manifests are already in Git. Back up what Git cannot store: PV data.
 2. **Never testing restore** -- A backup you have never restored is not a backup. Test quarterly.

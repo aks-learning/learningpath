@@ -1,20 +1,20 @@
 ---
 sidebar_position: 2
-title: "Opcoes de CNI: Qual Escolher"
-description: "Pare de deliberar. Use Azure CNI Overlay com Cilium. Aqui esta o porque, e os raros casos em que voce deve desviar."
+title: "Opções de CNI: Qual Escolher"
+description: "Pare de deliberar. Use Azure CNI Overlay com Cilium. Aqui está o porque, e os raros casos em que você deve desviar."
 ---
 
-# Opcoes de CNI: Qual Escolher
+# Opções de CNI: qual escolher
 
-Azure CNI Overlay + Cilium. Essa e a recomendacao para 2025. Se voce esta comecando um cluster novo e nao tem restricoes legadas, pare de ler depois desta frase e va construir.
+Azure CNI Overlay + Cilium. Essa é a recomendação para 2025. Se você está começando um cluster novo e não tem restrições legadas, pare de ler depois desta frase e vá construir.
 
-Ainda aqui? Otimo -- vamos cobrir o porque e os casos extremos em que voce desvia.
+Ainda aqui? Ótimo -- vamos cobrir o porque e os casos extremos em que você desvia.
 
-## Arvore de Decisao
+## Árvore de decisão
 
 ![CNI Decision Tree](/img/cni-decision-tree.svg)
 
-## Comparacao Completa
+## Comparação completa
 
 | Recurso | Azure CNI | Azure CNI Overlay | Azure CNI + Cilium | Kubenet | BYO CNI |
 |---------|-----------|-------------------|-------------------|---------|---------|
@@ -22,18 +22,18 @@ Ainda aqui? Otimo -- vamos cobrir o porque e os casos extremos em que voce desvi
 | **Consumo de IP da VNet** | 1 IP por pod (pesado) | 1 IP por node apenas | 1 IP por node apenas | 1 IP por node | Varia |
 | **Max pods/node** | 250 | 250 | 250 | 110 | Varia |
 | **Engine de network policy** | Azure NPM, Calico | Azure NPM, Calico | Cilium (eBPF) | Somente Calico | BYO |
-| **Windows node pools** | Sim | Sim | Nao | Nao | Nao |
-| **Enderecamento direto de pod** | Sim | Nao (NAT) | Nao (NAT) | Nao (NAT) | Varia |
-| **eBPF dataplane** | Nao | Nao | Sim | Nao | Varia |
-| **Observabilidade Hubble** | Nao | Nao | Sim | Nao | Nao |
-| **Substituicao do kube-proxy** | Nao | Nao | Sim | Nao | Varia |
-| **Status** | GA, suportado | GA, recomendado | GA, recomendado | Depreciado | Sem suporte da MS |
+| **Windows node pools** | Sim | Sim | Não | Não | Não |
+| **Endereçamento direto de pod** | Sim | Não (NAT) | Não (NAT) | Não (NAT) | Varia |
+| **eBPF dataplane** | Não | Não | Sim | Não | Varia |
+| **Observabilidade Hubble** | Não | Não | Sim | Não | Não |
+| **Substituição do kube-proxy** | Não | Não | Sim | Não | Varia |
+| **Status** | GA, suportado | GA, recomendado | GA, recomendado | Depreciado | Sem suporte dá MS |
 
-## A Recomendacao
+## A recomendação
 
 :::tip
 
-Use Azure CNI Overlay com Cilium dataplane para todo cluster novo, a menos que voce tenha um motivo especifico e documentado para nao faze-lo.
+Use Azure CNI Overlay com Cilium dataplane para todo cluster novo, a menos que você tenha um motivo específico e documentado para não faze-lo.
 :::
 
 ```bash
@@ -51,22 +51,22 @@ az aks create \
   --tier standard
 ```
 
-Isso lhe da:
+Isso lhe dá:
 - Uso eficiente de IPs (apenas nodes consomem IPs da VNet)
-- Roteamento de Services via eBPF (mais rapido que iptables)
+- Roteamento de Services via eBPF (mais rápido que iptables)
 - Cilium Network Policies (L3/L4/L7, com reconhecimento de DNS)
 - Flow logs e observabilidade via Hubble
 - Sem overhead do kube-proxy
 
-## Quando Desviar
+## Quando desviar
 
 ### Use Azure CNI (sem overlay) quando:
 
-| Cenario | Motivo |
+| Cenário | Motivo |
 |---------|--------|
-| Pods devem ser diretamente enderecaveis a partir da VNet | Apps legadas conectam a IPs de pods, nao a Services |
-| Compliance exige ausencia de overlay/NAT | Ambientes regulados exigindo rastreabilidade completa de IP |
-| Integracao com servicos Azure via VNet | Servicos que nao conseguem rotear atraves de um Load Balancer |
+| Pods devem ser diretamente endereçáveis a partir da VNet | Apps legadas conectam a IPs de pods, não a Services |
+| Compliance exige ausência de overlay/NAT | Ambientes regulados exigindo rastreabilidade completa de IP |
+| Integração com serviços Azure via VNet | Serviços que não conseguem rotear através de um Load Balancer |
 
 ```bash
 # Azure CNI (non-overlay) -- IP heavy, plan your subnet
@@ -80,61 +80,61 @@ az aks create \
 
 :::warning
 
-Com Azure CNI (sem overlay), um cluster de 3 nodes rodando 50 pods cada consome 153 IPs da VNet (3 nodes + 150 pods). Uma subnet /24 (251 utilizaveis) mal comporta um node pool. Planeje uma /21 ou maior.
+Com Azure CNI (sem overlay), um cluster de 3 nodes rodando 50 pods cada consome 153 IPs da VNet (3 nodes + 150 pods). Uma subnet /24 (251 utilizáveis) mal comporta um node pool. Planeje uma /21 ou maior.
 :::
 
 ### Use Azure CNI (sem overlay) para containers Windows:
 
-Windows node pools nao suportam Cilium. Se voce precisa rodar containers Windows, use Azure CNI ou Azure CNI Overlay sem Cilium. Este e o unico cenario onde Azure NPM ou Calico fazem sentido.
+Windows node pools não suportam Cilium. Se você precisa rodar containers Windows, use Azure CNI ou Azure CNI Overlay sem Cilium. Este é o único cenário onde Azure NPM ou Calico fazem sentido.
 
-### BYO CNI -- Nao faca isso a menos que voce seja especialista em Cilium/Calico:
+### BYO CNI -- não faça isso a menos que você seja especialista em Cilium/Calico:
 
-O AKS suporta `--network-plugin none` para trazer seu proprio CNI. A Microsoft nao dara suporte a sua camada de rede. Voce e responsavel por debugging, upgrades e compatibilidade. O unico motivo valido: voce ja roda um CNI em toda a frota (ex.: Tigera Enterprise Calico) e precisa de paridade de funcionalidades entre clouds.
+O AKS suporta `--network-plugin none` para trazer seu próprio CNI. A Microsoft não dará suporte a sua camada de rede. Você é responsável por debugging, upgrades e compatibilidade. O único motivo válido: você já roda um CNI em toda a frota (ex.: Tigera Enterprise Calico) e precisa de paridade de funcionalidades entre clouds.
 
-## Kubenet: Tecnologia Morta Andando
+## Kubenet: tecnologia morta andando
 
-Kubenet esta depreciado. Nao inicie clusters novos com ele. Veja por que:
+Kubenet está depreciado. Não inicie clusters novos com ele. Veja por que:
 
-- Maximo 110 pods por node (limite rigido)
+- Máximo 110 pods por node (limite rígido)
 - Sem suporte a Cilium
 - Sem suporte a Windows
 - Overhead de gerenciamento de UDR (Azure cria rotas por node)
 - Limites de tabela de rotas em 400 nodes
 - Sem caminho para recursos modernos (ACNS, Hubble, eBPF)
 
-Se voce tem clusters Kubenet existentes, planeje a migracao para CNI Overlay. Isso requer uma reconstrucao do cluster -- nao existe caminho de upgrade in-place.
+Se você tem clusters Kubenet existentes, planeje a migração para CNI Overlay. Isso requer uma reconstrução do cluster -- não existe caminho de upgrade in-place.
 
-## Guia Rapido de Planejamento de IP
+## Guia rápido de planejamento de IP
 
-| Modo CNI | Formula de dimensionamento de subnet | Exemplo (100 nodes, 50 pods/node) |
+| Modo CNI | Fórmula de dimensionamento de subnet | Exemplo (100 nodes, 50 pods/node) |
 |----------|--------------------------------------|-----------------------------------|
-| Azure CNI | (nodes * max_pods) + nodes + overhead | 5.100+ IPs necessarios (/19 minimo) |
-| CNI Overlay | nodes + overhead | 130 IPs necessarios (/24 e suficiente) |
-| Kubenet | nodes + overhead | 130 IPs necessarios (/24 e suficiente) |
+| Azure CNI | (nodes * max_pods) + nodes + overhead | 5.100+ IPs necessários (/19 mínimo) |
+| CNI Overlay | nodes + overhead | 130 IPs necessários (/24 é suficiente) |
+| Kubenet | nodes + overhead | 130 IPs necessários (/24 é suficiente) |
 
-A eficiencia de IP por si so ja faz do CNI Overlay a escolha obvia para a maioria dos times.
+A eficiência de IP por si só já faz do CNI Overlay a escolha óbvia para a maioria dos times.
 
-## Caminho de Migracao
+## Caminho de migração
 
-Clusters existentes nao podem trocar de modo CNI in-place. O caminho de migracao e:
+Clusters existentes não podem trocar de modo CNI in-place. O caminho de migração é:
 
 1. Criar novo cluster com o CNI alvo (Overlay + Cilium)
 2. Implantar workloads no novo cluster
-3. Migrar trafego (DNS, Traffic Manager, Front Door)
+3. Migrar tráfego (DNS, Traffic Manager, Front Door)
 4. Descomissionar cluster antigo
 
 :::info
 
-Use deployments blue-green de cluster. Nao tente mudancas de CNI in-place -- elas nao sao suportadas e vao quebrar seu cluster.
+Use deployments blue-green de cluster. Não tente mudanças de CNI in-place -- elas não são suportadas e vão quebrar seu cluster.
 :::
 
-## Erros Comuns
+## Erros comuns
 
-1. **Escolher Azure CNI sem planejamento de IP** -- Ficar sem IPs as 2 da manha durante um evento de autoscale.
-2. **Selecionar Kubenet "porque e mais simples"** -- Voce esta escolhendo divida tecnica desde o primeiro dia.
-3. **Usar Azure NPM quando Cilium esta disponivel** -- Azure NPM esta em modo de manutencao. Cilium e o investimento.
-4. **Esquecer dual-stack** -- Se voce precisa de IPv6, apenas Azure CNI Overlay suporta de forma limpa.
-5. **Superdimensionar subnets para CNI Overlay** -- Voce so precisa de IPs para nodes, nao para pods. Nao desperdice uma faixa /16 da VNet.
+1. **Escolher Azure CNI sem planejamento de IP** -- Ficar sem IPs as 2 da manhã durante um evento de autoscale.
+2. **Selecionar Kubenet "porque é mais simples"** -- Você está escolhendo dívida técnica desde o primeiro dia.
+3. **Usar Azure NPM quando Cilium está disponível** -- Azure NPM está em modo de manutenção. Cilium é o investimento.
+4. **Esquecer dual-stack** -- Se você precisa de IPv6, apenas Azure CNI Overlay suporta de forma limpa.
+5. **Superdimensionar subnets para CNI Overlay** -- Você só precisa de IPs para nodes, não para pods. Não desperdice uma faixa /16 da VNet.
 
 ## Recursos
 
@@ -146,4 +146,4 @@ Use deployments blue-green de cluster. Nao tente mudancas de CNI in-place -- ela
 
 ---
 
-**Proximo**: [Ingress e Balanceamento de Carga](./ingress) -- como expor seus workloads.
+**Próximo**: [Ingress e Balanceamento de Carga](./ingress) -- como expor seus workloads.

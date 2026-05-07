@@ -4,11 +4,11 @@ title: "Workload Identity"
 description: "Configure Azure Workload Identity for pods to securely access Azure resources without secrets using OIDC federation."
 ---
 
-# Workload Identity
+# Workload identity
 
 Workload Identity is THE modern way for pods to access Azure resources. Every pod that talks to Azure MUST use Workload Identity. Zero exceptions. No more secrets in environment variables, no more connection strings stored in ConfigMaps, no more service principal credentials rotting in Key Vault.
 
-## What It Replaces (and Why)
+## What it replaces (and why)
 
 | Old Approach | Problem | Status |
 |---|---|---|
@@ -22,7 +22,7 @@ Workload Identity is THE modern way for pods to access Azure resources. Every po
 Pod Identity (aad-pod-identity) is deprecated and will not receive security patches. If you are still using it, migrate to Workload Identity now. Not next sprint. Now.
 :::
 
-## How It Works
+## How it works
 
 The chain is simple and elegant:
 
@@ -33,9 +33,9 @@ The chain is simple and elegant:
 
 No secrets are stored anywhere. The trust is based on cryptographic federation.
 
-## Step-by-Step Setup
+## Step-by-step setup
 
-### 1. Enable on the Cluster
+### 1. Enable on the cluster
 
 ```bash
 az aks update \
@@ -45,7 +45,7 @@ az aks update \
   --enable-workload-identity
 ```
 
-### 2. Create a Managed Identity
+### 2. Create a managed identity
 
 ```bash
 az identity create \
@@ -57,7 +57,7 @@ az identity create \
 export MI_CLIENT_ID=$(az identity show --resource-group myRG --name wi-myapp-identity --query clientId -o tsv)
 ```
 
-### 3. Create the Federated Credential
+### 3. Create the federated credential
 
 ```bash
 export AKS_OIDC_ISSUER=$(az aks show --resource-group myRG --name myCluster --query "oidcIssuerProfile.issuerUrl" -o tsv)
@@ -76,7 +76,7 @@ az identity federated-credential create \
 The `--subject` must exactly match the format `system:serviceaccount:<namespace>:<service-account-name>`. A single typo here means silent authentication failures with no useful error message. Triple-check it.
 :::
 
-### 4. Create the Kubernetes Service Account
+### 4. Create the Kubernetes service account
 
 ```yaml
 apiVersion: v1
@@ -90,7 +90,7 @@ metadata:
     azure.workload.identity/use: "true"
 ```
 
-### 5. Deploy Your Pod
+### 5. Deploy your pod
 
 ```yaml
 apiVersion: apps/v1
@@ -111,7 +111,7 @@ spec:
         # No secrets needed -- Azure Identity SDK handles token acquisition
 ```
 
-### 6. Grant Azure Permissions
+### 6. Grant Azure permissions
 
 ```bash
 az role assignment create \
@@ -120,7 +120,7 @@ az role assignment create \
   --scope "/subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.Storage/storageAccounts/<account>"
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **Forgetting the label on the pod template** -- The `azure.workload.identity/use: "true"` label must be on the pod spec (not just the ServiceAccount). Without it, the mutating webhook does not inject the token volume.
 2. **Namespace mismatch in federated credential** -- The subject in the federated credential must match the namespace where the ServiceAccount actually lives. Moving your app to a different namespace breaks auth silently.
@@ -128,7 +128,7 @@ az role assignment create \
 4. **One identity for all pods** -- Create separate managed identities per workload. Sharing one identity across multiple apps violates least privilege.
 5. **Not testing locally** -- Use `azd auth login` or `az login` locally. The Azure Identity SDK falls back to CLI credentials in dev, so your code works both locally and in-cluster without changes.
 
-## Decision: One Identity Per Workload
+## Decision: one identity per workload
 
 Do not share managed identities across workloads. Each application that accesses Azure resources should have its own managed identity with exactly the permissions it needs. The overhead of creating additional identities is negligible compared to the blast radius of a shared over-privileged identity.
 

@@ -8,7 +8,7 @@ description: "Kubernetes-native pooled storage with replication, ephemeral NVMe,
 
 Use Azure Container Storage for stateful workloads that need pooled storage, volume replication, or ephemeral high-performance local volumes. For simple single-disk PVCs, stick with the regular CSI drivers.
 
-## What It Is
+## What it is
 
 Azure Container Storage is a Kubernetes-native storage management layer. Instead of one PVC mapping to one Azure Disk, it creates storage pools that can be carved into volumes with advanced features: replication across nodes, thin provisioning, snapshots, and ephemeral local NVMe volumes.
 
@@ -17,7 +17,7 @@ Azure Container Storage is a Kubernetes-native storage management layer. Instead
 Think of it as a software-defined storage layer on top of Azure's infrastructure. It sits between your PVCs and the underlying storage backend (Azure Disks, Ephemeral NVMe, or Elastic SAN).
 :::
 
-## Storage Backends
+## Storage backends
 
 | Backend | Persistence | Performance | Use Case |
 |---------|-------------|-------------|----------|
@@ -30,7 +30,7 @@ Think of it as a software-defined storage layer on top of Azure's infrastructure
 Use Azure Container Storage for two scenarios: (1) ephemeral local NVMe volumes for caches and temp data that need raw speed, or (2) pooled persistent storage where you need replication across availability zones. For everything else, the standard CSI drivers are simpler.
 :::
 
-## Ephemeral Disks (Local NVMe)
+## Ephemeral disks (local NVMe)
 
 Local NVMe disks on the node. Incredibly fast. No network hop. No persistence guarantees.
 
@@ -65,7 +65,7 @@ spec:
 Ephemeral NVMe data is gone when the node restarts, gets reimaged, or your pod moves to another node. Only use for data you can reconstruct. Never for databases.
 :::
 
-## Persistent Pools (Azure Disks Backend)
+## Persistent pools (Azure Disks backend)
 
 ```yaml
 apiVersion: containerstorage.azure.com/v1
@@ -84,7 +84,7 @@ spec:
 
 Volumes carved from this pool get replication and thin provisioning automatically. The pool pre-provisions capacity so new PVCs bind instantly instead of waiting for disk creation.
 
-## When to Use Container Storage vs CSI Drivers
+## When to use Container Storage vs CSI drivers
 
 | Requirement | Use Container Storage | Use CSI Drivers |
 |-------------|----------------------|-----------------|
@@ -117,7 +117,7 @@ az aks update \
 Azure Container Storage requires specific VM SKUs that have local NVMe disks (for ephemeral) or sufficient capacity. L-series and Lsv2-series VMs have local NVMe. Standard D/E-series work with the Azure Disks backend.
 :::
 
-## Common Mistakes
+## Common mistakes
 
 1. **Using ephemeral NVMe for persistent data** -- Your data will be lost. This is by design.
 2. **Enabling Container Storage when you just need a simple PVC** -- Adds operational complexity for no benefit.

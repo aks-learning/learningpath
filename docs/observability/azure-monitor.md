@@ -8,7 +8,7 @@ description: "Enable Container Insights on every AKS cluster. Collect logs, metr
 
 Enable Container Insights on every cluster. There is no excuse for flying blind. The cost is minimal compared to debugging a production outage with zero telemetry. This is the foundation of AKS observability.
 
-## What Container Insights Gives You
+## What Container Insights gives you
 
 Container Insights is the Azure Monitor agent running as a DaemonSet in your cluster. It collects:
 
@@ -45,7 +45,7 @@ az aks enable-addons \
 Pick a Log Analytics workspace in the same region as your cluster. Cross-region ingestion adds latency and egress cost.
 :::
 
-## Log Tiers: This Is Where People Waste Money
+## Log tiers: this is where people waste money
 
 Log Analytics has two tiers. Use them deliberately.
 
@@ -69,7 +69,7 @@ az monitor log-analytics workspace table update \
   --plan Basic
 ```
 
-## Syslog Collection
+## Syslog collection
 
 Enable syslog collection via Data Collection Rules (DCR). This captures Linux system logs from your nodes -- essential for diagnosing kubelet, containerd, and kernel-level issues.
 
@@ -81,7 +81,7 @@ az aks update \
   --data-collection-settings dcr-settings.json
 ```
 
-## KQL Queries You Will Actually Use
+## KQL queries you will actually use
 
 These queries cover 90% of real-world troubleshooting:
 
@@ -109,7 +109,7 @@ InsightsMetrics
 | where AvgMemGB > 12  // adjust threshold to your node size
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **Not enabling Container Insights at all** -- you cannot retroactively get logs from before you enabled it.
 2. **Using Analytics tier for everything** -- a busy cluster can generate 50+ GB/day of container logs. At Analytics pricing, that is $130+/day.
@@ -121,7 +121,7 @@ InsightsMetrics
 Container Insights v2 uses ContainerLogV2 table with structured JSON parsing. If you are still on the legacy ContainerLog table, migrate. The v2 schema is cheaper to query and easier to filter.
 :::
 
-## Decision: When to Use Container Insights vs Prometheus
+## Decision: when to use Container Insights vs Prometheus
 
 | Scenario | Use Container Insights | Use Prometheus |
 |----------|----------------------|----------------|

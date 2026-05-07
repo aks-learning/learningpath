@@ -4,11 +4,11 @@ title: "KAITO: AI Model Inference"
 description: "Faça deploy de LLMs no AKS com um único custom resource usando o Kubernetes AI Toolchain Operator"
 ---
 
-# KAITO: AI Model Inference
+# KAITO: AI model inference
 
 KAITO é o caminho mais rápido da seleção do modelo até o serving no AKS. Use-o a menos que você precise de frameworks de inference customizados ou otimização máxima de throughput.
 
-## O que o KAITO Faz
+## O que o KAITO faz
 
 KAITO (Kubernetes AI Toolchain Operator) faz deploy de large language models no AKS com um único custom resource. Ele cuida das partes difíceis: provisionamento de nodes GPU, download do modelo, configuração do serving e gerenciamento de saúde.
 
@@ -19,7 +19,7 @@ KAITO (Kubernetes AI Toolchain Operator) faz deploy de large language models no 
 KAITO cuida das partes difíceis: provisionamento de nodes GPU, download do modelo, configuração do serving. Não reinvente isso. Se você está fazendo deploy de um modelo suportado, KAITO economiza semanas de trabalho de infraestrutura.
 :::
 
-## Modelos Suportados
+## Modelos suportados
 
 | Família do Modelo | Exemplos | Requisito de GPU |
 |-------------|----------|-----------------|
@@ -28,7 +28,7 @@ KAITO cuida das partes difíceis: provisionamento de nodes GPU, download do mode
 | Falcon | Falcon-7b, Falcon-40b | 1-4 GPUs |
 | Phi | Phi-2, Phi-3-mini | 1 GPU |
 
-## Fazendo Deploy de um Modelo
+## Fazendo deploy de um modelo
 
 ```yaml
 apiVersion: kaito.sh/v1alpha1
@@ -68,7 +68,7 @@ az aks update \
 kubectl get pods -n kube-system -l app=ai-toolchain-operator
 ```
 
-## Acessando o Modelo
+## Acessando o modelo
 
 ```bash
 # Get the service endpoint
@@ -80,7 +80,7 @@ curl -X POST http://<SERVICE_IP>/chat \
   -d '{"prompt": "What is Kubernetes?", "max_tokens": 200}'
 ```
 
-## Como o KAITO se Compara
+## Como o KAITO se compara
 
 | Funcionalidade | KAITO | Deploy Manual |
 |---------|-------|-------------------|
@@ -101,7 +101,7 @@ curl -X POST http://<SERVICE_IP>/chat \
 Nesses casos, faça deploy do vLLM ou TGI diretamente. Veja [Inference Serving](./inference-serving).
 :::
 
-## Gerenciamento de Workspace
+## Gerenciamento de workspace
 
 ```bash
 # Check workspace status
@@ -114,9 +114,9 @@ kubectl logs -l apps=llama2-7b --tail=50
 kubectl delete workspace llama2-7b
 ```
 
-## Erros Comuns
+## Erros comuns
 
-1. **Não verificar a cota de GPU** -- KAITO provisiona nodes GPU. Se sua assinatura não tem cota, ele falha silenciosamente.
+1. **Não verificar a cota de GPU**-- KAITO provisiona nodes GPU. Se sua assinatura não tem cota, ele falha silenciosamente.
 2. **Fazer deploy de modelos 70B em 1 GPU** -- Modelos grandes precisam de múltiplas GPUs. Verifique os requisitos do modelo.
 3. **Deixar workspaces rodando** -- Nodes GPU são caros. Exclua workspaces quando não estiverem em uso.
 4. **Esperar throughput de produção com configurações padrão** -- KAITO otimiza para simplicidade, não para máximo de tokens/segundo.

@@ -4,7 +4,7 @@ title: "GPU Node Pools"
 description: "Provisionamento e gerenciamento de nodes GPU no AKS para cargas de trabalho de ML/IA"
 ---
 
-# GPU Node Pools
+# GPU node pools
 
 GPUs são caras. Configure-as corretamente, escale para zero quando ociosas e use instâncias spot para jobs de treinamento que suportam checkpoint.
 
@@ -22,7 +22,7 @@ GPUs são caras. Configure-as corretamente, escale para zero quando ociosas e us
 Use `Standard_NC24ads_A100_v4` para a maioria das cargas de trabalho ML/IA. Ela dá conta de inference, fine-tuning e treinamento moderado. Só migre para ND H100 para treinamento distribuído em larga escala. Use NC T4 para dev/test e inference leve onde custo importa mais que throughput.
 :::
 
-## Criando um GPU Node Pool
+## Criando um GPU node pool
 
 ```bash
 # Add GPU node pool with autoscaling (scales to 0 when idle)
@@ -45,11 +45,11 @@ az aks nodepool add \
 Sempre aplique taint nos nodes GPU com `NoSchedule`. Sem taints, o scheduler vai colocar workloads regulares nos seus nodes GPU caros. O taint garante que apenas pods com tolerations correspondentes sejam alocados ali.
 :::
 
-## NVIDIA Device Plugin
+## NVIDIA device plugin
 
 O AKS instala automaticamente o NVIDIA device plugin nos nodes GPU. Você não precisa instalá-lo manualmente. Ele expõe `nvidia.com/gpu` como um recurso agendável.
 
-## Solicitando GPU na Spec do Pod
+## Solicitando GPU na spec do pod
 
 ```yaml
 apiVersion: v1
@@ -108,7 +108,7 @@ az aks nodepool add \
 | Inference serving em tempo real | Não | Eviction causa indisponibilidade para o usuário |
 | Fine-tuning (horas de duração) | Sim, com checkpoints | Economiza significativamente em jobs longos |
 
-## Gestão de Custos
+## Gestão de custos
 
 GPUs são 5-10x mais caras que computação geral. Gerencie custos agressivamente:
 
@@ -122,9 +122,9 @@ GPUs são 5-10x mais caras que computação geral. Gerencie custos agressivament
 kubectl top pods -l workload=gpu --containers
 ```
 
-## Erros Comuns
+## Erros comuns
 
-1. **Não aplicar taint nos nodes GPU** -- Pods regulares ocupam nodes GPU caros.
+1. **Não aplicar taint nos nodes GPU**-- Pods regulares ocupam nodes GPU caros.
 2. **Configurar min-count > 0 para cargas intermitentes** -- Pagando por GPUs ociosas 24/7.
 3. **Usar spot para inference em produção** -- Usuários recebem erros quando nodes são despejados.
 4. **Esquecer das zonas de disponibilidade** -- SKUs de GPU têm disponibilidade limitada por zona. Verifique antes.

@@ -4,11 +4,11 @@ title: "Backup e Disaster Recovery"
 description: "Guia opinativo sobre estratégias de backup do AKS, padrões de disaster recovery e quando usar o quê."
 ---
 
-# Backup e Disaster Recovery
+# Backup e disaster recovery
 
 Trate o Kubernetes como gado, não como animal de estimação. Seu repositório Git É seu backup primário para manifests. O AKS Backup existe para o que o Git não consegue capturar: dados de persistent volumes e estado de runtime do cluster.
 
-## A Pergunta Fundamental
+## A pergunta fundamental
 
 Antes de desenhar sua estratégia de DR, responda isto: seu workload é stateless ou stateful?
 
@@ -23,17 +23,17 @@ Antes de desenhar sua estratégia de DR, responda isto: seu workload é stateles
 Para aplicações stateless, seu repositório Git mais seu pipeline de CI/CD É seu plano de disaster recovery. Você não precisa do AKS Backup para recuperar um manifest de deployment. Você precisa dele para recuperar os dados de um PersistentVolume.
 :::
 
-## AKS Backup
+## AKS backup
 
-AKS Backup é a solução de backup nativa do Azure usando Backup Vault e Trusted Access. É gerenciada, integrada e não exige que você rode nenhum agente dentro do seu cluster.
+AKS Backup é a solução de backup nativado Azure usando Backup Vault e Trusted Access. É gerenciada, integrada e não exige que você rode nenhum agente dentro do seu cluster.
 
-### O que é Incluído no Backup
+### O que é incluído no backup
 
 - **Recursos Kubernetes**: Deployments, Services, ConfigMaps, Secrets, CRDs
 - **Persistent Volumes**: Snapshots CSI de disco (Azure Disk, Azure Files)
 - **Recursos de escopo de cluster**: Namespaces, ClusterRoles, StorageClasses
 
-### Habilitando o AKS Backup
+### Habilitando o AKS backup
 
 ```bash
 # Install the backup extension
@@ -64,7 +64,7 @@ az dataprotection backup-policy create \
 O custo é negligível comparado a perder o estado do seu workload. Uma única perda irrecuperável de PV vai custar mais em resposta a incidentes do que um ano de armazenamento de backup.
 :::
 
-## Restore Cross-Region
+## Restore cross-region
 
 Use um backup vault geo-redundante para habilitar restore cross-region. Quando sua região primária cair, você pode restaurar workloads em um cluster na região pareada.
 
@@ -73,7 +73,7 @@ Requisitos:
 - O cluster de destino deve existir na região secundária
 - Políticas de rede e ingress devem estar pré-configuradas no cluster de DR
 
-## AKS Backup vs Velero
+## AKS backup vs Velero
 
 | Critério | AKS Backup | Velero |
 |----------|-----------|--------|
@@ -89,9 +89,9 @@ Requisitos:
 AKS Backup é integrado, gerenciado e não exige que você mantenha um backend compatível com S3 ou se preocupe com compatibilidade de versão do Velero. Se você já tem Velero rodando e funciona, mantenha. Para novos clusters, escolha AKS Backup.
 :::
 
-## Padrões de Disaster Recovery
+## Padrões de disaster recovery
 
-### Active-Passive (Recomendado para a maioria das equipes)
+### Active-passive (recomendado para a maioria das equipes)
 
 Dois clusters em regiões diferentes. O primário lida com todo o tráfego. O secundário está quente (rodando, mas sem tráfego). Failover via Azure Traffic Manager ou troca de DNS do Front Door.
 
@@ -99,7 +99,7 @@ Dois clusters em regiões diferentes. O primário lida com todo o tráfego. O se
 - **RPO**: Depende da frequência de backup (horário = até 1 hora de perda de dados)
 - **Custo**: ~1.5x de um único cluster (secundário roda node pools menores)
 
-### Active-Active (Apenas para missão crítica)
+### Active-active (apenas para missão crítica)
 
 Dois clusters servindo tráfego simultaneamente via Azure Front Door ou Traffic Manager. Não precisa de failover porque ambos estão sempre ativos.
 
@@ -108,7 +108,7 @@ Dois clusters servindo tráfego simultaneamente via Azure Front Door ou Traffic 
 - **Custo**: 2x de um único cluster
 - **Complexidade**: Alta. Requer apps stateless ou camada de dados distribuída.
 
-### Recuperação Baseada em GitOps
+### Recuperação baseada em GitOps
 
 Para workloads totalmente stateless: delete o cluster com problema, crie um novo, aponte o Flux/ArgoCD para seu repositório Git e deixe-o reconciliar. Sem necessidade de backup.
 
@@ -118,7 +118,7 @@ az aks create --resource-group dr-rg --name recovery-cluster ...
 flux bootstrap github --owner=myorg --repository=k8s-manifests --path=clusters/prod
 ```
 
-## Decisões de Escopo de Backup
+## Decisões de escopo de backup
 
 Nem tudo precisa ser incluído no backup. Seja deliberado sobre o que você protege.
 
@@ -136,7 +136,7 @@ Nem tudo precisa ser incluído no backup. Seja deliberado sobre o que você prot
 A regra é simples: se existe apenas dentro do cluster e em nenhum outro lugar, faça backup. Se pode ser reconstruído a partir do Git, CI/CD ou um sistema externo, não desperdice storage de backup com isso.
 :::
 
-## Testando Seu Plano de DR
+## Testando seu plano de DR
 
 Um backup que você nunca restaurou não é um backup. Agende exercícios trimestrais de DR.
 
@@ -155,9 +155,9 @@ Valide após o restore:
 3. Services estão acessíveis e respondendo
 4. CRDs e custom resources estão intactos
 
-## Erros Comuns
+## Erros comuns
 
-1. **Fazer backup apenas de manifests** -- Seus manifests já estão no Git. Faça backup do que o Git não armazena: dados de PV.
+1. **Fazer backup apenas de manifests**-- Seus manifests já estão no Git. Faça backup do que o Git não armazena: dados de PV.
 2. **Nunca testar o restore** -- Um backup que você nunca restaurou não é um backup. Teste trimestralmente.
 3. **Vault LocallyRedundant para produção** -- Se a região falhar, seus backups falham junto.
 4. **Sem runbook de DR** -- Quando o incidente acontece às 3 da manhã, você precisa de instruções passo a passo, não de uma página wiki.

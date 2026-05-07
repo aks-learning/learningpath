@@ -10,7 +10,7 @@ Azure Kubernetes Service (AKS) is Microsoft's managed Kubernetes platform. It ru
 
 **AKS is the best managed Kubernetes option in Azure. Period.** Do not look at self-managed K8s on VMs. Do not consider third-party K8s distributions on Azure. AKS gives you the full Kubernetes API with Azure-native integrations that no other option can match.
 
-## Architecture: What Microsoft Manages vs. What You Own
+## Architecture: what Microsoft manages vs. what you own
 
 ![AKS Architecture](/img/aks-architecture.svg)
 
@@ -30,7 +30,7 @@ The split is clean:
 You pay zero for the control plane. Your cost is only the worker node VMs, storage, and networking in your subscription. This makes AKS the cheapest entry point for production Kubernetes on any cloud.
 :::
 
-## Why AKS Over Other Managed Kubernetes
+## Why AKS over other managed Kubernetes
 
 | Differentiator | Why It Matters |
 |----------------|---------------|
@@ -42,7 +42,7 @@ You pay zero for the control plane. Your cost is only the worker node VMs, stora
 | **KEDA built-in** | Event-driven autoscaling without installing and maintaining the KEDA operator yourself. |
 | **AI/ML ready** | GPU node pools, KAITO for model inference, AI Toolchain Operator for training pipelines. |
 
-## Pricing Tiers: Pick the Right One
+## Pricing tiers: pick the right one
 
 :::warning Do not run production on the Free tier
 
@@ -57,7 +57,7 @@ The Free tier has no SLA, no uptime guarantee, and limited API server resources.
 
 The tier cost is ONLY for the control plane capabilities. You still pay for your node VMs separately.
 
-## Critical: Node OS Migration Required
+## Critical: node OS migration required
 
 :::warning Azure Linux 2.0 deprecation -- November 2025
 
@@ -80,7 +80,7 @@ az aks nodepool update --resource-group myRG --cluster-name myCluster \
   --name mynodepool --os-sku AzureLinux
 ```
 
-## What AKS Gives You Out of the Box
+## What AKS gives you out of the box
 
 Every AKS cluster, regardless of SKU, comes with:
 
@@ -97,7 +97,7 @@ What you opt into (and should):
 - **Azure Key Vault CSI driver** -- mount secrets from Key Vault directly into Pods.
 - **App Routing (managed NGINX)** -- use it instead of installing your own ingress controller.
 
-## Common Mistakes to Avoid
+## Common mistakes to avoid
 
 | Mistake | Why It Hurts | What to Do Instead |
 |---------|-------------|-------------------|
@@ -108,7 +108,7 @@ What you opt into (and should):
 | Oversizing node pools from day one | Wasting money on idle compute | Start small, enable cluster autoscaler with sensible min/max |
 | Ignoring resource requests/limits | Noisy neighbor problems, OOMKills, scheduling failures | Always set requests. Set limits for memory. |
 
-## Your First Cluster in 60 Seconds
+## Your first cluster in 60 seconds
 
 ```bash
 # Create a resource group
@@ -142,7 +142,7 @@ kubectl get nodes
 - [Workload Identity on AKS](https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview)
 - [AKS Networking Best Practices](https://learn.microsoft.com/en-us/azure/aks/concepts-network)
 
-## Hands-on Lab
+## Hands-on lab
 
 :::tip Get hands-on
 

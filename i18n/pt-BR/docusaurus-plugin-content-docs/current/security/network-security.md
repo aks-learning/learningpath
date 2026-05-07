@@ -1,36 +1,36 @@
 ---
 sidebar_position: 3
-title: "Seguranca de Rede"
-description: "Seguranca de rede em profundidade para AKS com network policies, bloqueio de egress e observabilidade baseada em Cilium."
+title: "Segurança de Rede"
+description: "Segurança de rede em profundidade para AKS com network policies, bloqueio de egress e observabilidade baseada em Cilium."
 ---
 
-# Seguranca de Rede
+# Segurança de rede
 
-Network policies sao obrigatorias em producao. Se o seu cluster permite comunicacao irrestrita entre pods e egress aberto para a internet, voce tem zero seguranca de rede e uma violacao esperando para acontecer. Negue todo o trafego por padrao, depois permita explicitamente.
+Network policies são obrigatórias em produção. Se o seu cluster permite comunicação irrestrita entre pods e egress aberto para a internet, você tem zero segurança de rede e uma violação esperando para acontecer. Negue todo o tráfego por padrão, depois permita explicitamente.
 
-## As Camadas
+## As camadas
 
-Seguranca de rede no AKS nao e uma coisa so -- sao tres camadas distintas que devem ser todas configuradas:
+Segurança de rede no AKS não é uma coisa só -- são três camadas distintas que devem ser todas configuradas:
 
 | Camada | Ferramenta | Controles |
 |--------|------------|-----------|
-| Nivel de subnet/NIC | NSGs (Network Security Groups) | Ingress/egress amplo na camada de rede do Azure |
-| Trafego de pod no cluster | Network Policies | Comunicacao pod-a-pod e pod-a-service |
-| Egress do cluster para internet | Azure Firewall / NAT Gateway | Filtragem de FQDN, prevencao de exfiltracao de dados |
+| Nível de subnet/NIC | NSGs (Network Security Groups) | Ingress/egress amplo na camada de rede do Azure |
+| Tráfego de pod no cluster | Network Policies | Comunicação pod-a-pod e pod-a-service |
+| Egress do cluster para internet | Azure Firewall / NAT Gateway | Filtragem de FQDN, prevenção de exfiltração de dados |
 
-As tres camadas sao obrigatorias. NSGs sozinhos nao enxergam trafego pod-a-pod dentro da mesma subnet. Network policies sozinhas nao controlam egress para servicos externos.
+As três camadas são obrigatórias. NSGs sozinhos não enxergam tráfego pod-a-pod dentro da mesma subnet. Network policies sozinhas não controlam egress para serviços externos.
 
-## Engine de Network Policy: A Decisao
+## Engine de network policy: a decisão
 
-| Engine | Politicas L3/L4 | Politicas L7 | Observabilidade | Performance | Veredito |
+| Engine | Políticas L3/L4 | Políticas L7 | Observabilidade | Performance | Veredito |
 |--------|----------------|-------------|-----------------|-------------|----------|
-| Azure NPM | Sim | Nao | Nenhuma | Moderada | Legado. Evite para novos clusters. |
-| Calico | Sim | Limitada | Basica | Boa | Aceitavel se ja investiu |
+| Azure NPM | Sim | Não | Nenhuma | Moderada | Legado. Evite para novos clusters. |
+| Calico | Sim | Limitada | Básica | Boa | Aceitável se já investiu |
 | Cilium | Sim | Sim (HTTP, gRPC, DNS) | Hubble (excelente) | Melhor (eBPF) | Use este. |
 
 :::tip
 
-Use Cilium. E a unica engine que oferece politicas L7 (filtrar por path HTTP, metodo gRPC, nome DNS) combinada com observabilidade baseada em eBPF atraves do Hubble. Voce consegue ver cada fluxo de rede no seu cluster em tempo real. O Azure agora suporta Cilium nativamente via Azure CNI Powered by Cilium.
+Use Cilium. É a única engine que oferece políticas L7 (filtrar por path HTTP, método gRPC, nome DNS) combinada com observabilidade baseada em eBPF através do Hubble. Você consegue ver cada fluxo de rede no seu cluster em tempo real. O Azure agora suporta Cilium nativamente via Azure CNI Powered by Cilium.
 :::
 
 ```bash
@@ -43,7 +43,7 @@ az aks create \
   --network-policy cilium
 ```
 
-## Default Deny: Comece Aqui
+## Default deny: comece aqui
 
 Aplique isso a cada namespace antes de fazer deploy de qualquer workload:
 
@@ -60,9 +60,9 @@ spec:
   - Egress
 ```
 
-Isso bloqueia todo o trafego de entrada e saida de cada pod no namespace. Depois adicione politicas de permissao explicitas para cada caminho de comunicacao legitimo.
+Isso bloqueia todo o tráfego de entrada e saída de cada pod no namespace. Depois adicione políticas de permissão explícitas para cada caminho de comunicação legítimo.
 
-## Permita Apenas o Necessario
+## Permita apenas o necessário
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -116,20 +116,20 @@ spec:
 
 :::info
 
-Sempre inclua uma regra de egress para DNS. Sem ela, os pods nao conseguem resolver nomes de servico e falharao de formas confusas que parecem bugs da aplicacao, nao problemas de network policy.
+Sempre inclua uma regra de egress para DNS. Sem ela, os pods não conseguem resolver nomes de serviço e falharão de formas confusas que parecem bugs da aplicação, não problemas de network policy.
 :::
 
-## Bloqueio de Egress
+## Bloqueio de egress
 
 Deixar egress aberto (`0.0.0.0/0` para a internet) significa que qualquer pod comprometido pode exfiltrar dados para qualquer endpoint externo. Bloqueie.
 
 | Abordagem | Quando Usar | Custo |
 |-----------|-------------|-------|
-| Azure Firewall com regras de FQDN | Enterprise, requisitos de compliance, logging completo | Alto (~$900/mes minimo) |
-| NAT Gateway + NSG | Sensivel a custo, controle basico de egress | Baixo (~$45/mes) |
-| Politicas de FQDN do Cilium | Filtragem baseada em DNS no cluster, sem infra adicional | Gratuito (mas menos visibilidade na camada do Azure) |
+| Azure Firewall com regras de FQDN | Enterprise, requisitos de compliance, logging completo | Alto (~$900/mês mínimo) |
+| NAT Gateway + NSG | Sensível a custo, controle básico de egress | Baixo (~$45/mês) |
+| Políticas de FQDN do Cilium | Filtragem baseada em DNS no cluster, sem infra adicional | Gratuito (mas menos visibilidade na camada do Azure) |
 
-Para clusters de producao que lidam com dados sensiveis, use Azure Firewall com regras de aplicacao que permitem apenas FQDNs especificos:
+Para clusters de produção que lidam com dados sensíveis, use Azure Firewall com regras de aplicação que permitem apenas FQDNs específicos:
 
 ```bash
 # Allow only required egress destinations
@@ -144,13 +144,13 @@ az network firewall application-rule create \
   --target-fqdns "mcr.microsoft.com" "*.data.mcr.microsoft.com" "management.azure.com" "login.microsoftonline.com"
 ```
 
-## Erros Comuns
+## Erros comuns
 
-1. **Nenhuma network policy** -- O padrao no Kubernetes e permitir tudo. Sem politicas explicitas, todo pod pode se comunicar com qualquer outro pod. Isso e inaceitavel em producao.
-2. **Egress aberto** -- Pods nao devem alcancar a internet publica a menos que explicitamente necessario. Um container comprometido com egress aberto pode baixar ferramentas, exfiltrar dados ou entrar em um botnet.
-3. **Esquecer DNS nas politicas de egress** -- Default-deny de egress bloqueia DNS tambem. Seus pods falharao ao resolver qualquer nome de servico. Sempre permita UDP/53 para o kube-dns.
-4. **Aplicar politicas sem testar** -- Use modo `enforce` somente apos validar com `audit` ou dry-run. Uma network policy ruim pode derrubar toda a sua aplicacao instantaneamente.
-5. **NSGs como unico controle** -- NSGs nao enxergam trafego pod-a-pod dentro da mesma subnet (mesmo CIDR de origem/destino). Sao necessarios, mas nao suficientes.
+1. **Nenhuma network policy** -- O padrão no Kubernetes é permitir tudo. Sem políticas explícitas, todo pod pode se comunicar com qualquer outro pod. Isso é inaceitável em produção.
+2. **Egress aberto** -- Pods não devem alcançar a internet pública a menos que explicitamente necessário. Um container comprometido com egress aberto pode baixar ferramentas, exfiltrar dados ou entrar em um botnet.
+3. **Esquecer DNS nas políticas de egress** -- Default-deny de egress bloqueia DNS também. Seus pods falharão ao resolver qualquer nome de serviço. Sempre permita UDP/53 para o kube-dns.
+4. **Aplicar políticas sem testar** -- Use modo `enforce` somente após validar com `audit` ou dry-run. Uma network policy ruim pode derrubar toda a sua aplicação instantaneamente.
+5. **NSGs como único controle** -- NSGs não enxergam tráfego pod-a-pod dentro da mesma subnet (mesmo CIDR de origem/destino). São necessários, mas não suficientes.
 
 ## Recursos
 

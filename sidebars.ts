@@ -4,7 +4,7 @@ const sidebars: SidebarsConfig = {
   learningPath: [
     {
       type: 'category',
-      label: 'Getting Started',
+      label: 'Getting started',
       link: { type: 'generated-index', slug: 'getting-started' },
       items: [
         'getting-started/what-is-kubernetes',
@@ -14,7 +14,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Cluster Setup',
+      label: 'Cluster setup',
       link: { type: 'generated-index', slug: 'cluster-setup' },
       items: [
         'cluster-setup/tooling',
@@ -57,7 +57,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Scaling & Performance',
+      label: 'Scaling & performance',
       link: { type: 'generated-index', slug: 'scaling' },
       items: [
         'scaling/hpa',
@@ -88,7 +88,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'AI/ML Workloads',
+      label: 'AI/ML workloads',
       link: { type: 'generated-index', slug: 'ai-workloads' },
       items: [
         'ai-workloads/gpu-node-pools',
@@ -98,7 +98,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Operations & Enterprise',
+      label: 'Operations & enterprise',
       link: { type: 'generated-index', slug: 'operations' },
       items: [
         'operations/upgrades-maintenance',
@@ -109,7 +109,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Best Practices',
+      label: 'Best practices',
       link: { type: 'generated-index', slug: 'best-practices' },
       items: [
         'best-practices/architecture',

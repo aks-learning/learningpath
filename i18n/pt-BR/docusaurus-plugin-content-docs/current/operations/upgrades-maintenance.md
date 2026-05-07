@@ -4,11 +4,11 @@ title: "Upgrades e Manutenção"
 description: "Guia opinativo sobre upgrades de clusters AKS, canais de auto-upgrade, janelas de manutenção e configurações de node surge."
 ---
 
-# Upgrades e Manutenção
+# Upgrades e manutenção
 
 O Kubernetes evolui rápido. O AKS descontinua o suporte para versões minor aproximadamente a cada 3 meses. Se você não está fazendo upgrade continuamente, está acumulando dívida técnica que vai te atingir de uma vez.
 
-## Canais de Auto-Upgrade
+## Canais de auto-upgrade
 
 O AKS oferece cinco canais de auto-upgrade. Escolha um e mantenha-o.
 
@@ -33,7 +33,7 @@ az aks update \
   --auto-upgrade-channel stable
 ```
 
-## Janelas de Manutenção
+## Janelas de manutenção
 
 Agende upgrades durante horários de baixo tráfego. Não deixe o Azure escolher uma terça-feira qualquer à tarde.
 
@@ -50,7 +50,7 @@ az aks maintenanceconfiguration add \
 
 As janelas de manutenção se aplicam tanto ao control plane quanto aos upgrades de node pool. Defina um `aksManagedNodeOSUpgradeSchedule` separado para atualizações de imagem de node se quiser horários diferentes.
 
-## Upgrades de Imagem de Node
+## Upgrades de imagem de node
 
 Upgrades de imagem de node são separados dos upgrades de versão do Kubernetes. Eles aplicam patches no SO, containerd e kubelet sem alterar sua versão do K8s.
 
@@ -66,7 +66,7 @@ az aks update \
   --node-os-upgrade-channel NodeImage
 ```
 
-## Surge Upgrades
+## Surge upgrades
 
 A configuração `max-surge` controla quantos nodes extras o AKS provisiona durante um upgrade. Mais node surge = upgrades mais rápidos, mas custo transitório maior.
 
@@ -110,7 +110,7 @@ spec:
 Não ter PDBs e depois se perguntar por que upgrades causam downtime. Durante um node drain, o Kubernetes despeja pods o mais rápido possível. Sem PDB, todas as réplicas podem ser despejadas simultaneamente, causando uma indisponibilidade total.
 :::
 
-## Long-Term Support (LTS)
+## Long-term support (LTS)
 
 O tier Premium do AKS oferece Long-Term Support: 2 anos de suporte a patches por versão minor em vez do padrão de 1 ano. Use LTS quando:
 
@@ -120,7 +120,7 @@ O tier Premium do AKS oferece Long-Term Support: 2 anos de suporte a patches por
 
 LTS não significa que você deve parar de fazer upgrade. Significa que você tem mais fôlego.
 
-## Estratégia de Verificação de Upgrade
+## Estratégia de verificação de upgrade
 
 Não confie cegamente que um upgrade foi bem-sucedido. Valide após cada upgrade.
 
@@ -154,9 +154,9 @@ O AKS não suporta downgrade de versão do Kubernetes. Se um upgrade quebrar alg
 
 É por isso que clusters de staging com canal `rapid` são importantes. Detecte breaking changes antes que atinjam a produção.
 
-## Erros Comuns
+## Erros comuns
 
-1. **Usar canal `none`** -- Você vai pular 3+ versões minor, e então descobrir remoções de API de uma vez
+1. **Usar canal `none`**-- Você vai pular 3+ versões minor, e então descobrir remoções de API de uma vez
 2. **Sem PDBs** -- Upgrades se tornam indisponibilidades não planejadas
 3. **Sem janela de manutenção** -- Upgrades acontecem durante pico de tráfego
 4. **Ignorar upgrades de imagem de node** -- Seus nodes acumulam CVEs sem patch

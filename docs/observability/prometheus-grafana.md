@@ -8,7 +8,7 @@ description: "Use Azure Managed Prometheus and Grafana for metrics. Stop self-ho
 
 Use managed Prometheus. Do not self-host Prometheus in your cluster. Self-hosted Prometheus is a full-time job: you own the storage sizing, high-availability, retention policies, upgrades, and disaster recovery. Azure Managed Prometheus handles all of that for you with a single command.
 
-## Why Managed Over Self-Hosted
+## Why managed over self-hosted
 
 | Concern | Self-Hosted Prometheus | Azure Managed Prometheus |
 |---------|----------------------|--------------------------|
@@ -78,7 +78,7 @@ az grafana data-source create \
   }'
 ```
 
-## Custom Application Metrics
+## Custom application metrics
 
 Your apps expose Prometheus metrics. Managed Prometheus scrapes them via PodMonitor or ServiceMonitor CRDs.
 
@@ -123,7 +123,7 @@ spec:
 If your ServiceMonitor is not scraping, check these common issues: (1) the selector labels do not match the Service, (2) the port name does not match the Service port name, (3) the namespace selector is wrong. Use `kubectl get servicemonitors -A` to verify they exist.
 :::
 
-## Alerting with Prometheus Rules
+## Alerting with Prometheus rules
 
 Define recording rules (pre-compute expensive queries) and alert rules via Azure Monitor:
 
@@ -147,7 +147,7 @@ az monitor account rule-group create \
   ]'
 ```
 
-## What to Monitor: The Essentials
+## What to monitor: the essentials
 
 | Metric | PromQL | Alert Threshold |
 |--------|--------|-----------------|
@@ -157,7 +157,7 @@ az monitor account rule-group create \
 | PVC usage | `kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes` | > 85% |
 | API server latency | `apiserver_request_duration_seconds_bucket` | P99 > 1s |
 
-## Common Mistakes
+## Common mistakes
 
 1. **Not creating ServiceMonitors** -- Managed Prometheus only scrapes what you tell it to. Default targets cover kube-state-metrics and node-exporter. Your app metrics need explicit configuration.
 2. **Scraping too frequently** -- 15-30s intervals are fine. 5s intervals for 100 pods will generate massive cardinality and cost.
@@ -169,7 +169,7 @@ az monitor account rule-group create \
 Azure Managed Prometheus charges per metrics ingested (samples/minute). Monitor your ingestion volume in the Azure Monitor workspace metrics. A typical AKS cluster with 50 pods generates 500K-2M samples/minute.
 :::
 
-## Decision: Do I Need Both Container Insights and Prometheus?
+## Decision: do I need both Container Insights and Prometheus?
 
 Yes. Use Container Insights for logs and basic infrastructure metrics. Use Managed Prometheus for custom application metrics, PromQL-based alerting, and Grafana dashboards. They serve different purposes.
 

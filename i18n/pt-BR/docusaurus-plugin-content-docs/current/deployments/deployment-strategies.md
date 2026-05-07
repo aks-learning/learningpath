@@ -1,29 +1,29 @@
 ---
 sidebar_position: 2
-title: "Estrategias de Deploy"
-description: "Rolling updates, blue/green e canary deployments no AKS com orientacao opinativa sobre quando usar cada um."
+title: "Estratégias de Deploy"
+description: "Rolling updates, blue/green e canary deployments no AKS com orientação opinativa sobre quando usar cada um."
 ---
 
-# Estrategias de Deploy
+# Estratégias de deploy
 
-A maioria dos times complica demais isso. Use rolling updates como seu padrao. Adicione canary para os dois ou tres servicos onde um deploy ruim custa dinheiro de verdade. Pule blue/green a menos que tenha um motivo muito especifico.
+A maioria dos times complica demais isso. Use rolling updates como seu padrão. Adicione canary para os dois ou três serviços onde um deploy ruim custa dinheiro de verdade. Pule blue/green a menos que tenha um motivo muito específico.
 
-## Tabela de Decisao
+## Tabela de decisão
 
-| Estrategia | Complexidade | Custo de recursos | Velocidade de rollback | Melhor para |
+| Estratégia | Complexidade | Custo de recursos | Velocidade de rollback | Melhor para |
 |------------|-------------|-------------------|----------------------|-------------|
 | Rolling update | Baixa | 1x + surge | Lento (re-deploy) | 90% dos workloads |
-| Canary | Media | 1x + pequena % | Rapido (redirecionar trafego) | Servicos criticos voltados ao usuario |
-| Blue/Green | Alta | 2x | Instantaneo (swap) | Apps stateful, bancos de dados, alta conformidade |
+| Canary | Média | 1x + pequena % | Rápido (redirecionar tráfego) | Serviços críticos voltados ao usuário |
+| Blue/Green | Alta | 2x | Instantâneo (swap) | Apps stateful, bancos de dados, alta conformidade |
 
 :::tip
 
-Use rolling updates como seu padrao. Adicione canary para servicos criticos voltados ao usuario onde voce precisa validar com trafego real antes do rollout completo. Blue/green e caro (2x recursos permanentemente) e raramente necessario no Kubernetes -- a plataforma ja oferece rollbacks declarativos.
+Use rolling updates como seu padrão. Adicione canary para serviços críticos voltados ao usuário onde você precisa validar com tráfego real antes do rollout completo. Blue/green é caro (2x recursos permanentemente) e raramente necessário no Kubernetes -- a plataforma já oferece rollbacks declarativos.
 :::
 
-## Rolling Update (Padrao)
+## Rolling update (padrão)
 
-Rolling updates substituem gradualmente pods antigos por novos. O Kubernetes lida com isso nativamente sem nenhuma configuracao alem do spec do seu Deployment.
+Rolling updates substituem gradualmente pods antigos por novos. O Kubernetes lida com isso nativamente sem nenhuma configuração além do spec do seu Deployment.
 
 ```yaml
 apiVersion: apps/v1
@@ -53,22 +53,22 @@ spec:
 
 :::warning
 
-Sempre configure `maxUnavailable: 0` para servicos em producao. O padrao de 25% significa que o Kubernetes vai matar pods antes que os novos estejam prontos. Combinado com `maxSurge: 1`, voce consegue deploys sem downtime que sao um pouco mais lentos mas nunca perdem requisicoes.
+Sempre configure `maxUnavailable: 0` para serviços em produção. O padrão de 25% significa que o Kubernetes vai matar pods antes que os novos estejam prontos. Combinado com `maxSurge: 1`, você consegue deploys sem downtime que são um pouco mais lentos mas nunca perdem requisições.
 :::
 
-**Configuracoes criticas que as pessoas esquecem:**
+**Configurações críticas que as pessoas esquecem:**
 
 - `progressDeadlineSeconds`: Sem isso, um deployment quebrado fica travado para sempre. Configure entre 300-600 segundos.
-- `readinessProbe`: Sem isso, o Kubernetes roteia trafego para pods que nao estao prontos. Todo deployment sem readiness probe e uma potencial indisponibilidade.
-- `minReadySeconds`: Adicione 10-30 segundos para capturar pods que crasham logo apos iniciar.
+- `readinessProbe`: Sem isso, o Kubernetes roteia tráfego para pods que não estão prontos. Todo deployment sem readiness probe é uma potencial indisponibilidade.
+- `minReadySeconds`: Adicione 10-30 segundos para capturar pods que crasham logo após iniciar.
 
-## Canary Deployments
+## Canary deployments
 
-Canary envia uma pequena porcentagem do trafego para a nova versao. Voce monitora taxas de erro e latencia, e entao promove ou faz rollback. Nao implemente isso manualmente com multiplos Deployments e seletores de service -- use uma ferramenta adequada.
+Canary envia uma pequena porcentagem do tráfego para a nova versão. Você monitora taxas de erro e latência, e então promove ou faz rollback. Não implemente isso manualmente com múltiplos Deployments e seletores de service -- use uma ferramenta adequada.
 
 :::tip
 
-Se voce precisa de canary, use Argo Rollouts. E maduro, bem documentado e funciona com qualquer service mesh ou ingress controller. Flagger e a alternativa CNCF mas tem uma comunidade menor e configuracao menos intuitiva.
+Se você precisa de canary, use Argo Rollouts. É maduro, bem documentado e funciona com qualquer service mesh ou ingress controller. Flagger é a alternativa CNCF mas tem uma comunidade menor e configuração menos intuitiva.
 :::
 
 ```yaml
@@ -100,7 +100,7 @@ spec:
           image: myacr.azurecr.io/myapp:v2.1.0
 ```
 
-O Argo Rollouts integra com Prometheus para analise automatizada. Se a taxa de erro exceder o limite durante qualquer etapa de pausa, ele faz rollback automaticamente:
+O Argo Rollouts integra com Prometheus para análise automatizada. Se a taxa de erro exceder o limite durante qualquer etapa de pausa, ele faz rollback automaticamente:
 
 ```yaml
       analysis:
@@ -109,24 +109,24 @@ O Argo Rollouts integra com Prometheus para analise automatizada. Se a taxa de e
         startingStep: 1    # Start checking after first weight shift
 ```
 
-## Blue/Green
+## Blue/green
 
-Dois ambientes completos rodando simultaneamente. O trafego alterna instantaneamente entre eles. Isso e caro e geralmente desnecessario no Kubernetes.
+Dois ambientes completos rodando simultaneamente. O tráfego alterna instantaneamente entre eles. Isso é caro e geralmente desnecessário no Kubernetes.
 
 **Quando blue/green realmente faz sentido:**
-- Migracoes de schema de banco de dados que nao podem ser revertidas
-- Ambientes de conformidade que exigem validacao completa pre-producao
-- Servicos stateful onde rolling updates causam problemas de sessao
+- Migrações de schema de banco de dados que não podem ser revertidas
+- Ambientes de conformidade que exigem validação completa pré-produção
+- Serviços stateful onde rolling updates causam problemas de sessão
 
-Para todo o resto, rolling updates ou canary sao mais baratos e simples.
+Para todo o resto, rolling updates ou canary são mais baratos e simples.
 
-## Erros Comuns
+## Erros comuns
 
-- Sem readiness probes: O Kubernetes envia trafego para pods nao prontos durante o rollout. Sempre.
-- Sem progress deadline: Deployments quebrados ficam travados indefinidamente, bloqueando o proximo deploy.
-- Canary manual com seletores de label: Fragil, propenso a erros e nao oferece rollback automatizado.
-- Pular `minReadySeconds`: Pods que crasham apos 3 segundos parecem saudaveis durante o rollout.
-- Blue/green para servicos stateless: Voce esta pagando por 2x de computacao para um rollback instantaneo que poderia obter com `kubectl rollout undo`.
+- Sem readiness probes: O Kubernetes envia tráfego para pods não prontos durante o rollout. Sempre.
+- Sem progress deadline: Deployments quebrados ficam travados indefinidamente, bloqueando o próximo deploy.
+- Canary manual com seletores de label: Frágil, propenso a erros e não oferece rollback automatizado.
+- Pular `minReadySeconds`: Pods que crasham após 3 segundos parecem saudáveis durante o rollout.
+- Blue/green para serviços stateless: Você está pagando por 2x de computação para um rollback instantâneo que poderia obter com `kubectl rollout undo`.
 
 ## Rollback
 
@@ -145,12 +145,12 @@ kubectl rollout undo deployment/myapp --to-revision=3
 
 :::info
 
-O Kubernetes mantem 10 revisoes por padrao (`revisionHistoryLimit`). Nao configure isso como 0 -- voce perde a capacidade de fazer rollback. Mantenha pelo menos 5.
+O Kubernetes mantém 10 revisões por padrão (`revisionHistoryLimit`). Não configure isso como 0 -- você perde a capacidade de fazer rollback. Mantenha pelo menos 5.
 :::
 
 ## Recursos
 
-- [Estrategias de Deployment do Kubernetes](https://learn.microsoft.com/en-us/azure/aks/concepts-clusters-workloads#deployments-and-yaml-manifests)
-- [Documentacao do Argo Rollouts](https://argoproj.github.io/argo-rollouts/)
+- [Estratégias de Deployment do Kubernetes](https://learn.microsoft.com/en-us/azure/aks/concepts-clusters-workloads#deployments-and-yaml-manifests)
+- [Documentação do Argo Rollouts](https://argoproj.github.io/argo-rollouts/)
 - [Flagger Progressive Delivery](https://flagger.app/)
 - [Pod Disruption Budgets](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)

@@ -13,7 +13,7 @@ Fleet Manager lets you manage multiple AKS clusters as a single entity. Coordina
 Below that threshold, manage clusters individually. The overhead of Fleet Manager is not justified for 1-2 clusters. At 3+, manual coordination of upgrades and deployments becomes error-prone and time-consuming.
 :::
 
-## When to Use Fleet Manager
+## When to use Fleet Manager
 
 | Scenario | Fleet Manager? | Why |
 |----------|---------------|-----|
@@ -23,7 +23,7 @@ Below that threshold, manage clusters individually. The overhead of Fleet Manage
 | Multi-tenant platform | Yes | Consistent policy enforcement |
 | Single cluster, multiple node pools | No | Just use AKS directly |
 
-## Core Concepts
+## Core concepts
 
 **Fleet Hub**: A lightweight control plane that coordinates member clusters. It does not run your workloads.
 
@@ -33,7 +33,7 @@ Below that threshold, manage clusters individually. The overhead of Fleet Manage
 
 **Update Stages**: Groups of clusters upgraded together within an update run.
 
-## Creating a Fleet
+## Creating a fleet
 
 ```bash
 # Create the fleet hub
@@ -57,7 +57,7 @@ az fleet member create \
   --member-cluster-id /subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.ContainerService/managedClusters/prod-eastus-aks
 ```
 
-## Update Runs: Staged Upgrades
+## Update runs: staged upgrades
 
 This is the killer feature. Instead of upgrading all clusters at once and hoping for the best, you define stages that roll out sequentially.
 
@@ -108,7 +108,7 @@ The `stages.json` defines the rollout order:
 That alone justifies Fleet Manager. The ability to stage upgrades across clusters with automatic wait periods between stages eliminates the most dangerous operational task in multi-cluster environments. Multi-cluster networking is a bonus feature on top of that.
 :::
 
-## Update Strategies
+## Update strategies
 
 Define reusable upgrade strategies instead of recreating stages for every update run:
 
@@ -122,7 +122,7 @@ az fleet updatestrategy create \
 
 Then reference the strategy in update runs. This gives you consistent, repeatable upgrade patterns.
 
-## Multi-Cluster Services (Preview)
+## Multi-cluster services (preview)
 
 Fleet Manager can expose Kubernetes Services across member clusters using L4 multi-cluster load balancing. Traffic from one cluster can reach pods in another cluster.
 
@@ -136,7 +136,7 @@ Use cases:
 Do not enable multi-cluster services unless you have a clear need. It introduces cross-cluster network dependencies that complicate debugging. Most teams only need coordinated upgrades.
 :::
 
-## Fleet Manager vs Manual Management
+## Fleet Manager vs manual management
 
 | Operation | Manual (3 clusters) | Fleet Manager |
 |-----------|---------------------|---------------|
@@ -146,14 +146,14 @@ Do not enable multi-cluster services unless you have a clear need. It introduces
 | Policy enforcement | Apply to each cluster individually | Fleet-level ClusterResourcePlacement |
 | Time to upgrade 5 clusters | Hours (sequential, manual validation) | Minutes (automated, staged) |
 
-## Common Mistakes
+## Common mistakes
 
 1. **Adding Fleet Manager for 1-2 clusters** -- Overhead exceeds benefit. Wait until you have 3+.
 2. **No wait time between stages** -- If staging breaks, you want time to catch it before prod rolls.
 3. **All clusters in one stage** -- Defeats the purpose. Create meaningful waves (staging, prod-region1, prod-region2).
 4. **Ignoring member cluster health** -- Fleet Manager will upgrade an unhealthy cluster. Check health before triggering update runs.
 
-## Decision: Do You Need Fleet Manager?
+## Decision: do you need Fleet Manager?
 
 ![Fleet Manager Decision Tree](/img/fleet-manager-decision.svg)
 

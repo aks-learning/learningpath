@@ -10,7 +10,7 @@ This is the most important decision you will make when creating an AKS cluster. 
 
 **My strong recommendation: Start with AKS Automatic.** Migrate to Standard only when you hit a concrete limitation that blocks your workload. Not when you "might need flexibility someday." When you actually need it.
 
-## The Core Difference
+## The core difference
 
 **AKS Automatic** is an opinionated, batteries-included Kubernetes experience. Microsoft makes the infrastructure decisions for you based on best practices. You deploy workloads. That is it.
 
@@ -21,7 +21,7 @@ This is the most important decision you will make when creating an AKS cluster. 
 AKS Automatic is like a Tesla -- you get in and drive. AKS Standard is like building a car from a kit -- you can make it exactly what you want, but you better know what you are doing or you will end up with a vehicle that does not start.
 :::
 
-## Feature Comparison
+## Feature comparison
 
 | Capability | AKS Automatic | AKS Standard |
 |-----------|---------------|--------------|
@@ -40,7 +40,7 @@ AKS Automatic is like a Tesla -- you get in and drive. AKS Standard is like buil
 | **Private clusters** | Supported | Supported with more configuration options. |
 | **Custom CNI/BYOCNI** | Not supported | Supported. |
 
-## When to Choose AKS Automatic (Most Teams Should Start Here)
+## When to choose AKS Automatic (most teams should start here)
 
 Choose Automatic when:
 
@@ -56,7 +56,7 @@ Choose Automatic when:
 With AKS Automatic, the moment your cluster is created you have: Cilium network policies, Managed Prometheus, KEDA for event-driven scaling, Node Autoprovision for right-sized nodes, Workload Identity for secure Azure access, App Routing for ingress, and automated OS patching. On Standard, configuring all of that takes a full day of work.
 :::
 
-## When to Choose AKS Standard (You Will Know When You Need It)
+## When to choose AKS Standard (you will know when you need it)
 
 Choose Standard when:
 
@@ -68,7 +68,7 @@ Choose Standard when:
 - You have **existing Terraform/Bicep IaC** that tightly manages cluster configuration and you cannot adapt it to Automatic's model
 - You need **kubelet customization** or custom kernel parameters on nodes
 
-## The Number One Mistake Teams Make
+## The number one mistake teams make
 
 :::warning Don't over-engineer on day one
 
@@ -77,7 +77,7 @@ The number one mistake is choosing AKS Standard "because we might need the flexi
 Start with Automatic. If you hit a wall -- a real wall, not a hypothetical one -- migrate to Standard. The migration path exists and is supported.
 :::
 
-## Concrete Scenarios: Which One?
+## Concrete scenarios: which one?
 
 | Scenario | Recommendation | Why |
 |----------|---------------|-----|
@@ -90,7 +90,7 @@ Start with Automatic. If you hit a wall -- a real wall, not a hypothetical one -
 | Regulated industry (healthcare, finance) with specific audit requirements | **Standard** | You need control over maintenance windows, patch versions, and network egress |
 | Platform team serving 10+ dev teams | **Standard** | You need the full toolkit for multi-tenancy, custom policies, and governance |
 
-## Migration Path
+## Migration path
 
 **Automatic to Standard**: Supported. You can update the cluster SKU from Automatic to Standard if you outgrow it. Your workloads continue running during the migration.
 
@@ -104,7 +104,7 @@ az aks show --resource-group myRG --name myCluster --query "sku" -o json
 az aks update --resource-group myRG --name myCluster --sku standard
 ```
 
-## Pricing: SKU vs Tier (They Are Different Things)
+## Pricing: SKU vs tier (they are different things)
 
 This confuses everyone. Let me be clear:
 
@@ -125,7 +125,7 @@ They are independent. You can have:
 You cannot run AKS Automatic on the Free tier. It requires Standard or Premium tier because it is designed for production use. If you want a free cluster for experimentation, use AKS Standard with Free tier.
 :::
 
-## Creating Each Type
+## Creating each type
 
 **AKS Automatic (recommended starting point):**
 
@@ -161,7 +161,7 @@ az aks create \
 # Notice how many flags you need to match what Automatic gives you by default.
 ```
 
-## Decision Flowchart
+## Decision flowchart
 
 Ask yourself these questions in order:
 
@@ -179,7 +179,7 @@ Ask yourself these questions in order:
 - [Node Autoprovision in AKS](https://learn.microsoft.com/en-us/azure/aks/node-autoprovision)
 - [Migrate Between AKS SKUs](https://learn.microsoft.com/en-us/azure/aks/intro-aks-automatic#migrate-existing-aks-standard-clusters)
 
-## Hands-on Lab
+## Hands-on lab
 
 :::tip Try it yourself
 

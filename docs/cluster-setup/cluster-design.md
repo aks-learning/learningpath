@@ -4,11 +4,11 @@ title: "Cluster Design Decisions"
 description: "Opinionated guidance on AKS cluster topology, node pools, VM SKUs, and naming conventions"
 ---
 
-# Cluster Design Decisions
+# Cluster design decisions
 
 Get these decisions right on day one. Changing cluster topology later means downtime, migration, and pain.
 
-## Single Cluster vs Multi-Cluster
+## Single cluster vs multi-cluster
 
 Start with one cluster. Use namespace isolation with network policies to separate teams and environments. Graduate to multi-cluster only when you need blast radius reduction, multi-region failover, or hard compliance boundaries between workloads.
 
@@ -24,7 +24,7 @@ Teams spin up a cluster per environment (dev, staging, prod) on day one. You end
 | Multi-region or hard blast radius | Multi-cluster with GitOps |
 | Regulated workloads next to non-regulated | Separate clusters, separate subscriptions |
 
-## Node Pool Strategy
+## Node pool strategy
 
 Separate system pools from user pools. Never mix your workloads into the system pool.
 
@@ -58,7 +58,7 @@ az aks nodepool add \
 System node pool: `Standard_D4s_v5`, 3 nodes, tainted with `CriticalAddonsOnly`. User pools: pick based on workload. Never mix workloads in the system pool -- a misbehaving app pod should never starve CoreDNS.
 :::
 
-## VM SKU Selection
+## VM SKU selection
 
 | Series | Use Case | Opinion |
 |--------|----------|---------|
@@ -73,7 +73,7 @@ System node pool: `Standard_D4s_v5`, 3 nodes, tainted with `CriticalAddonsOnly`.
 B-series VMs throttle CPU after consuming burst credits. Your production workload will randomly slow down under sustained load. Use D-series instead.
 :::
 
-## Region Selection
+## Region selection
 
 Pick a region that supports Availability Zones and is close to your users. Check GPU SKU availability before committing if you plan AI workloads.
 
@@ -84,7 +84,7 @@ az vm list-skus --location eastus2 --size Standard_D8s_v5 --output table
 
 Preferred regions for new deployments: East US 2, West US 3, North Europe, West Europe. All have full AZ support and broad SKU availability.
 
-## Naming Conventions
+## Naming conventions
 
 Consistency prevents confusion at scale:
 

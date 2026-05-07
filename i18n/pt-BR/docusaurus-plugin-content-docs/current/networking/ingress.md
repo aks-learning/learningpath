@@ -1,30 +1,30 @@
 ---
 sidebar_position: 3
 title: "Ingress e Balanceamento de Carga"
-description: "Use App Routing para workloads padrao. Use AGC para WAF corporativo. Nao gerencie NGINX manualmente a menos que tenha requisitos exoticos."
+description: "Use App Routing para workloads padrão. Use AGC para WAF corporativo. Não gerencie NGINX manualmente a menos que tenha requisitos exoticos."
 ---
 
-# Ingress e Balanceamento de Carga
+# Ingress e balanceamento de carga
 
-Voce tem tres opcoes reais para ingress L7 no AKS: o add-on App Routing (NGINX gerenciado), Application Gateway for Containers (AGC) ou NGINX autogerenciado. Escolha um e comprometa-se.
+Você tem três opções reais para ingress L7 no AKS: o add-on App Routing (NGINX gerenciado), Application Gateway for Containers (AGC) ou NGINX autogerenciado. Escolha um e comprometa-se.
 
-## A Decisao
+## A decisão
 
 | Requisito | Use Isto |
 |-----------|----------|
-| Web apps padrao, APIs, terminacao TLS | **Add-on App Routing** |
-| Corporativo: WAF, traffic splitting avancado, Gateway API | **Application Gateway for Containers (AGC)** |
-| Configuracao exotica de NGINX, plugins Lua customizados, controle total | **NGINX autogerenciado** |
+| Web apps padrão, APIs, terminação TLS | **Add-on App Routing** |
+| Corporativo: WAF, traffic splitting avançado, Gateway API | **Application Gateway for Containers (AGC)** |
+| Configuração exótica de NGINX, plugins Lua customizados, controle total | **NGINX autogerenciado** |
 | TCP/UDP puro sem roteamento HTTP | **Service LoadBalancer** (pule o ingress completamente) |
 
 :::tip
 
-Use App Routing para workloads padrao. Use AGC para cenarios corporativos com necessidade de WAF. Nao gerencie NGINX manualmente a menos que precise de configuracao exotica que o add-on gerenciado nao consiga fornecer.
+Use App Routing para workloads padrão. Use AGC para cenários corporativos com necessidade de WAF. Não gerencie NGINX manualmente a menos que precise de configuração exótica que o add-on gerenciado não consiga fornecer.
 :::
 
-## Add-on App Routing (NGINX Gerenciado)
+## Add-on App Routing (NGINX gerenciado)
 
-Esta e a escolha padrao. A Microsoft gerencia o ciclo de vida do ingress controller NGINX, upgrades e escalonamento. Voce escreve recursos Ingress, ele cuida do resto.
+Esta é a escolha padrão. A Microsoft gerencia o ciclo de vida do ingress controller NGINX, upgrades e escalonamento. Você escreve recursos Ingress, ele cuida do resto.
 
 ```bash
 # Enable App Routing on an existing cluster
@@ -67,14 +67,14 @@ spec:
 
 O App Routing oferece:
 - Ciclo de vida gerenciado do NGINX (sem ficar babando Helm chart)
-- Integracao nativa com Azure DNS zone
-- Integracao com Key Vault para certificados TLS
-- Multiplas instancias de ingress controller (interno + externo)
-- Metricas Prometheus prontas para uso
+- Integração nativa com Azure DNS zone
+- Integração com Key Vault para certificados TLS
+- Multiplas instâncias de ingress controller (interno + externo)
+- Métricas Prometheus prontas para uso
 
 ## Application Gateway for Containers (AGC)
 
-AGC e o sucessor do AGIC (Application Gateway Ingress Controller). E nativo da Kubernetes Gateway API, nao do Ingress legado. Use quando precisar de WAF, gerenciamento avancado de trafego ou balanceamento de carga L7 nativo do Azure em escala.
+AGC é o sucessor do AGIC (Application Gateway Ingress Controller). É nativo da Kubernetes Gateway API, não do Ingress legado. Use quando precisar de WAF, gerenciamento avançado de tráfego ou balanceamento de carga L7 nativo do Azure em escala.
 
 ```yaml
 # Gateway API: Gateway resource (AGC-backed)
@@ -124,12 +124,12 @@ spec:
 
 :::info
 
-O AGC usa a Kubernetes Gateway API (Gateway, HTTPRoute, GRPCRoute), nao o recurso Ingress legado. Esta e a direcao futura do gerenciamento de trafego no Kubernetes. Se voce esta comecando do zero, prefira a Gateway API.
+O AGC usa a Kubernetes Gateway API (Gateway, HTTPRoute, GRPCRoute), não o recurso Ingress legado. Esta é a direção futura do gerenciamento de tráfego no Kubernetes. Se você está começando do zero, prefira a Gateway API.
 :::
 
-## Load Balancers Internos vs Externos
+## Load balancers internos vs externos
 
-Para services L4 (TCP/UDP) ou exposicao somente interna:
+Para services L4 (TCP/UDP) ou exposição somente interna:
 
 ```yaml
 # Internal Load Balancer -- not internet-facing
@@ -165,9 +165,9 @@ spec:
     app: public-api
 ```
 
-## TLS e Gerenciamento de Certificados
+## TLS e gerenciamento de certificados
 
-Use cert-manager com Let's Encrypt para ciclo de vida automatizado de certificados. Nao gerencie certificados manualmente.
+Use cert-manager com Let's Encrypt para ciclo de vida automatizado de certificados. Não gerencie certificados manualmente.
 
 ```yaml
 # ClusterIssuer for Let's Encrypt
@@ -198,17 +198,17 @@ az aks approuting update \
   --attach-kv /subscriptions/.../vaults/prod-kv
 ```
 
-## Erros Comuns
+## Erros comuns
 
-1. **Autogerenciar NGINX "para ter controle"** -- Voce herda a carga de upgrades, patches de CVE e tuning de HPA. O App Routing cuida de tudo isso.
-2. **Usar AGIC (v1) para projetos novos** -- AGIC e legado. AGC com Gateway API e o substituto.
-3. **Esquecer ingress interno** -- A maioria das aplicacoes precisa de ingress controllers tanto externo (publico) quanto interno (privado). O App Routing suporta multiplas instancias.
-4. **Fixar IPs de LoadBalancer no codigo** -- Use external-dns com Azure DNS zones para gerenciamento automatico de registros DNS.
-5. **Nao aplicar rate limiting no ingress** -- Um unico cliente mal-comportado pode saturar seu ingress controller. Configure annotations de rate limiting.
+1. **Autogerenciar NGINX "para ter controle"** -- Você herda a carga de upgrades, patches de CVE e tuning de HPA. O App Routing cuida de tudo isso.
+2. **Usar AGIC (v1) para projetos novos** -- AGIC é legado. AGC com Gateway API é o substituto.
+3. **Esquecer ingress interno** -- A maioria das aplicações precisa de ingress controllers tanto externo (público) quanto interno (privado). O App Routing suporta múltiplas instâncias.
+4. **Fixar IPs de LoadBalancer no código** -- Use external-dns com Azure DNS zones para gerenciamento automático de registros DNS.
+5. **Não aplicar rate limiting no ingress** -- Um único cliente mal-comportado pode saturar seu ingress controller. Configure annotations de rate limiting.
 
 :::warning
 
-Nunca exponha Services como `type: LoadBalancer` com IP publico sem um plano de WAF ou protecao contra DDoS. Use AGC com policies de WAF para workloads voltados para a internet que processam entrada de usuarios.
+Nunca exponha Services como `type: LoadBalancer` com IP público sem um plano de WAF ou proteção contra DDoS. Use AGC com policies de WAF para workloads voltados para a internet que processam entrada de usuários.
 :::
 
 ## Recursos
@@ -222,4 +222,4 @@ Nunca exponha Services como `type: LoadBalancer` com IP publico sem um plano de 
 
 ---
 
-**Proximo**: [Clusters Privados](./private-clusters) -- proteja seu API server.
+**Próximo**: [Clusters Privados](./private-clusters) -- proteja seu API server.

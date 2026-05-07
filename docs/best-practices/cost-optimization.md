@@ -4,11 +4,11 @@ title: "Cost Optimization"
 description: "Practical strategies to cut AKS costs 40-60% without sacrificing reliability"
 ---
 
-# Cost Optimization
+# Cost optimization
 
 Spot for batch/dev, Reserved Instances for baseline prod, on-demand for burst. This combination saves 40-60% vs pure on-demand pricing.
 
-## The Cost Strategy Stack
+## The cost strategy stack
 
 | Strategy | Savings | Applies To | Trade-off |
 |----------|---------|-----------|-----------|
@@ -24,7 +24,7 @@ Spot for batch/dev, Reserved Instances for baseline prod, on-demand for burst. T
 Turn off dev/test clusters at night. That's 60% of the time they're running for nothing. A 3-node dev cluster costs ~$500/month. Shutting it down 14 hours/day saves $300/month per cluster.
 :::
 
-## Spot Node Pools
+## Spot node pools
 
 Spot VMs are spare Azure capacity at 60-90% discount. Azure can evict them with 30 seconds notice.
 
@@ -53,7 +53,7 @@ az aks nodepool add \
 | Production APIs | No | User-facing availability required |
 | Databases | Never | Data loss risk on eviction |
 
-## Reserved Instances
+## Reserved instances
 
 For nodes that run 24/7/365, buy RIs. The math is simple.
 
@@ -68,7 +68,7 @@ On-demand D8s_v5: ~$280/month
 Buy RIs for your system node pool and production baseline. These nodes always run. Use on-demand for autoscaler burst capacity that comes and goes.
 :::
 
-## Scale to Zero: Non-Production Clusters
+## Scale to zero: non-production clusters
 
 ```yaml
 # KEDA cron scaler: scale to 0 at night, back up in morning
@@ -93,7 +93,7 @@ spec:
 
 For entire node pools, the cluster autoscaler handles scale-to-zero when no pods need scheduling.
 
-## Right-Sizing Workloads
+## Right-sizing workloads
 
 Most teams over-request CPU and memory. Use VPA recommendations to find actual utilization:
 
@@ -111,7 +111,7 @@ kubectl top pod my-pod --containers
 Setting CPU requests at 1 core "just to be safe" when the pod uses 50m. Ten pods like this reserve 10 cores but use 0.5. That's 9.5 cores of wasted capacity you're paying for.
 :::
 
-## Cluster Autoscaler Tuning
+## Cluster Autoscaler tuning
 
 ```bash
 # Aggressive scale-down for non-critical pools
@@ -131,7 +131,7 @@ az aks nodepool update \
 | `scale-down-utilization-threshold` | 0.5 | 0.3 |
 | `max-graceful-termination-sec` | 600 | 60 |
 
-## Quick Wins Checklist
+## Quick wins checklist
 
 1. **Spot pools for dev/test** -- Immediate 60-90% savings on non-prod compute.
 2. **RIs for system + prod baseline** -- 30-57% savings on nodes that always run.

@@ -4,11 +4,11 @@ title: "Secrets Management"
 description: "Secure secrets management with Azure Key Vault, CSI Secrets Store Driver, and Workload Identity authentication."
 ---
 
-# Secrets Management
+# Secrets management
 
 Use Azure Key Vault with the Secrets Store CSI Driver. Period. Do not rely on native Kubernetes Secrets for sensitive data. They are base64-encoded (not encrypted), stored in etcd, and visible to anyone with Secret read access in the namespace.
 
-## The Problem with Kubernetes Secrets
+## The problem with Kubernetes secrets
 
 ```bash
 # This is all it takes to read a "secret"
@@ -26,7 +26,7 @@ That is not security. That is encoding. Kubernetes Secrets are:
 Never treat Kubernetes Secrets as secure storage. They are a convenience feature for non-sensitive configuration at best. For actual secrets (database passwords, API keys, certificates, connection strings), use Azure Key Vault.
 :::
 
-## The Solution: Two Approaches
+## The solution: two approaches
 
 | Approach | How It Works | When to Use |
 |----------|-------------|-------------|
@@ -38,9 +38,9 @@ Never treat Kubernetes Secrets as secure storage. They are a convenience feature
 Use CSI Driver for new applications. Use External Secrets Operator only if your application is hard-coded to read from Kubernetes Secret objects or environment variables and you cannot change it. The CSI Driver is the cleaner architecture -- secrets never exist as Kubernetes objects.
 :::
 
-## Secrets Store CSI Driver Setup
+## Secrets store CSI driver setup
 
-### 1. Enable the Addon
+### 1. Enable the addon
 
 ```bash
 az aks enable-addons \
@@ -49,7 +49,7 @@ az aks enable-addons \
   --addons azure-keyvault-secrets-provider
 ```
 
-### 2. Create Key Vault and Store a Secret
+### 2. Create Key Vault and store a secret
 
 ```bash
 az keyvault create \
@@ -64,7 +64,7 @@ az keyvault secret set \
   --value "your-actual-secret-value"
 ```
 
-### 3. Grant Access via Workload Identity
+### 3. Grant access via workload identity
 
 Never use access policies or shared keys. Use Workload Identity combined with Key Vault RBAC:
 
@@ -103,7 +103,7 @@ spec:
     tenantId: "<tenant-id>"
 ```
 
-### 5. Mount in Your Pod
+### 5. Mount in your pod
 
 ```yaml
 apiVersion: apps/v1
@@ -151,7 +151,7 @@ az aks enable-addons \
 
 The driver polls Key Vault and updates the mounted files. Your app must be able to re-read secrets without restart (or use a file watcher).
 
-## The Authentication Chain
+## The authentication chain
 
 Never hardcode credentials to access Key Vault. The authentication path is:
 
@@ -159,7 +159,7 @@ Pod -> Workload Identity -> Managed Identity -> Key Vault RBAC -> Secret
 
 If your SecretProviderClass references a client secret or service principal, you are defeating the purpose entirely. You are storing a secret to access your secret store.
 
-## Common Mistakes
+## Common mistakes
 
 1. **Storing secrets in Kubernetes Secrets "temporarily"** -- There is no temporary. It stays forever until someone manually deletes it. Use Key Vault from day one.
 2. **Using Key Vault access policies instead of RBAC** -- Access policies are legacy. Enable RBAC authorization on Key Vault (`--enable-rbac-authorization`) and use Azure roles.
@@ -168,7 +168,7 @@ If your SecretProviderClass references a client secret or service principal, you
 5. **Committing secrets to git** -- Obvious but still happens. Use pre-commit hooks (like `detect-secrets`) to scan for high-entropy strings and known secret patterns.
 6. **Setting secrets as environment variables** -- Environment variables appear in process listings, crash dumps, and debug endpoints. Mount as files instead.
 
-## Decision Tree
+## Decision tree
 
 ![Secrets Management Decision Tree](/img/secrets-decision-tree.svg)
 

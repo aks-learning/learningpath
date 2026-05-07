@@ -8,7 +8,7 @@ description: "Storage classes, persistent volumes, and dynamic provisioning -- w
 
 Use Azure Disks for databases. Azure Files for shared storage. Blob for large datasets. Everything else is a special case.
 
-## Storage Classes (Built-in)
+## Storage classes (built-in)
 
 AKS ships with these storage classes pre-configured. Don't create your own unless you need custom parameters.
 
@@ -25,13 +25,13 @@ AKS ships with these storage classes pre-configured. Don't create your own unles
 Use `managed-csi` (Azure Disks) as your default for anything stateful. Only reach for Azure Files when multiple pods need simultaneous read/write access to the same data.
 :::
 
-## PersistentVolume Lifecycle
+## PersistentVolume lifecycle
 
 ![PersistentVolume Lifecycle](/img/pv-lifecycle.svg)
 
 Always use dynamic provisioning unless you have pre-existing disks to import. Dynamic provisioning creates the Azure resource automatically when a PVC is submitted.
 
-## Dynamic Provisioning Example
+## Dynamic provisioning example
 
 ```yaml
 apiVersion: v1
@@ -49,7 +49,7 @@ spec:
 
 That's it. AKS creates a Premium SSD managed disk, attaches it to the node running your pod, and mounts it. No manual disk creation needed.
 
-## Reclaim Policies
+## Reclaim policies
 
 | Policy | Behavior on PVC Delete | Use When |
 |--------|----------------------|----------|
@@ -74,7 +74,7 @@ volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
 ```
 
-## Access Modes
+## Access modes
 
 | Mode | Meaning | Supported By |
 |------|---------|-------------|
@@ -87,7 +87,7 @@ allowVolumeExpansion: true
 Azure Disks are block devices -- they physically attach to one node at a time. If you need multiple pods on different nodes writing to the same volume, you need Azure Files or Blob NFS.
 :::
 
-## Common Mistakes
+## Common mistakes
 
 1. **Using Azure Files for databases** -- Azure Files has higher latency than Disks. Use Disks for anything IOPS-sensitive.
 2. **Forgetting `volumeBindingMode: WaitForFirstConsumer`** -- Without this, the disk may provision in a zone where no node can mount it.

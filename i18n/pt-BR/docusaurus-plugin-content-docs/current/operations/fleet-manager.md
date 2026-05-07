@@ -13,7 +13,7 @@ Fleet Manager permite gerenciar múltiplos clusters AKS como uma entidade única
 Abaixo desse limite, gerencie os clusters individualmente. O overhead do Fleet Manager não se justifica para 1-2 clusters. Com 3+, a coordenação manual de upgrades e deploys se torna propensa a erros e demorada.
 :::
 
-## Quando Usar Fleet Manager
+## Quando usar Fleet Manager
 
 | Cenário | Fleet Manager? | Por quê |
 |----------|---------------|-----|
@@ -23,7 +23,7 @@ Abaixo desse limite, gerencie os clusters individualmente. O overhead do Fleet M
 | Plataforma multi-tenant | Sim | Aplicação consistente de políticas |
 | Cluster único, múltiplos node pools | Não | Use o AKS diretamente |
 
-## Conceitos Centrais
+## Conceitos centrais
 
 **Fleet Hub**: Um control plane leve que coordena os clusters membros. Ele não roda seus workloads.
 
@@ -33,7 +33,7 @@ Abaixo desse limite, gerencie os clusters individualmente. O overhead do Fleet M
 
 **Update Stages**: Grupos de clusters atualizados juntos dentro de um update run.
 
-## Criando uma Fleet
+## Criando uma fleet
 
 ```bash
 # Create the fleet hub
@@ -57,7 +57,7 @@ az fleet member create \
   --member-cluster-id /subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.ContainerService/managedClusters/prod-eastus-aks
 ```
 
-## Update Runs: Upgrades em Estágios
+## Update runs: upgrades em estágios
 
 Essa é a funcionalidade matadora. Em vez de atualizar todos os clusters de uma vez e torcer pelo melhor, você define estágios que são executados sequencialmente.
 
@@ -108,7 +108,7 @@ O `stages.json` define a ordem de rollout:
 Só isso já justifica o Fleet Manager. A capacidade de escalonar upgrades entre clusters com períodos de espera automáticos entre estágios elimina a tarefa operacional mais perigosa em ambientes multi-cluster. Rede multi-cluster é um bônus por cima disso.
 :::
 
-## Update Strategies
+## Update strategies
 
 Defina estratégias de upgrade reutilizáveis em vez de recriar estágios para cada update run:
 
@@ -122,7 +122,7 @@ az fleet updatestrategy create \
 
 Depois referencie a strategy nos update runs. Isso oferece padrões de upgrade consistentes e repetíveis.
 
-## Multi-Cluster Services (Preview)
+## Multi-cluster services (preview)
 
 Fleet Manager pode expor Services Kubernetes entre clusters membros usando balanceamento de carga L4 multi-cluster. Tráfego de um cluster pode alcançar pods em outro cluster.
 
@@ -136,7 +136,7 @@ Casos de uso:
 Não habilite multi-cluster services a menos que tenha uma necessidade clara. Isso introduz dependências de rede cross-cluster que complicam a depuração. A maioria das equipes precisa apenas de upgrades coordenados.
 :::
 
-## Fleet Manager vs Gerenciamento Manual
+## Fleet Manager vs gerenciamento manual
 
 | Operação | Manual (3 clusters) | Fleet Manager |
 |-----------|---------------------|---------------|
@@ -146,14 +146,14 @@ Não habilite multi-cluster services a menos que tenha uma necessidade clara. Is
 | Aplicação de políticas | Aplicar em cada cluster individualmente | ClusterResourcePlacement no nível da fleet |
 | Tempo para atualizar 5 clusters | Horas (sequencial, validação manual) | Minutos (automatizado, em estágios) |
 
-## Erros Comuns
+## Erros comuns
 
-1. **Adicionar Fleet Manager para 1-2 clusters** -- O overhead excede o benefício. Espere até ter 3+.
+1. **Adicionar Fleet Manager para 1-2 clusters**-- O overhead excede o benefício. Espere até ter 3+.
 2. **Sem tempo de espera entre estágios** -- Se staging quebrar, você quer tempo para detectar antes que produção seja atualizada.
 3. **Todos os clusters em um estágio** -- Anula o propósito. Crie ondas significativas (staging, prod-region1, prod-region2).
 4. **Ignorar a saúde dos clusters membros** -- Fleet Manager vai atualizar um cluster não saudável. Verifique a saúde antes de disparar update runs.
 
-## Decisão: Você Precisa do Fleet Manager?
+## Decisão: você precisa do Fleet Manager?
 
 ![Fleet Manager Decision Tree](/img/fleet-manager-decision.svg)
 

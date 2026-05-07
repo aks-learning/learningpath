@@ -4,11 +4,11 @@ title: "Virtual Nodes (ACI Integration)"
 description: "Burst to Azure Container Instances for sudden spikes. Serverless pods with no node management."
 ---
 
-# Virtual Nodes (ACI Integration)
+# Virtual nodes (ACI integration)
 
 Virtual Nodes are niche. Use them for batch jobs and burst scenarios ONLY. Do not use them for steady-state workloads. For most teams, KEDA plus Cluster Autoscaler is a better scaling story.
 
-## How Virtual Nodes Work
+## How virtual nodes work
 
 Virtual Nodes use the Virtual Kubelet to present Azure Container Instances (ACI) as a node in your cluster. When pods are scheduled on the virtual node, they run as serverless containers on ACI instead of on VMs.
 
@@ -25,7 +25,7 @@ Pod scheduled to virtual node
 Virtual Nodes provision pods in seconds (not minutes like real nodes). This makes them useful for absorbing sudden spikes that cannot wait for Cluster Autoscaler to provision VMs.
 :::
 
-## Enabling Virtual Nodes
+## Enabling virtual nodes
 
 ```bash
 # Requires a subnet delegated to ACI
@@ -36,7 +36,7 @@ az aks enable-addons \
   --subnet-name aci-subnet
 ```
 
-## When to Use Virtual Nodes
+## When to use virtual nodes
 
 | Scenario | Good Fit? | Why |
 |----------|-----------|-----|
@@ -52,7 +52,7 @@ az aks enable-addons \
 The sweet spot for Virtual Nodes: workloads that are short-lived, stateless, embarrassingly parallel, and arrive in unpredictable bursts. Think image processing pipelines, report generation, or load testing.
 :::
 
-## Example: Burst Job to Virtual Node
+## Example: burst job to virtual node
 
 ```yaml
 apiVersion: batch/v1
@@ -88,7 +88,7 @@ spec:
 
 This schedules 50 parallel pods on ACI. They spin up in seconds, process reports, and terminate. You pay only for execution time.
 
-## Hard Limitations
+## Hard limitations
 
 Do not ignore these. They are not edge cases; they will bite you in production:
 
@@ -108,7 +108,7 @@ Do not ignore these. They are not edge cases; they will bite you in production:
 Virtual Nodes cannot run your standard monitoring stack (Prometheus node exporter, Fluent Bit DaemonSet). ACI pods need separate observability configuration. Use Azure Monitor container insights for ACI workloads.
 :::
 
-## Cost Comparison
+## Cost comparison
 
 Virtual Nodes charge per-second of vCPU and memory:
 
@@ -118,7 +118,7 @@ Virtual Nodes charge per-second of vCPU and memory:
 
 **Rule of thumb**: If a workload runs more than 50% of the time, run it on real nodes. Virtual Nodes are cost-effective only for intermittent burst workloads.
 
-## Virtual Nodes vs Alternatives
+## Virtual nodes vs alternatives
 
 | Approach | Speed | Cost Model | Best For |
 |----------|-------|-----------|----------|
@@ -127,7 +127,7 @@ Virtual Nodes charge per-second of vCPU and memory:
 | KEDA + CA | 2-4 min (cold) | VM rate + scale to zero | Event-driven |
 | Spot node pools | 2-4 min | 60-90% discount VMs | Fault-tolerant batch |
 
-## Common Mistakes
+## Common mistakes
 
 **Using Virtual Nodes as your primary compute.** ACI is not a replacement for VMs at scale. The per-second cost adds up fast for always-running workloads. Use real nodes for baseline, Virtual Nodes for spikes only.
 

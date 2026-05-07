@@ -4,11 +4,11 @@ title: "Networking Fundamentals in AKS"
 description: "AKS networking is Azure VNet-native. Understand the three networking models, IP planning, DNS, and why Cilium is the only network policy engine worth using."
 ---
 
-# Networking Fundamentals in AKS
+# Networking fundamentals in AKS
 
 AKS networking is not Kubernetes networking with an Azure wrapper. It is Azure VNet-native networking that happens to run Kubernetes. Your pods get real IPs -- either inside your VNet directly or inside an overlay network with nodes bridging traffic. Understanding this distinction is the foundation for every networking decision you will make.
 
-## The Three Networking Models
+## The three networking models
 
 | Model | Pod IPs | Node IPs | Status |
 |-------|---------|----------|--------|
@@ -21,7 +21,7 @@ AKS networking is not Kubernetes networking with an Azure wrapper. It is Azure V
 Use Azure CNI Overlay for 90% of workloads. Only use Azure CNI (non-overlay) when you need pods directly addressable from the VNet -- meaning external systems must initiate connections to specific pod IPs without going through a Service or Ingress.
 :::
 
-## IP Address Planning
+## IP address planning
 
 This is where teams get burned. Plan your CIDRs before creating the cluster:
 
@@ -71,7 +71,7 @@ spec:
         value: "2"
 ```
 
-## kube-proxy vs Cilium eBPF Data Plane
+## kube-proxy vs Cilium eBPF data plane
 
 Traditional AKS uses kube-proxy (iptables mode) for Service routing. This works but scales poorly past 5,000 Services and gives you zero observability into traffic flows.
 
@@ -97,7 +97,7 @@ With Cilium as your data plane:
 - **Hubble** -- Flow visibility, DNS logging, HTTP-aware policies
 - **Performance** -- Constant-time lookups vs iptables linear chain walking
 
-## Network Policies: The Non-Negotiable
+## Network policies: the non-negotiable
 
 In production at scale, you must enforce network policies. Without them, any compromised pod can reach any other pod in the cluster -- including your database pods, secrets stores, and control plane components.
 
@@ -117,7 +117,7 @@ spec:
 
 Start with deny-all in every namespace, then punch holes as needed. This is the only sane default for production workloads.
 
-## Common Mistakes
+## Common mistakes
 
 1. **Using Kubenet for new clusters** -- It is deprecated. There is no reason to choose it in 2025.
 2. **Undersizing the node subnet** -- Forgetting that AKS reserves IPs for system pods, upgrades (surge), and load balancers.

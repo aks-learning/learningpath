@@ -105,8 +105,8 @@ const config: Config = {
         {
           title: 'Learn',
           items: [
-            { label: 'Getting Started', to: '/docs/getting-started/' },
-            { label: 'All Topics', to: '/docs/' },
+            { label: 'Getting started', to: '/docs/getting-started/' },
+            { label: 'All topics', to: '/docs/' },
           ],
         },
         {

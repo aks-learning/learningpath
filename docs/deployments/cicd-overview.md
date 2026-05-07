@@ -8,7 +8,7 @@ description: "Push-based vs pull-based delivery models for AKS, with opinionated
 
 There are two delivery models for Kubernetes: push-based (your pipeline pushes to the cluster) and pull-based (the cluster pulls desired state from Git). Most teams start with push-based because it feels familiar. Production teams eventually move to pull-based because it actually works at scale.
 
-## Two Models: Push vs Pull
+## Two models: push vs pull
 
 | Aspect | Push-based (CI/CD pipeline) | Pull-based (GitOps) |
 |--------|---------------------------|---------------------|
@@ -24,7 +24,7 @@ There are two delivery models for Kubernetes: push-based (your pipeline pushes t
 Use GitOps (Flux or ArgoCD) for production. Push-based is fine for dev/test but does not give you drift detection or self-healing. When someone runs `kubectl edit` at 2 AM and breaks something, GitOps reverts it automatically. Push-based pipelines have no idea it happened.
 :::
 
-## CI Pipeline: Build and Push
+## CI pipeline: build and push
 
 Your CI pipeline should do exactly this: build, test, build image, push to ACR, update manifest. Nothing else. Do not deploy from CI.
 
@@ -71,7 +71,7 @@ jobs:
 Never use `latest` tags in production manifests. Every deployment should reference an immutable SHA-tagged image. The `latest` tag is a lie -- it just means "whatever was pushed last" and gives you zero reproducibility.
 :::
 
-## CD Pipeline: GitOps Reconciliation
+## CD pipeline: GitOps reconciliation
 
 The CD side is handled by Flux or ArgoCD running inside your cluster. It watches the manifest repository and applies changes. Your CI pipeline's only job is to update the manifest repo with the new image tag.
 
@@ -82,7 +82,7 @@ This separation matters: CI owns "is the artifact good?" and CD owns "is the clu
 The manifest repo is your deployment record. Every change is a Git commit with author, timestamp, and diff. When something breaks at 3 AM, `git log` tells you exactly what changed and who approved it.
 :::
 
-## ACR Integration
+## ACR integration
 
 Attach ACR to your AKS cluster with managed identity. This gives every node passwordless pull access without any secrets management:
 
@@ -105,7 +105,7 @@ az aks check-acr \
 Always use ACR with managed identity attachment. Never put Docker Hub credentials in your cluster. ImagePullSecrets with registry passwords are a security incident waiting to happen -- they get committed to repos, shared in Slack, and never rotated.
 :::
 
-## Security: Non-Negotiable Steps
+## Security: non-negotiable steps
 
 1. **Image scanning**: Enable Microsoft Defender for Containers. It scans images in ACR and blocks vulnerable images at admission.
 2. **Admission control**: Use Azure Policy to enforce that only images from your ACR can run in the cluster.
@@ -125,7 +125,7 @@ az policy assignment create \
   --params '{"allowedContainerImagesRegex": {"value": "^myacr\\.azurecr\\.io/.+$"}}'
 ```
 
-## Pipeline Architecture: What Goes Where
+## Pipeline architecture: what goes where
 
 | Concern | Where it belongs | Why |
 |---------|-----------------|-----|
@@ -136,7 +136,7 @@ az policy assignment create \
 | Cluster deployment | GitOps controller | Pull-based, self-healing, auditable |
 | Smoke tests | Post-deploy hook | Validate the deployment worked |
 
-## Common Mistakes
+## Common mistakes
 
 - Deploying directly from CI to cluster (skipping GitOps) -- works until you have 3 clusters and no idea what's running where
 - Using Docker Hub as your production registry -- rate limits, no private networking, no geo-replication
@@ -145,7 +145,7 @@ az policy assignment create \
 - Running tests after deployment instead of in CI -- broken code reaches the cluster before you know it is broken
 - No image tag immutability -- someone pushes over an existing tag and your rollback points to new broken code
 
-## Environment Promotion
+## Environment promotion
 
 Promote through environments using branches or directories in your manifest repo:
 

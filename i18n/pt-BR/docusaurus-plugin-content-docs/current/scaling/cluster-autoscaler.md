@@ -8,7 +8,7 @@ description: "Adicione e remova nodes automaticamente com base na pressão de ag
 
 O HPA escala pods. O Cluster Autoscaler escala os nodes onde esses pods rodam. Sem ele, o HPA cria pods que ficam em estado Pending para sempre porque não há onde agendá-los.
 
-## Como Funciona
+## Como funciona
 
 A lógica é direta:
 
@@ -42,7 +42,7 @@ az aks create \
   --node-vm-size Standard_D4s_v5
 ```
 
-## Parâmetros-Chave
+## Parâmetros-chave
 
 | Parâmetro | Valor Recomendado | Justificativa |
 |-----------|------------------|-----------|
@@ -58,7 +58,7 @@ az aks create \
 Defina `scale-down-delay-after-add` para pelo menos 10 minutos. Sem isso, o CA adiciona um node, pods são agendados, alguns terminam rápido, o node parece subutilizado, o CA remove, pods ficam em Pending, o CA adiciona de novo. Essa oscilação desperdiça dinheiro e cria instabilidade.
 :::
 
-## Node Autoprovision (NAP) vs Cluster Autoscaler
+## Node autoprovision (NAP) vs Cluster Autoscaler
 
 | Recurso | Cluster Autoscaler | NAP (AKS Automatic) |
 |---------|-------------------|---------------------|
@@ -72,7 +72,7 @@ Se você está no **AKS Automatic**, o NAP cuida do scaling de nodes para você.
 
 Se você está no **AKS Standard**, use Cluster Autoscaler com node pools construídos por propósito.
 
-## Boa Prática: Múltiplos Node Pools
+## Boa prática: múltiplos node pools
 
 Não rode tudo em um único node pool `Standard_D4s_v5`. Segmente por classe de workload:
 
@@ -100,7 +100,7 @@ az aks nodepool add --name gpu \
 Defina `min-count 0` em pools especializados (GPU, alta memória). Deixe-os escalar a zero quando nenhum workload precisar deles. Apenas o seu pool general precisa de um mínimo diferente de zero.
 :::
 
-## Erros Comuns
+## Erros comuns
 
 **Definir max-count muito baixo.** Durante um pico de tráfego, o CA atinge o teto e seus pods ficam em Pending. Monitore eventos de pods não-agendáveis e aumente o max-count antes de precisar.
 

@@ -4,11 +4,11 @@ title: "Deployment Strategies"
 description: "Rolling updates, blue/green, and canary deployments on AKS with opinionated guidance on when to use each."
 ---
 
-# Deployment Strategies
+# Deployment strategies
 
 Most teams overcomplicate this. Use rolling updates as your default. Add canary for the two or three services where a bad deploy costs real money. Skip blue/green unless you have a very specific reason.
 
-## Decision Table
+## Decision table
 
 | Strategy | Complexity | Resource cost | Rollback speed | Best for |
 |----------|-----------|---------------|----------------|----------|
@@ -21,7 +21,7 @@ Most teams overcomplicate this. Use rolling updates as your default. Add canary 
 Use rolling updates as your default. Add canary for critical user-facing services where you need to validate with real traffic before full rollout. Blue/green is expensive (2x resources permanently) and rarely needed in Kubernetes -- the platform already gives you declarative rollbacks.
 :::
 
-## Rolling Update (Default)
+## Rolling update (default)
 
 Rolling updates gradually replace old pods with new ones. Kubernetes handles this natively with zero configuration beyond your Deployment spec.
 
@@ -62,7 +62,7 @@ Always set `maxUnavailable: 0` for production services. The default of 25% means
 - `readinessProbe`: Without this, Kubernetes routes traffic to pods that are not ready. Every deployment without a readiness probe is a potential outage.
 - `minReadySeconds`: Add 10-30 seconds to catch pods that crash shortly after starting.
 
-## Canary Deployments
+## Canary deployments
 
 Canary sends a small percentage of traffic to the new version. You watch error rates and latency, then either promote or roll back. Do not implement this manually with multiple Deployments and service selectors -- use a proper tool.
 
@@ -109,7 +109,7 @@ Argo Rollouts integrates with Prometheus for automated analysis. If error rate e
         startingStep: 1    # Start checking after first weight shift
 ```
 
-## Blue/Green
+## Blue/green
 
 Two full environments running simultaneously. Traffic switches instantly between them. This is expensive and usually unnecessary in Kubernetes.
 
@@ -120,7 +120,7 @@ Two full environments running simultaneously. Traffic switches instantly between
 
 For everything else, rolling updates or canary are cheaper and simpler.
 
-## Common Mistakes
+## Common mistakes
 
 - No readiness probes: Kubernetes sends traffic to unready pods during rollout. Every time.
 - No progress deadline: Broken deployments hang indefinitely, blocking the next deploy.

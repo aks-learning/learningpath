@@ -1,14 +1,14 @@
 ---
 sidebar_position: 2
 title: "Ferramentas Essenciais"
-description: "As ferramentas que voce realmente precisa para gerenciar clusters AKS, e quais pular"
+description: "As ferramentas que você realmente precisa para gerenciar clusters AKS, e quais pular"
 ---
 
-# Ferramentas Essenciais
+# Ferramentas essenciais
 
-kubectl + kubelogin + helm e o minimo. Adicione k9s para debugging interativo. Pule GUIs ate saber usar a CLI.
+kubectl + kubelogin + helm é o mínimo. Adicione k9s para debugging interativo. Pule GUIs até saber usar a CLI.
 
-## Ferramentas Obrigatorias
+## Ferramentas obrigatórias
 
 Instale estas antes de tocar em qualquer cluster AKS:
 
@@ -27,19 +27,19 @@ kubelogin --version
 helm version
 ```
 
-| Ferramenta | Por que Voce Precisa | Instalacao |
+| Ferramenta | Por que Você Precisa | Instalação |
 |------------|---------------------|------------|
 | **Azure CLI** | Gerenciamento do ciclo de vida do cluster | `winget install Microsoft.AzureCLI` |
-| **kubectl** | Todas as interacoes com a API do Kubernetes | `az aks install-cli` |
-| **kubelogin** | Obrigatorio para autenticacao via Entra ID (todo cluster de producao) | `az aks install-cli` |
+| **kubectl** | Todas as interações com a API do Kubernetes | `az aks install-cli` |
+| **kubelogin** | Obrigatório para autenticação via Entra ID (todo cluster de produção) | `az aks install-cli` |
 | **Helm** | Instalar componentes de terceiros (ingress, cert-manager) | `winget install Helm.Helm` |
 
 :::warning
 
-kubelogin nao e opcional. Todo cluster AKS de producao usa integracao com Entra ID. Sem kubelogin, o kubectl nao consegue autenticar. O comando `az aks install-cli` instala tanto o kubectl quanto o kubelogin.
+kubelogin não é opcional. Todo cluster AKS de produção usa integração com Entra ID. Sem kubelogin, o kubectl não consegue autenticar. O comando `az aks install-cli` instala tanto o kubectl quanto o kubelogin.
 :::
 
-## Conectando ao Seu Cluster
+## Conectando ao seu cluster
 
 ```bash
 # Get credentials (merges into ~/.kube/config)
@@ -52,14 +52,14 @@ kubelogin convert-kubeconfig -l azurecli
 kubectl get nodes
 ```
 
-## Recomendadas (Nao Obrigatorias)
+## Recomendadas (não obrigatórias)
 
-| Ferramenta | Finalidade | Opiniao |
+| Ferramenta | Finalidade | Opinião |
 |------------|-----------|---------|
 | **k9s** | Interface de terminal para Kubernetes | Melhor ferramenta de debugging. Ganha de loops de `kubectl get`. |
-| **Kustomize** | Composicao de YAML sem templates | Integrado ao kubectl (`kubectl apply -k`) |
-| **kubectx/kubens** | Troca rapida de contexto/namespace | Essencial quando voce tem 2+ clusters |
-| **stern** | Tail de logs em multiplos pods | `kubectl logs` mas em todos os pods de uma vez |
+| **Kustomize** | Composição de YAML sem templates | Integrado ao kubectl (`kubectl apply -k`) |
+| **kubectx/kubens** | Troca rápida de contexto/namespace | Essencial quando você tem 2+ clusters |
+| **stern** | Tail de logs em múltiplos pods | `kubectl logs` mas em todos os pods de uma vez |
 
 ```bash
 # Install k9s
@@ -71,21 +71,21 @@ k9s
 
 ## Helm vs Kustomize
 
-Use Helm para charts de terceiros. Use Kustomize para suas proprias aplicacoes. Nao use ambos na mesma aplicacao.
+Use Helm para charts de terceiros. Use Kustomize para suas próprias aplicações. Não use ambos na mesma aplicação.
 
-| Cenario | Use | Por que |
+| Cenário | Use | Por que |
 |---------|-----|---------|
-| Instalar NGINX Ingress Controller | Helm | Chart mantido, templates complexos, configuracao via values |
+| Instalar NGINX Ingress Controller | Helm | Chart mantido, templates complexos, configuração via values |
 | Instalar cert-manager | Helm | Mesmo caso |
-| Deploy do seu proprio microservico | Kustomize | Overlays simples, sem necessidade de template engine |
-| Customizar muito um Helm chart | Helm + arquivo de values | Nao ejete para patches do Kustomize em cima do Helm |
+| Deploy do seu próprio microsserviço | Kustomize | Overlays simples, sem necessidade de template engine |
+| Customizar muito um Helm chart | Helm + arquivo de values | Não ejete para patches do Kustomize em cima do Helm |
 
-:::tip Opiniao
+:::tip Opinião
 
-Se voce esta fazendo patch do output do Helm com Kustomize, voce errou. Ou use o values.yaml do chart corretamente ou faca fork do chart. O pipeline Helm-e-depois-Kustomize e um pesadelo de manutencao.
+Se você está fazendo patch do output do Helm com Kustomize, você errou. Ou use o values.yaml do chart corretamente ou faça fork do chart. O pipeline Helm-e-depois-Kustomize é um pesadelo de manutenção.
 :::
 
-## Infraestrutura como Codigo
+## Infraestrutura como código
 
 | Ferramenta | Quando Usar |
 |------------|-------------|
@@ -95,18 +95,18 @@ Se voce esta fazendo patch do output do Helm com Kustomize, voce errou. Ou use o
 
 :::info
 
-Bicep compila para ARM mas e legivel por humanos. Se voce e somente Azure, use Bicep. Terraform faz sentido se voce tambem gerencia recursos AWS/GCP ou se seu time ja o conhece.
+Bicep compila para ARM mas é legível por humanos. Se você é somente Azure, use Bicep. Terraform faz sentido se você também gerencia recursos AWS/GCP ou se seu time já o conhece.
 :::
 
-## Pule Estes (Por Enquanto)
+## Pule estes (por enquanto)
 
-- **Lens/OpenLens**: IDE GUI para Kubernetes. Aprenda kubectl primeiro para entender o que a GUI esta fazendo.
+- **Lens/OpenLens**: IDE GUI para Kubernetes. Aprenda kubectl primeiro para entender o que a GUI está fazendo.
 - **Docker Desktop Kubernetes**: Use AKS diretamente ou kind/minikube para dev local.
-- **Rancher/Portainer**: Adiciona uma camada de gerenciamento que voce nao precisa para um unico cluster.
+- **Rancher/Portainer**: Adiciona uma camada de gerenciamento que você não precisa para um único cluster.
 
 ## Recursos
 
 - [Comandos AKS da Azure CLI](https://learn.microsoft.com/cli/azure/aks)
-- [Documentacao do kubelogin](https://azure.github.io/kubelogin/)
+- [Documentação do kubelogin](https://azure.github.io/kubelogin/)
 - [Quickstart do Helm](https://helm.sh/docs/intro/quickstart/)
 - [k9s - interface de terminal](https://k9scli.io/)

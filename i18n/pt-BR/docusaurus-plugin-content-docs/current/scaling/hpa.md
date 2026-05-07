@@ -4,11 +4,11 @@ title: "Horizontal Pod Autoscaler"
 description: "Escale pods automaticamente com base em CPU, memória e metrics customizadas. Pare de adivinhar contagem de réplicas."
 ---
 
-# Horizontal Pod Autoscaler
+# Horizontal pod autoscaler
 
 SEMPRE configure HPA para workloads de produção. Uma contagem fixa de réplicas significa que você está desperdiçando dinheiro durante tráfego baixo ou prestes a cair durante tráfego alto. Não existe meio-termo.
 
-## Como o HPA Funciona
+## Como o HPA funciona
 
 O controller do HPA verifica metrics a cada 15 segundos (configurável). Ele compara a utilização atual com o seu target e ajusta a contagem de réplicas de acordo:
 
@@ -21,7 +21,7 @@ desiredReplicas = ceil(currentReplicas * (currentMetric / targetMetric))
 O HPA usa **utilização baseada em requests**, não capacidade real do node. Se o seu pod solicita 100m CPU e usa 80m, o HPA enxerga 80% de utilização. Se seus requests estiverem errados, o HPA toma decisões erradas. Sempre dimensione os requests corretamente primeiro.
 :::
 
-## Configuração Essencial
+## Configuração essencial
 
 | Parâmetro | Recomendação | Por Quê |
 |-----------|---------------|-----|
@@ -30,7 +30,7 @@ O HPA usa **utilização baseada em requests**, não capacidade real do node. Se
 | `targetCPUUtilization` | 60-70% | Deixa margem para picos de tráfego antes que novos pods estejam prontos |
 | `stabilizationWindowSeconds` | 300 (scale-down) | Previne oscilação durante carga flutuante |
 
-## Exemplo de HPA Pronto para Produção
+## Exemplo de HPA pronto para produção
 
 ```yaml
 apiVersion: autoscaling/v2
@@ -78,7 +78,7 @@ spec:
 Escale para cima agressivamente, escale para baixo conservadoramente. O custo de sobre-provisionar por alguns minutos é muito menor que o custo de perder requests.
 :::
 
-## Metrics Customizadas: Quando CPU Não é Suficiente
+## Metrics customizadas: quando CPU não é suficiente
 
 Scaling baseado em CPU é o básico. Workloads de produção precisam de metrics customizadas:
 
@@ -89,7 +89,7 @@ Scaling baseado em CPU é o básico. Workloads de produção precisam de metrics
 
 Use Prometheus Adapter ou KEDA para expor metrics customizadas ao HPA.
 
-## Erros Comuns
+## Erros comuns
 
 **Definir min = max réplicas.** Isso desabilita o autoscaling completamente. Se você quer uma contagem fixa, apenas defina `replicas` no Deployment e pule o HPA.
 
@@ -101,7 +101,7 @@ Use Prometheus Adapter ou KEDA para expor metrics customizadas ao HPA.
 
 **Usar HPA com VPA na mesma metric.** HPA e Vertical Pod Autoscaler brigam entre si quando ambos miram CPU. Use VPA apenas para memória se você precisar de ambos.
 
-## Verificando o Status do HPA
+## Verificando o status do HPA
 
 ```bash
 kubectl get hpa api-hpa
@@ -110,7 +110,7 @@ kubectl describe hpa api-hpa
 kubectl top pods -l app=api-server
 ```
 
-## Decisão: Quando Usar HPA vs Alternativas
+## Decisão: quando usar HPA vs alternativas
 
 | Cenário | Use |
 |----------|-----|

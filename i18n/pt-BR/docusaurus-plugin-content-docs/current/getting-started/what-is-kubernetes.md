@@ -1,45 +1,45 @@
 ---
 sidebar_position: 1
-title: "O que e Kubernetes?"
-description: "Quando voce realmente precisa de Kubernetes, quando nao precisa, e por que Kubernetes gerenciado e a unica escolha sensata para a maioria dos times."
+title: "O que é Kubernetes?"
+description: "Quando você realmente precisa de Kubernetes, quando não precisa, e por que Kubernetes gerenciado é a única escolha sensata para a maioria dos times."
 ---
 
-# O que e Kubernetes?
+# O que é Kubernetes?
 
-Kubernetes (K8s) e uma plataforma de orquestracao de containers. Ele pega suas aplicacoes containerizadas e as executa em um cluster de maquinas com self-healing, escalabilidade, rolling deployments e service discovery integrados.
+Kubernetes (K8s) é uma plataforma de orquestração de containers. Ele pega suas aplicações containerizadas e as executa em um cluster de máquinas com self-healing, escalabilidade, rolling deployments e service discovery integrados.
 
-Mas a pergunta real e: **voce realmente precisa disso?**
+Mas a pergunta real é: **você realmente precisa disso?**
 
-## Voce Precisa de Kubernetes Quando...
+## Você precisa de Kubernetes quando...
 
-- Voce tem **5+ microservicos** que precisam se comunicar, escalar independentemente e fazer deploy em cadencias diferentes
-- Voce precisa de **rolling deployments com zero downtime** como requisito obrigatorio
-- Seu trafego e **imprevisivel ou com picos** e voce precisa de autoscaling horizontal que reage em segundos, nao minutos
-- Voce tem **multiplos times** responsaveis por servicos e precisa de isolamento por namespace, RBAC e resource quotas
-- Voce esta rodando **workloads stateful** (bancos de dados, filas, treinamento de ML) junto com stateless na mesma infraestrutura
-- Voce precisa de **infraestrutura portavel** entre clouds ou ambientes hibridos
+- Você tem **5+ microsserviços** que precisam se comunicar, escalar independentemente e fazer deploy em cadências diferentes
+- Você precisa de **rolling deployments com zero downtime** como requisito obrigatório
+- Seu tráfego é **imprevisível ou com picos** e você precisa de autoscaling horizontal que reage em segundos, não minutos
+- Você tem **múltiplos times** responsáveis por serviços e precisa de isolamento por namespace, RBAC e resource quotas
+- Você está rodando **workloads stateful** (bancos de dados, filas, treinamento de ML) junto com stateless na mesma infraestrutura
+- Você precisa de **infraestrutura portável** entre clouds ou ambientes híbridos
 
-## Voce NAO Precisa de Kubernetes Quando...
+## Você NAO precisa de Kubernetes quando...
 
 :::warning Pare. Pense antes de adotar Kubernetes.
 
-O erro numero um de iniciantes e adotar Kubernetes para uma aplicacao com 2 servicos que rodaria perfeitamente no Azure Container Apps ou ate no App Service. Kubernetes adiciona complexidade operacional. Se voce nao precisa do que ele oferece, so vai te atrasar.
+O erro número um de iniciantes é adotar Kubernetes para uma aplicação com 2 serviços que rodaria perfeitamente no Azure Container Apps ou até no App Service. Kubernetes adiciona complexidade operacional. Se você não precisa do que ele oferece, só vai te atrasar.
 :::
 
-- Voce tem **1-3 servicos** com trafego previsivel -- use Azure Container Apps
-- Voce esta construindo um **monolito** ou uma API simples -- use App Service
-- Voce quer **zero gerenciamento de infraestrutura** -- use Azure Container Apps com scale-to-zero
-- Seu time **nao tem experiencia com containers** e nao tem tempo para aprender -- comece com Container Apps, migre para AKS depois
-- Voce precisa de **serverless orientado a eventos** com cold starts abaixo de um segundo -- use Azure Functions
+- Você tem **1-3 serviços** com tráfego previsível -- use Azure Container Apps
+- Você está construindo um **monolito** ou uma API simples -- use App Service
+- Você quer **zero gerenciamento de infraestrutura** -- use Azure Container Apps com scale-to-zero
+- Seu time **não tem experiência com containers** e não tem tempo para aprender -- comece com Container Apps, migre para AKS depois
+- Você precisa de **serverless orientado a eventos** com cold starts abaixo de um segundo -- use Azure Functions
 
-## O Caminho: De Containers a Orquestracao
+## O caminho: de containers a orquestração
 
-Veja como a progressao funciona no mundo real:
+Veja como a progressão funciona no mundo real:
 
-1. **Voce containeriza sua aplicacao** -- Docker te da builds reproduziveis e ambientes consistentes
-2. **Voce precisa rodar multiplos containers** -- Docker Compose funciona em uma maquina, mas producao precisa de resiliencia
-3. **Voce precisa de orquestracao** -- Algo precisa decidir qual maquina roda qual container, reiniciar falhas, rotear trafego e gerenciar secrets
-4. **Voce escolhe um orquestrador** -- Kubernetes venceu a guerra de orquestracao. Todo o resto (Docker Swarm, Mesos, Nomad) e nicho ou morreu
+1. **Você containeriza sua aplicação** -- Docker te dá builds reproduzíveis e ambientes consistentes
+2. **Você precisa rodar múltiplos containers** -- Docker Compose funciona em uma máquina, mas produção precisa de resiliência
+3. **Você precisa de orquestração** -- Algo precisa decidir qual máquina roda qual container, reiniciar falhas, rotear tráfego e gerenciar secrets
+4. **Você escolhe um orquestrador** -- Kubernetes venceu a guerra de orquestração. Todo o resto (Docker Swarm, Mesos, Nomad) é nicho ou morreu
 
 ```yaml
 # This is a Kubernetes Deployment. It tells K8s:
@@ -73,90 +73,90 @@ spec:
             memory: "512Mi"
 ```
 
-## Conceitos Fundamentais que Voce Precisa Conhecer
+## Conceitos fundamentais que você precisa conhecer
 
 | Conceito | O que Faz | Por que Importa |
 |----------|-----------|-----------------|
-| **Pod** | Menor unidade. Um ou mais containers compartilhando rede/armazenamento. | Voce quase nunca cria Pods diretamente. Use Deployments. |
-| **Deployment** | Gerencia replicas e rolling updates. | Esse e o feijao com arroz. Todo servico stateless e um Deployment. |
-| **Service** | Nome DNS interno estavel e load balancer para Pods. | Pods sao efemeros. Services dao a eles um endereco permanente. |
-| **Ingress** | Roteamento HTTP/HTTPS externo para dentro do cluster. | Sem isso, nada fora do cluster consegue acessar suas aplicacoes. |
-| **Namespace** | Limite de isolamento logico. | Use um por time ou por ambiente (dev/staging/prod). |
-| **ConfigMap** | Dados de configuracao nao-sensiveis. | Desacopla configuracao das imagens de container. Mude a configuracao sem refazer o deploy. |
-| **Secret** | Dados sensiveis (senhas, chaves, certificados). | Nunca coloque secrets nas imagens. Sempre use Secrets ou cofres externos. |
-| **PersistentVolumeClaim** | Requisicao de armazenamento duravel. | Necessario para bancos de dados, armazenamento de arquivos, qualquer coisa que sobreviva a reinicializacoes de Pod. |
-| **HorizontalPodAutoscaler** | Escala replicas de Pod baseado em metricas. | Sem isso, voce esta ou superdimensionado ou prestes a cair. |
+| **Pod** | Menor unidade. Um ou mais containers compartilhando rede/armazenamento. | Você quase nunca cria Pods diretamente. Use Deployments. |
+| **Deployment** | Gerencia réplicas e rolling updates. | Esse é o feijão com arroz. Todo serviço stateless é um Deployment. |
+| **Service** | Nome DNS interno estável e load balancer para Pods. | Pods são efêmeros. Services dão a eles um endereço permanente. |
+| **Ingress** | Roteamento HTTP/HTTPS externo para dentro do cluster. | Sem isso, nada fora do cluster consegue acessar suas aplicações. |
+| **Namespace** | Limite de isolamento lógico. | Use um por time ou por ambiente (dev/staging/prod). |
+| **ConfigMap** | Dados de configuração não-sensíveis. | Desacopla configuração das imagens de container. Mude a configuração sem refazer o deploy. |
+| **Secret** | Dados sensíveis (senhas, chaves, certificados). | Nunca coloque secrets nas imagens. Sempre use Secrets ou cofres externos. |
+| **PersistentVolumeClaim** | Requisição de armazenamento durável. | Necessário para bancos de dados, armazenamento de arquivos, qualquer coisa que sobreviva a reinicializações de Pod. |
+| **HorizontalPodAutoscaler** | Escala réplicas de Pod baseado em métricas. | Sem isso, você está ou superdimensionado ou prestes a cair. |
 
-## Por que Kubernetes Gerenciado (Nao Auto-Gerenciado)
+## Por que Kubernetes gerenciado (não auto-gerenciado)
 
-:::tip Recomendacao forte
+:::tip Recomendação forte
 
-Nao rode Kubernetes auto-gerenciado a menos que voce tenha um time de plataforma dedicado com 3+ engenheiros. Kubernetes auto-gerenciado significa que voce e responsavel por: backup/restore do etcd, upgrades do control plane, rotacao de certificados, disponibilidade do API server e cada patch de CVE. Isso e um trabalho de tempo integral para multiplas pessoas.
+Não rode Kubernetes auto-gerenciado a menos que você tenha um time de plataforma dedicado com 3+ engenheiros. Kubernetes auto-gerenciado significa que você é responsável por: backup/restore do etcd, upgrades do control plane, rotação de certificados, disponibilidade do API server e cada patch de CVE. Isso é um trabalho de tempo integral para múltiplas pessoas.
 :::
 
-**Use um servico gerenciado como AKS.** Veja por que:
+**Use um serviço gerenciado como AKS.** Veja por que:
 
 | Aspecto | Auto-Gerenciado | AKS (Gerenciado) |
 |---------|----------------|-------------------|
 | Disponibilidade do control plane | Problema seu (quorum do etcd, HA do API server) | SLA da Microsoft (99.95% com tier Standard) |
-| Upgrades do Kubernetes | Manual, arriscado, processo de varias horas | Um comando ou canais totalmente automatizados |
-| Patches de seguranca | Voce rastreia CVEs e aplica patches | Auto-upgrade de imagem de node disponivel |
-| Gerenciamento de certificados | Voce rotaciona certificados antes do vencimento | Tratado automaticamente |
-| Custo do control plane | Voce paga por essas VMs | Gratuito. Voce paga zero pelo control plane. |
-| Rede | Voce configura CNI, load balancers, DNS | Integracao nativa com Azure pronta para uso |
+| Upgrades do Kubernetes | Manual, arriscado, processo de várias horas | Um comando ou canais totalmente automatizados |
+| Patches de segurança | Você rastreia CVEs e aplica patches | Auto-upgrade de imagem de node disponível |
+| Gerenciamento de certificados | Você rotaciona certificados antes do vencimento | Tratado automaticamente |
+| Custo do control plane | Você paga por essas VMs | Gratuito. Você paga zero pelo control plane. |
+| Rede | Você configura CNI, load balancers, DNS | Integração nativa com Azure pronta para uso |
 
-As unicas razoes legitimas para auto-gerenciar:
+As únicas razões legítimas para auto-gerenciar:
 
 - Ambientes isolados (air-gapped) sem conectividade com a cloud
-- Hardware exotico (edge, bare metal, GPUs especializadas nao disponiveis na cloud)
-- Requisitos regulatorios que literalmente proibem servicos gerenciados (raro)
+- Hardware exótico (edge, bare metal, GPUs especializadas não disponíveis na cloud)
+- Requisitos regulatórios que literalmente proibem serviços gerenciados (raro)
 
-## Tabela de Decisao: Kubernetes vs. Alternativas
+## Tabela de decisão: Kubernetes vs. alternativas
 
-| Cenario | Recomendacao | Por que |
+| Cenário | Recomendação | Por que |
 |---------|-------------|---------|
-| 1-3 servicos stateless, trafego previsivel | **Azure Container Apps** | Mais simples, mais barato, scale-to-zero, sem necessidade de conhecer K8s |
-| 5+ servicos, multiplos times, rede complexa | **AKS** | Voce precisa do poder de orquestracao |
-| Orientado a eventos, workloads esporadicos | **Azure Functions** | Feito para isso, escalabilidade abaixo de um segundo |
+| 1-3 serviços stateless, tráfego previsível | **Azure Container Apps** | Mais simples, mais barato, scale-to-zero, sem necessidade de conhecer K8s |
+| 5+ serviços, múltiplos times, rede complexa | **AKS** | Você precisa do poder de orquestração |
+| Orientado a eventos, workloads esporádicos | **Azure Functions** | Feito para isso, escalabilidade abaixo de um segundo |
 | Monolito ou web app simples | **App Service** | Plataforma gerenciada, sem necessidade de containers |
-| Pipelines de treinamento de ML | **AKS com GPU node pools** | Agendamento de GPU no K8s e maduro e bem suportado |
-| Mandato hibrido/multi-cloud | **AKS + Azure Arc** | K8s consistente entre ambientes |
+| Pipelines de treinamento de ML | **AKS com GPU node pools** | Agendamento de GPU no K8s é maduro e bem suportado |
+| Mandato híbrido/multi-cloud | **AKS + Azure Arc** | K8s consistente entre ambientes |
 
-## A Curva de Aprendizado: No que Focar Primeiro
+## A curva de aprendizado: no que focar primeiro
 
-Kubernetes tem uma superficie de API enorme. Nao tente aprender tudo de uma vez. Aqui esta a ordem que importa:
+Kubernetes tem uma superfície de API enorme. Não tente aprender tudo de uma vez. Aqui está a ordem que importa:
 
-1. **Semana 1**: Pods, Deployments, Services. Coloque uma aplicacao rodando e acessivel.
-2. **Semana 2**: ConfigMaps, Secrets, resource requests/limits. Torne sua aplicacao configuravel e estavel.
+1. **Semana 1**: Pods, Deployments, Services. Coloque uma aplicação rodando e acessível.
+2. **Semana 2**: ConfigMaps, Secrets, resource requests/limits. Torne sua aplicação configurável e estável.
 3. **Semana 3**: Namespaces, RBAC, Ingress. Isole workloads e exponha-os corretamente.
-4. **Semana 4**: HPA, PersistentVolumeClaims, health probes. Torne sua aplicacao resiliente e escalavel.
-5. **Depois disso**: StatefulSets, DaemonSets, CRDs, Operators, service mesh -- somente quando voce precisar.
+4. **Semana 4**: HPA, PersistentVolumeClaims, health probes. Torne sua aplicação resiliente e escalável.
+5. **Depois disso**: StatefulSets, DaemonSets, CRDs, Operators, service mesh -- somente quando você precisar.
 
-:::warning O que NAO aprender cedo
+:::warning O que NÃO aprender cedo
 
-Nao comece com Helm charts, Operators ou service meshes. Esses sao padroes avancados que resolvem problemas que voce ainda nao tem. Aprenda os primitivos primeiro. Se voce nao consegue fazer deploy de uma aplicacao com YAML puro, voce nao deveria estar abstraindo com Helm.
+Não comece com Helm charts, Operators ou service meshes. Esses são padrões avançados que resolvem problemas que você ainda não tem. Aprenda os primitivos primeiro. Se você não consegue fazer deploy de uma aplicação com YAML puro, você não deveria estar abstraindo com Helm.
 :::
 
-## Erros Comuns de Iniciantes
+## Erros comuns de iniciantes
 
-| Erro | Consequencia | Correcao |
+| Erro | Consequência | Correção |
 |------|-------------|----------|
-| Sem resource requests/limits | Pods sao agendados em qualquer lugar, OOMKilled aleatoriamente | Sempre defina `requests`. Defina `limits` para memoria. |
-| Sem liveness/readiness probes | K8s nao consegue saber se sua aplicacao esta saudavel, envia trafego para Pods quebrados | Adicione probes desde o primeiro dia. Ate um simples check TCP. |
-| Usar tag de imagem `latest` | Voce nao sabe qual versao esta rodando, rollbacks sao impossiveis | Sempre use tags de versao especificas (`:v1.2.3`). |
-| Armazenar estado em disco local | Reinicializacoes de Pod perdem todos os dados | Use PersistentVolumeClaims para qualquer dado que precise sobreviver a reinicializacoes. |
-| Um unico namespace gigante | Sem isolamento, RBAC e tudo-ou-nada, resource quotas impossiveis | Um namespace por time ou por limite de servico. |
-| Ignorar Pod disruption budgets | Upgrades do cluster derrubam todas as replicas simultaneamente | Defina PDBs para que pelo menos N-1 replicas fiquem rodando durante manutencao. |
+| Sem resource requests/limits | Pods são agendados em qualquer lugar, OOMKilled aleatoriamente | Sempre defina `requests`. Defina `limits` para memória. |
+| Sem liveness/readiness probes | K8s não consegue saber se sua aplicação está saudável, envia tráfego para Pods quebrados | Adicione probes desde o primeiro dia. Até um simples check TCP. |
+| Usar tag de imagem `latest` | Você não sabe qual versão está rodando, rollbacks são impossíveis | Sempre use tags de versão específicas (`:v1.2.3`). |
+| Armazenar estado em disco local | Reinicializações de Pod perdem todos os dados | Use PersistentVolumeClaims para qualquer dado que precise sobreviver a reinicializações. |
+| Um único namespace gigante | Sem isolamento, RBAC é tudo-ou-nada, resource quotas impossíveis | Um namespace por time ou por limite de serviço. |
+| Ignorar Pod disruption budgets | Upgrades do cluster derrubam todas as réplicas simultaneamente | Defina PDBs para que pelo menos N-1 réplicas fiquem rodando durante manutenção. |
 
 ## Recursos
 
-- [O que e Kubernetes? (Azure)](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-kubernetes/)
-- [Conceitos do Kubernetes (Documentacao Oficial)](https://kubernetes.io/docs/concepts/)
+- [O que é Kubernetes? (Azure)](https://azure.microsoft.com/en-us/resources/cloud-computing-dictionary/what-is-kubernetes/)
+- [Conceitos do Kubernetes (Documentação Oficial)](https://kubernetes.io/docs/concepts/)
 - [Arquitetura de Componentes do Kubernetes](https://kubernetes.io/docs/concepts/overview/components/)
 - [Azure Container Apps vs AKS](https://learn.microsoft.com/en-us/azure/container-apps/compare-options)
 - [Kubernetes the Hard Way (aprenda do que o gerenciado te livra)](https://github.com/kelseyhightower/kubernetes-the-hard-way)
-- [AKS Labs -- Aprendizado Pratico](https://azure-samples.github.io/aks-labs/)
+- [AKS Labs -- Aprendizado Prático](https://azure-samples.github.io/aks-labs/)
 
 ---
 
-**Proximo**: [O que e AKS?](./what-is-aks) -- onde nos aprofundamos na oferta de Kubernetes gerenciado do Azure.
+**Próximo**: [O que é AKS?](./what-is-aks) -- onde nos aprofundamos na oferta de Kubernetes gerenciado do Azure.

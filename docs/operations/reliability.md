@@ -4,11 +4,11 @@ title: "Reliability and High Availability"
 description: "Opinionated guide to AKS reliability patterns, availability zones, probes, and multi-region architecture."
 ---
 
-# Reliability and High Availability
+# Reliability and high availability
 
 A single AKS cluster with default settings will fail you in production. Nodes die. Zones go offline. Pods crash silently. You need to design for failure from day one, not bolt it on after your first outage.
 
-## Availability Zones
+## Availability zones
 
 Spread your nodes across 3 availability zones. This is non-negotiable for production.
 
@@ -33,7 +33,7 @@ The incremental cost is zero -- you pay the same per node whether it is in one z
 | 2 zones | 50% loss | Marginal |
 | 3 zones | 33% loss (survives) | Yes |
 
-## Pod Topology Spread Constraints
+## Pod topology spread constraints
 
 Availability zones protect against infrastructure failure. Topology spread constraints protect against bad scheduling. Without them, Kubernetes might schedule all your replicas on the same node.
 
@@ -66,7 +66,7 @@ spec:
 Deploying all pods on one node, then losing everything when that node fails. Use topology spread constraints with `topologyKey: kubernetes.io/hostname` to distribute pods across nodes, and `topology.kubernetes.io/zone` to distribute across zones.
 :::
 
-## Pod Disruption Budgets
+## Pod disruption budgets
 
 PDBs define the minimum availability during voluntary disruptions (upgrades, node drains, scale-downs). Without them, Kubernetes will evict all your pods simultaneously.
 
@@ -84,7 +84,7 @@ spec:
 
 Use `minAvailable` for services that need N instances running at all times. Use `maxUnavailable` when you want to express "at most 1 pod down at a time."
 
-## Liveness and Readiness Probes
+## Liveness and readiness probes
 
 Every production pod MUST have both a liveness probe and a readiness probe. They serve different purposes.
 
@@ -119,7 +119,7 @@ spec:
 Kubernetes cannot help you if it does not know your pod is unhealthy. Without a liveness probe, a deadlocked pod sits there forever consuming resources. Without a readiness probe, traffic routes to pods that cannot serve it.
 :::
 
-## AKS SLA Tiers
+## AKS SLA tiers
 
 | Tier | SLA | Availability Zones | Use Case |
 |------|-----|-------------------|----------|
@@ -136,7 +136,7 @@ az aks update \
   --tier standard
 ```
 
-## Multi-Region Architecture
+## Multi-region architecture
 
 For mission-critical workloads that need near-zero downtime, deploy two clusters in different regions behind Azure Front Door.
 
@@ -153,7 +153,7 @@ Requirements:
 Multi-region is expensive and complex. For most workloads, a single region with 3 availability zones gives you 99.99% SLA. Only go multi-region if your RTO is under 1 minute or you need geographic redundancy for compliance.
 :::
 
-## Reliability Checklist
+## Reliability checklist
 
 - [ ] Node pools span 3 availability zones
 - [ ] Topology spread constraints on all deployments

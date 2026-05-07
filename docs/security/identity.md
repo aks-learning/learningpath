@@ -4,11 +4,11 @@ title: "Identity and Access Management"
 description: "Entra ID integration, Azure RBAC for Kubernetes, and managed identity strategy for AKS clusters."
 ---
 
-# Identity and Access Management
+# Identity and access management
 
 Entra ID integration is THE way to manage access to AKS. There is no debate here. If you are using local accounts or certificate-based auth in production, you are doing it wrong and creating an audit nightmare.
 
-## The Rule
+## The rule
 
 Never use local Kubernetes accounts. Disable them. Use Entra ID combined with Kubernetes RBAC for every cluster, every environment, no exceptions.
 
@@ -17,7 +17,7 @@ Never use local Kubernetes accounts. Disable them. Use Entra ID combined with Ku
 Local accounts cannot be audited through Entra ID, cannot enforce MFA, and cannot be revoked centrally. A compromised kubeconfig with local admin credentials gives permanent cluster access until you rotate the certificates.
 :::
 
-## Create a Cluster the Right Way
+## Create a cluster the right way
 
 ```bash
 az aks create \
@@ -33,7 +33,7 @@ az aks create \
 
 Every flag matters. `--enable-aad` turns on Entra ID integration. `--enable-azure-rbac` maps Azure roles directly to Kubernetes RBAC so you manage everything from one control plane. `--disable-local-accounts` eliminates the backdoor.
 
-## Azure RBAC for Kubernetes: The Decision
+## Azure RBAC for Kubernetes: the decision
 
 | Approach | When to Use | Verdict |
 |----------|-------------|---------|
@@ -51,7 +51,7 @@ az role assignment create \
   --scope "/subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.ContainerService/managedClusters/<cluster>/namespaces/team-a"
 ```
 
-## Managed Identity for the Cluster
+## Managed identity for the cluster
 
 The cluster itself needs an identity to manage Azure resources (load balancers, disks, networking). You have two options:
 
@@ -65,7 +65,7 @@ The cluster itself needs an identity to manage Azure resources (load balancers, 
 Use user-assigned managed identity for production clusters. When you recreate a cluster (and you will -- upgrades, DR testing, IaC reprovisioning), the identity persists with all its role assignments intact. System-assigned identity means re-doing every RBAC assignment from scratch.
 :::
 
-## Break-Glass Access
+## Break-glass access
 
 You disabled local accounts (good). But you need an emergency path when Entra ID has issues.
 
@@ -84,7 +84,7 @@ az aks get-credentials --resource-group myRG --name myCluster --admin
 az aks update --resource-group myRG --name myCluster --disable-local-accounts
 ```
 
-## Conditional Access: Require MFA for Cluster Access
+## Conditional access: require MFA for cluster access
 
 Entra ID Conditional Access policies apply to AKS authentication. This means you can require MFA, compliant devices, or restrict access to specific network locations for anyone running kubectl.
 
@@ -95,7 +95,7 @@ Configure a Conditional Access policy targeting the "Azure Kubernetes Service AA
 Conditional Access applies at token acquisition time. Once a user has a valid token (typically 1 hour), they can access the cluster without re-authentication until it expires. Plan your token lifetime accordingly.
 :::
 
-## Available Azure RBAC Roles for Kubernetes
+## Available Azure RBAC roles for Kubernetes
 
 | Role | Scope | What It Grants |
 |------|-------|----------------|
@@ -106,7 +106,7 @@ Conditional Access applies at token acquisition time. Once a user has a valid to
 
 Start with Reader for all developers. Promote to Writer only for namespaces they own. Admin and Cluster Admin should be reserved for platform teams only.
 
-## Common Mistakes
+## Common mistakes
 
 1. **Leaving local accounts enabled "just in case"** -- This is a backdoor. Disable them and use the break-glass procedure instead.
 2. **Using system-assigned MI for production** -- You will lose all role assignments when the cluster is recreated.

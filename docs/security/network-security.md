@@ -4,11 +4,11 @@ title: "Network Security"
 description: "Defense-in-depth network security for AKS with network policies, egress lockdown, and Cilium-based observability."
 ---
 
-# Network Security
+# Network security
 
 Network policies are mandatory in production. If your cluster allows unrestricted pod-to-pod communication and open egress to the internet, you have zero network security and a breach waiting to happen. Default-deny all traffic, then allow explicitly.
 
-## The Layers
+## The layers
 
 Network security in AKS is not one thing -- it is three distinct layers that must all be configured:
 
@@ -20,7 +20,7 @@ Network security in AKS is not one thing -- it is three distinct layers that mus
 
 All three layers are required. NSGs alone do not see pod-to-pod traffic within the same subnet. Network policies alone do not control egress to external services.
 
-## Network Policy Engine: The Decision
+## Network policy engine: the decision
 
 | Engine | L3/L4 Policies | L7 Policies | Observability | Performance | Verdict |
 |--------|---------------|-------------|---------------|-------------|---------|
@@ -43,7 +43,7 @@ az aks create \
   --network-policy cilium
 ```
 
-## Default Deny: Start Here
+## Default deny: start here
 
 Apply this to every namespace before deploying any workloads:
 
@@ -62,7 +62,7 @@ spec:
 
 This blocks all traffic in and out of every pod in the namespace. Then add explicit allow policies for each legitimate communication path.
 
-## Allow Only What Is Needed
+## Allow only what is needed
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -119,7 +119,7 @@ spec:
 Always include a DNS egress rule. Without it, pods cannot resolve service names and will fail in confusing ways that look like application bugs rather than network policy issues.
 :::
 
-## Egress Lockdown
+## Egress lockdown
 
 Leaving egress wide open (`0.0.0.0/0` to internet) means any compromised pod can exfiltrate data to any external endpoint. Lock it down.
 
@@ -144,7 +144,7 @@ az network firewall application-rule create \
   --target-fqdns "mcr.microsoft.com" "*.data.mcr.microsoft.com" "management.azure.com" "login.microsoftonline.com"
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **No network policies at all** -- The default in Kubernetes is allow-all. Without explicit policies, every pod can talk to every other pod. This is unacceptable in production.
 2. **Egress wide open** -- Pods should not reach the public internet unless explicitly required. A compromised container with open egress can download tools, exfiltrate data, or join a botnet.

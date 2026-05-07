@@ -3,29 +3,29 @@
     "message": "Atual",
     "description": "The label for version current"
   },
-  "sidebar.learningPath.category.Getting Started": {
-    "message": "Primeiros Passos",
-    "description": "The label for category 'Getting Started' in sidebar 'learningPath'"
+  "sidebar.learningPath.category.Getting started": {
+    "message": "Primeiros passos",
+    "description": "The label for category 'Getting started' in sidebar 'learningPath'"
   },
-  "sidebar.learningPath.category.Cluster Setup": {
-    "message": "Configuracao do Cluster",
-    "description": "The label for category 'Cluster Setup' in sidebar 'learningPath'"
+  "sidebar.learningPath.category.Cluster setup": {
+    "message": "Configuração do cluster",
+    "description": "The label for category 'Cluster setup' in sidebar 'learningPath'"
   },
   "sidebar.learningPath.category.Networking": {
     "message": "Rede",
     "description": "The label for category 'Networking' in sidebar 'learningPath'"
   },
   "sidebar.learningPath.category.Security": {
-    "message": "Seguranca",
+    "message": "Segurança",
     "description": "The label for category 'Security' in sidebar 'learningPath'"
   },
   "sidebar.learningPath.category.Observability": {
     "message": "Observabilidade",
     "description": "The label for category 'Observability' in sidebar 'learningPath'"
   },
-  "sidebar.learningPath.category.Scaling & Performance": {
-    "message": "Escalabilidade e Performance",
-    "description": "The label for category 'Scaling & Performance' in sidebar 'learningPath'"
+  "sidebar.learningPath.category.Scaling & performance": {
+    "message": "Escalabilidade e performance",
+    "description": "The label for category 'Scaling & performance' in sidebar 'learningPath'"
   },
   "sidebar.learningPath.category.Storage": {
     "message": "Armazenamento",
@@ -35,16 +35,16 @@
     "message": "Deployments e GitOps",
     "description": "The label for category 'Deployments & GitOps' in sidebar 'learningPath'"
   },
-  "sidebar.learningPath.category.AI/ML Workloads": {
-    "message": "Cargas de Trabalho AI/ML",
-    "description": "The label for category 'AI/ML Workloads' in sidebar 'learningPath'"
+  "sidebar.learningPath.category.AI/ML workloads": {
+    "message": "Cargas de trabalho AI/ML",
+    "description": "The label for category 'AI/ML workloads' in sidebar 'learningPath'"
   },
-  "sidebar.learningPath.category.Operations & Enterprise": {
-    "message": "Operacoes e Enterprise",
-    "description": "The label for category 'Operations & Enterprise' in sidebar 'learningPath'"
+  "sidebar.learningPath.category.Operations & enterprise": {
+    "message": "Operações e enterprise",
+    "description": "The label for category 'Operations & enterprise' in sidebar 'learningPath'"
   },
-  "sidebar.learningPath.category.Best Practices": {
-    "message": "Boas Praticas",
-    "description": "The label for category 'Best Practices' in sidebar 'learningPath'"
+  "sidebar.learningPath.category.Best practices": {
+    "message": "Boas práticas",
+    "description": "The label for category 'Best practices' in sidebar 'learningPath'"
   }
 }

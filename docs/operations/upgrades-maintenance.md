@@ -4,11 +4,11 @@ title: "Upgrades and Maintenance"
 description: "Opinionated guide to AKS cluster upgrades, auto-upgrade channels, maintenance windows, and surge settings."
 ---
 
-# Upgrades and Maintenance
+# Upgrades and maintenance
 
 Kubernetes moves fast. AKS drops support for minor versions roughly every 3 months. If you are not upgrading continuously, you are accumulating technical debt that will hit you all at once.
 
-## Auto-Upgrade Channels
+## Auto-upgrade channels
 
 AKS offers five auto-upgrade channels. Pick one and stick with it.
 
@@ -33,7 +33,7 @@ az aks update \
   --auto-upgrade-channel stable
 ```
 
-## Maintenance Windows
+## Maintenance windows
 
 Schedule upgrades during low-traffic hours. Do not let Azure pick a random Tuesday afternoon.
 
@@ -50,7 +50,7 @@ az aks maintenanceconfiguration add \
 
 Maintenance windows apply to both control plane and node pool upgrades. Set a separate `aksManagedNodeOSUpgradeSchedule` for node image updates if you want different timing.
 
-## Node Image Upgrades
+## Node image upgrades
 
 Node image upgrades are separate from Kubernetes version upgrades. They patch the OS, containerd, and kubelet without changing your K8s version.
 
@@ -66,7 +66,7 @@ az aks update \
   --node-os-upgrade-channel NodeImage
 ```
 
-## Surge Upgrades
+## Surge upgrades
 
 The `max-surge` setting controls how many extra nodes AKS spins up during an upgrade. More surge = faster upgrades but higher transient cost.
 
@@ -89,7 +89,7 @@ az aks nodepool update \
 Slower but safer. With 33%, one-third of your nodes upgrade in parallel while the rest keep serving traffic. Use 1 node for dev/test where cost matters more than speed.
 :::
 
-## Pod Disruption Budgets
+## Pod disruption budgets
 
 Every production workload MUST have a Pod Disruption Budget (PDB). Without a PDB, Kubernetes will drain all your pods simultaneously during upgrades.
 
@@ -110,7 +110,7 @@ spec:
 Not having PDBs, then wondering why upgrades cause downtime. During a node drain, Kubernetes evicts pods as fast as it can. Without a PDB, all replicas can be evicted simultaneously, causing a full outage.
 :::
 
-## Long-Term Support (LTS)
+## Long-term support (LTS)
 
 AKS Premium tier provides Long-Term Support: 2 years of patch support per minor version instead of the standard 1 year. Use LTS when:
 
@@ -120,7 +120,7 @@ AKS Premium tier provides Long-Term Support: 2 years of patch support per minor 
 
 LTS does not mean you should stop upgrading. It means you have breathing room.
 
-## Upgrade Verification Strategy
+## Upgrade verification strategy
 
 Do not blindly trust that an upgrade succeeded. Validate after every upgrade.
 
@@ -154,7 +154,7 @@ AKS does not support downgrading Kubernetes versions. If an upgrade breaks somet
 
 This is why staging clusters with `rapid` channel matter. Catch breaking changes before they hit production.
 
-## Common Mistakes
+## Common mistakes
 
 1. **Using `none` channel** -- You will skip 3+ minor versions, then discover breaking API removals all at once
 2. **No PDBs** -- Upgrades become unplanned outages

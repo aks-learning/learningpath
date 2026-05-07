@@ -1,32 +1,32 @@
 ---
 sidebar_position: 1
-title: "Decisoes de Design do Cluster"
-description: "Orientacao opinativa sobre topologia de cluster AKS, node pools, SKUs de VM e convencoes de nomenclatura"
+title: "Decisões de Design do Cluster"
+description: "Orientação opinativa sobre topologia de cluster AKS, node pools, SKUs de VM e convenções de nomenclatura"
 ---
 
-# Decisoes de Design do Cluster
+# Decisões de design do cluster
 
-Acerte essas decisoes no primeiro dia. Mudar a topologia do cluster depois significa downtime, migracao e dor de cabeca.
+Acerte essas decisões no primeiro dia. Mudar a topologia do cluster depois significa downtime, migração e dor de cabeça.
 
-## Cluster Unico vs Multi-Cluster
+## Cluster único vs multi-cluster
 
-Comece com um cluster. Use isolamento por namespace com network policies para separar times e ambientes. Evolua para multi-cluster somente quando precisar de reducao de raio de explosao, failover multi-regiao ou limites rigidos de compliance entre workloads.
+Comece com um cluster. Use isolamento por namespace com network policies para separar times e ambientes. Evolua para multi-cluster somente quando precisar de redução de raio de explosão, failover multi-região ou limites rígidos de compliance entre workloads.
 
 :::warning Erro Comum
 
-Times criam um cluster por ambiente (dev, staging, prod) no primeiro dia. Voce acaba gerenciando 9 clusters antes de ter um unico workload em producao. Comece com um cluster, tres namespaces.
+Times criam um cluster por ambiente (dev, staging, prod) no primeiro dia. Você acaba gerenciando 9 clusters antes de ter um único workload em produção. Comece com um cluster, três namespaces.
 :::
 
-| Cenario | Recomendacao |
+| Cenário | Recomendação |
 |---------|-------------|
-| Time unico, regiao unica | Um cluster, isolamento por namespace |
-| Multiplos times, compliance compartilhado | Um cluster, isolamento por namespace + network policy |
-| Multi-regiao ou raio de explosao rigido | Multi-cluster com GitOps |
-| Workloads regulados junto com nao-regulados | Clusters separados, subscriptions separadas |
+| Time único, região única | Um cluster, isolamento por namespace |
+| Múltiplos times, compliance compartilhado | Um cluster, isolamento por namespace + network policy |
+| Multi-região ou raio de explosão rígido | Multi-cluster com GitOps |
+| Workloads regulados junto com não-regulados | Clusters separados, subscriptions separadas |
 
-## Estrategia de Node Pool
+## Estratégia de node pool
 
-Separe pools de sistema de pools de usuario. Nunca misture seus workloads no pool de sistema.
+Separe pools de sistema de pools de usuário. Nunca misture seus workloads no pool de sistema.
 
 ```bash
 # System pool: dedicated to kube-system components
@@ -53,42 +53,42 @@ az aks nodepool add \
   --zones 1 2 3
 ```
 
-:::tip Opiniao
+:::tip Opinião
 
-Pool de sistema: `Standard_D4s_v5`, 3 nodes, com taint `CriticalAddonsOnly`. Pools de usuario: escolha com base no workload. Nunca misture workloads no pool de sistema -- um pod de aplicacao com mau comportamento nunca deveria deixar o CoreDNS sem recursos.
+Pool de sistema: `Standard_D4s_v5`, 3 nodes, com taint `CriticalAddonsOnly`. Pools de usuário: escolha com base no workload. Nunca misture workloads no pool de sistema -- um pod de aplicação com mau comportamento nunca deveria deixar o CoreDNS sem recursos.
 :::
 
-## Selecao de SKU de VM
+## Seleção de SKU de VM
 
-| Serie | Caso de Uso | Opiniao |
+| Série | Caso de Uso | Opinião |
 |-------|-------------|---------|
-| D-series v5 | Computacao geral, web apps, APIs | Escolha padrao para a maioria dos workloads |
-| E-series v5 | Intensivo em memoria (caches, bancos in-memory) | Quando sua aplicacao precisa de >8GB por core |
-| N-series | GPU, inferencia e treinamento de ML/IA | Veja [GPU Node Pools](../ai-workloads/gpu-node-pools) |
-| B-series | Burstable, apenas dev/test | Nunca para producao. Performance imprevisivel. |
-| F-series v2 | Processamento batch otimizado para compute | Workloads com alta razao CPU-para-memoria |
+| D-series v5 | Computação geral, web apps, APIs | Escolha padrão para a maioria dos workloads |
+| E-series v5 | Intensivo em memória (caches, bancos in-memory) | Quando sua aplicação precisa de >8GB por core |
+| N-series | GPU, inferência e treinamento de ML/IA | Veja [GPU Node Pools](../ai-workloads/gpu-node-pools) |
+| B-series | Burstable, apenas dev/test | Nunca para produção. Performance imprevisível. |
+| F-series v2 | Processamento batch otimizado para compute | Workloads com alta razão CPU-para-memória |
 
 :::warning
 
-VMs B-series sofrem throttling de CPU apos consumir creditos de burst. Seu workload de producao vai desacelerar aleatoriamente sob carga sustentada. Use D-series em vez disso.
+VMs B-series sofrem throttling de CPU após consumir créditos de burst. Seu workload de produção vai desacelerar aleatoriamente sob carga sustentada. Use D-series em vez disso.
 :::
 
-## Selecao de Regiao
+## Seleção de região
 
-Escolha uma regiao que suporte Availability Zones e esteja proxima dos seus usuarios. Verifique a disponibilidade de SKU de GPU antes de se comprometer se voce planeja workloads de IA.
+Escolha uma região que suporte Availability Zones e esteja próxima dos seus usuários. Verifique a disponibilidade de SKU de GPU antes de se comprometer se você planeja workloads de IA.
 
 ```bash
 # Check if your desired VM SKU is available in the region
 az vm list-skus --location eastus2 --size Standard_D8s_v5 --output table
 ```
 
-Regioes preferidas para novos deployments: East US 2, West US 3, North Europe, West Europe. Todas tem suporte completo a AZ e ampla disponibilidade de SKUs.
+Regiões preferidas para novos deployments: East US 2, West US 3, North Europe, West Europe. Todas tem suporte completo a AZ e ampla disponibilidade de SKUs.
 
-## Convencoes de Nomenclatura
+## Convenções de nomenclatura
 
-Consistencia previne confusao em escala:
+Consistência previne confusão em escala:
 
-| Recurso | Padrao | Exemplo |
+| Recurso | Padrão | Exemplo |
 |---------|--------|---------|
 | Cluster | `aks-{app}-{env}-{regiao}` | `aks-platform-prod-eus2` |
 | Node pool | `{workload}{tamanho}` | `apps`, `gpua100`, `system` |
@@ -97,7 +97,7 @@ Consistencia previne confusao em escala:
 
 :::info
 
-Nomes de node pool sao limitados a 12 caracteres (Linux) ou 6 caracteres (Windows). Mantenha-os curtos e significativos.
+Nomes de node pool são limitados a 12 caracteres (Linux) ou 6 caracteres (Windows). Mantenha-os curtos e significativos.
 :::
 
 ## Recursos

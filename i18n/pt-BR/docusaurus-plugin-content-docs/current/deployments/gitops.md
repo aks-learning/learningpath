@@ -1,48 +1,48 @@
 ---
 sidebar_position: 3
 title: "GitOps com Flux"
-description: "GitOps para AKS usando Flux v2 como extensao suportada pela Microsoft, com comparacao ao ArgoCD e exemplos de configuracao do mundo real."
+description: "GitOps para AKS usando Flux v2 como extensão suportada pela Microsoft, com comparação ao ArgoCD e exemplos de configuração do mundo real."
 ---
 
 # GitOps com Flux
 
-GitOps significa uma coisa: o estado desejado do seu cluster vive no Git, e um controller dentro do cluster reconcilia continuamente o estado real para corresponder. Nenhum humano executa `kubectl apply` em producao. Nenhum pipeline tem credenciais do cluster. O Git e a unica fonte de verdade, e o cluster puxa dele.
+GitOps significa uma coisa: o estado desejado do seu cluster vive no Git, e um controller dentro do cluster reconcilia continuamente o estado real para corresponder. Nenhum humano executa `kubectl apply` em produção. Nenhum pipeline tem credenciais do cluster. O Git é a única fonte de verdade, e o cluster puxa dele.
 
 :::warning
 
-Nunca execute `kubectl apply` de um laptop em producao. Todas as mudancas de producao passam pelo Git. Se nao esta no repositorio, nao existe. Se alguem editar um recurso diretamente, o controller GitOps reverte em minutos.
+Nunca execute `kubectl apply` de um laptop em produção. Todas as mudanças de produção passam pelo Git. Se não está no repositório, não existe. Se alguém editar um recurso diretamente, o controller GitOps reverte em minutos.
 :::
 
-## Flux vs ArgoCD: Escolha Um
+## Flux vs ArgoCD: escolha um
 
 | Aspecto | Flux v2 | ArgoCD |
 |---------|---------|--------|
-| Integracao com AKS | Extensao nativa, suportada pela Microsoft | Instalacao da comunidade, autogerenciado |
-| UI | Minima (add-on Weave GitOps) | Dashboard integrado rico |
-| Multi-tenancy | Forte, nativo | Requer configuracao de AppProject |
-| Curva de aprendizado | Menor para times Azure | Menor para times com experiencia em ArgoCD |
+| Integração com AKS | Extensão nativa, suportada pela Microsoft | Instalação da comunidade, autogerenciado |
+| UI | Mínima (add-on Weave GitOps) | Dashboard integrado rico |
+| Multi-tenancy | Forte, nativo | Requer configuração de AppProject |
+| Curva de aprendizado | Menor para times Azure | Menor para times com experiência em ArgoCD |
 | Footprint de CRDs | Mais leve | Mais pesado |
-| Adocao | Crescente no ecossistema Azure | Dominante na comunidade K8s mais ampla |
+| Adoção | Crescente no ecossistema Azure | Dominante na comunidade K8s mais ampla |
 
 :::tip
 
-Use Flux se voce quer GitOps suportado pela Microsoft com AKS. Voce tem tickets de suporte Azure, integracao com Azure Policy e um ciclo de vida limpo de extensao AKS. Use ArgoCD se seu time ja conhece ou se voce precisa da UI para visibilidade entre muitas aplicacoes.
+Use Flux se você quer GitOps suportado pela Microsoft com AKS. Você tem tickets de suporte Azure, integração com Azure Policy e um ciclo de vida limpo de extensão AKS. Use ArgoCD se seu time já conhece ou se você precisa da UI para visibilidade entre muitas aplicações.
 :::
 
-## Como o Flux Funciona
+## Como o Flux funciona
 
-O Flux opera atraves de um loop de reconciliacao com dois recursos principais:
+O Flux opera através de um loop de reconciliação com dois recursos principais:
 
-1. **GitRepository**: Aponta para seu repositorio Git, faz polling por mudancas
-2. **Kustomization**: Define qual caminho no repositorio aplicar e como
+1. **GitRepository**: Aponta para seu repositório Git, faz polling por mudanças
+2. **Kustomization**: Define qual caminho no repositório aplicar e como
 
-![Loop de Reconciliacao do Flux](/img/flux-reconciliation.svg)
+![Loop de Reconciliação do Flux](/img/flux-reconciliation.svg)
 
-Quando alguem envia um commit que altera um manifesto, o Flux detecta dentro do intervalo de polling (padrao: 1 minuto), puxa o novo estado e aplica. Se a aplicacao falhar, ele reporta o erro e tenta novamente.
+Quando alguém envia um commit que altera um manifesto, o Flux detecta dentro do intervalo de polling (padrão: 1 minuto), puxa o novo estado e aplica. Se a aplicação falhar, ele reporta o erro e tenta novamente.
 
 ## Instalando o Flux no AKS
 
-O Flux e instalado como uma extensao do AKS. Um comando:
+O Flux é instalado como uma extensão do AKS. Um comando:
 
 ```bash
 az k8s-extension create \
@@ -55,9 +55,9 @@ az k8s-extension create \
 
 Isso instala os controllers do Flux (source-controller, kustomize-controller, helm-controller, notification-controller) no namespace `flux-system`.
 
-## Configurando uma Fonte GitOps
+## Configurando uma fonte GitOps
 
-Apos o Flux ser instalado, crie um `GitRepository` e uma `Kustomization` para apontar para seus manifestos:
+Após o Flux ser instalado, crie um `GitRepository` e uma `Kustomization` para apontar para seus manifestos:
 
 ```yaml
 apiVersion: source.toolkit.fluxcd.io/v1
@@ -95,12 +95,12 @@ spec:
 
 :::info
 
-Sempre configure `prune: true`. Sem isso, o Flux vai criar e atualizar recursos mas nunca deleta-los. Voce acaba com recursos orfaos que divergem do seu estado no Git -- anulando todo o proposito do GitOps.
+Sempre configure `prune: true`. Sem isso, o Flux vai criar e atualizar recursos mas nunca deletá-los. Você acaba com recursos órfãos que divergem do seu estado no Git -- anulando todo o propósito do GitOps.
 :::
 
-## Estrutura do Repositorio
+## Estrutura do repositório
 
-Organize seu repositorio de manifestos para multi-ambiente e multi-cluster:
+Organize seu repositório de manifestos para multi-ambiente e multi-cluster:
 
 ```
 k8s-manifests/
@@ -121,9 +121,9 @@ k8s-manifests/
       replica-count.yaml
 ```
 
-## Multi-Cluster e Gerenciamento de Frota
+## Multi-cluster e gerenciamento de frota
 
-O Flux suporta multi-tenancy nativamente. Para configuracao em nivel de frota entre multiplos clusters AKS, use Azure Arc com Flux:
+O Flux suporta multi-tenancy nativamente. Para configuração em nível de frota entre múltiplos clusters AKS, use Azure Arc com Flux:
 
 ```bash
 # Apply same GitOps config to all clusters in a resource group
@@ -139,23 +139,23 @@ az k8s-configuration flux create \
   --kustomization name=apps path=./apps/production prune=true dependsOn=infra
 ```
 
-## Erros Comuns
+## Erros comuns
 
-- Nao configurar `prune: true`: Recursos se acumulam no cluster sem referencia no Git
-- Intervalo de polling muito longo: Configure `interval: 1m` para a fonte, nao 10m -- voce quer feedback rapido
-- Sem health checks na Kustomization: O Flux marca uma reconciliacao como bem-sucedida mesmo se o Deployment esta em crashloop
-- Armazenar secrets no Git: Use Sealed Secrets ou External Secrets Operator -- nunca Secrets do Kubernetes em texto puro em um repositorio
-- Pular a branch de staging: Aplique no staging primeiro, promova para producao via PR
+- Não configurar `prune: true`: Recursos se acumulam no cluster sem referência no Git
+- Intervalo de polling muito longo: Configure `interval: 1m` para a fonte, não 10m -- você quer feedback rápido
+- Sem health checks na Kustomization: O Flux marca uma reconciliação como bem-sucedida mesmo se o Deployment está em crashloop
+- Armazenar secrets no Git: Use Sealed Secrets ou External Secrets Operator -- nunca Secrets do Kubernetes em texto puro em um repositório
+- Pular a branch de staging: Aplique no staging primeiro, promova para produção via PR
 
 :::warning
 
-O Flux vai aplicar manifestos quebrados sem problema. Adicione health checks na sua Kustomization para que o Flux reporte falhas quando Deployments nao ficarem saudaveis. Sem isso, voce so descobre que algo esta errado quando os usuarios reclamam.
+O Flux vai aplicar manifestos quebrados sem problema. Adicione health checks na sua Kustomization para que o Flux reporte falhas quando Deployments não ficarem saudáveis. Sem isso, você só descobre que algo está errado quando os usuários reclamam.
 :::
 
 ## Recursos
 
-- [Flux v2 no AKS (documentacao Microsoft)](https://learn.microsoft.com/en-us/azure/azure-arc/kubernetes/tutorial-use-gitops-flux2)
-- [Documentacao do Flux v2](https://fluxcd.io/flux/)
-- [Documentacao do ArgoCD](https://argo-cd.readthedocs.io/)
+- [Flux v2 no AKS (documentação Microsoft)](https://learn.microsoft.com/en-us/azure/azure-arc/kubernetes/tutorial-use-gitops-flux2)
+- [Documentação do Flux v2](https://fluxcd.io/flux/)
+- [Documentação do ArgoCD](https://argo-cd.readthedocs.io/)
 - [Blueprint GitOps para AKS](https://learn.microsoft.com/en-us/azure/architecture/example-scenario/gitops-aks/gitops-blueprint-aks)
 - [Sealed Secrets](https://sealed-secrets.netlify.app/)

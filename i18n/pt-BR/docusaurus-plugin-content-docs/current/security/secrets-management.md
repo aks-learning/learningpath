@@ -1,46 +1,46 @@
 ---
 sidebar_position: 5
 title: "Gerenciamento de Secrets"
-description: "Gerenciamento seguro de secrets com Azure Key Vault, CSI Secrets Store Driver e autenticacao via Workload Identity."
+description: "Gerenciamento seguro de secrets com Azure Key Vault, CSI Secrets Store Driver e autenticação via Workload Identity."
 ---
 
-# Gerenciamento de Secrets
+# Gerenciamento de secrets
 
-Use Azure Key Vault com o Secrets Store CSI Driver. Ponto final. Nao confie em Kubernetes Secrets nativos para dados sensiveis. Eles sao codificados em base64 (nao criptografados), armazenados no etcd e visiveis a qualquer pessoa com acesso de leitura a Secrets no namespace.
+Use Azure Key Vault com o Secrets Store CSI Driver. Ponto final. Não confie em Kubernetes Secrets nativos para dados sensíveis. Eles são codificados em base64 (não criptografados), armazenados no etcd e visíveis a qualquer pessoa com acesso de leitura a Secrets no namespace.
 
-## O Problema com Kubernetes Secrets
+## O problema com Kubernetes secrets
 
 ```bash
 # This is all it takes to read a "secret"
 kubectl get secret db-credentials -o jsonpath='{.data.password}' | base64 -d
 ```
 
-Isso nao e seguranca. Isso e codificacao. Kubernetes Secrets sao:
-- Nao criptografados em repouso por padrao (armazenados como texto puro no etcd)
-- Legiveis por qualquer pessoa com acesso RBAC a secrets no namespace
-- Visiveis em specs de pod, variaveis de ambiente e logs de auditoria
-- Sem versionamento, sem rotacao automatica, sem auditoria
+Isso não é segurança. Isso é codificação. Kubernetes Secrets são:
+- Não criptografados em repouso por padrão (armazenados como texto puro no etcd)
+- Legíveis por qualquer pessoa com acesso RBAC a secrets no namespace
+- Visíveis em specs de pod, variáveis de ambiente e logs de auditoria
+- Sem versionamento, sem rotação automática, sem auditoria
 
 :::warning
 
-Nunca trate Kubernetes Secrets como armazenamento seguro. No melhor caso, sao um recurso de conveniencia para configuracoes nao sensiveis. Para secrets reais (senhas de banco de dados, chaves de API, certificados, connection strings), use Azure Key Vault.
+Nunca trate Kubernetes Secrets como armazenamento seguro. No melhor caso, são um recurso de conveniência para configurações não sensíveis. Para secrets reais (senhas de banco de dados, chaves de API, certificados, connection strings), use Azure Key Vault.
 :::
 
-## A Solucao: Duas Abordagens
+## A solução: duas abordagens
 
 | Abordagem | Como Funciona | Quando Usar |
 |-----------|--------------|-------------|
-| Secrets Store CSI Driver | Monta secrets do Key Vault como arquivos diretamente nos pods | Aplicacoes novas. App le secrets do filesystem. |
-| External Secrets Operator | Sincroniza secrets do Key Vault em objetos Kubernetes Secret | Apps legados que precisam ler de objetos K8s Secret ou variaveis de ambiente |
+| Secrets Store CSI Driver | Monta secrets do Key Vault como arquivos diretamente nos pods | Aplicações novas. App lê secrets do filesystem. |
+| External Secrets Operator | Sincroniza secrets do Key Vault em objetos Kubernetes Secret | Apps legados que precisam ler de objetos K8s Secret ou variáveis de ambiente |
 
 :::tip
 
-Use CSI Driver para aplicacoes novas. Use External Secrets Operator apenas se sua aplicacao esta codificada para ler de objetos Kubernetes Secret ou variaveis de ambiente e voce nao pode mudar isso. O CSI Driver e a arquitetura mais limpa -- secrets nunca existem como objetos Kubernetes.
+Use CSI Driver para aplicações novas. Use External Secrets Operator apenas se sua aplicação está codificada para ler de objetos Kubernetes Secret ou variáveis de ambiente e você não pode mudar isso. O CSI Driver é a arquitetura mais limpa -- secrets nunca existem como objetos Kubernetes.
 :::
 
-## Setup do Secrets Store CSI Driver
+## Setup do secrets store CSI driver
 
-### 1. Habilitar o Addon
+### 1. Habilitar o addon
 
 ```bash
 az aks enable-addons \
@@ -49,7 +49,7 @@ az aks enable-addons \
   --addons azure-keyvault-secrets-provider
 ```
 
-### 2. Criar o Key Vault e Armazenar um Secret
+### 2. Criar o Key Vault e armazenar um secret
 
 ```bash
 az keyvault create \
@@ -64,7 +64,7 @@ az keyvault secret set \
   --value "your-actual-secret-value"
 ```
 
-### 3. Conceder Acesso via Workload Identity
+### 3. Conceder acesso via workload identity
 
 Nunca use access policies ou chaves compartilhadas. Use Workload Identity combinado com Key Vault RBAC:
 
@@ -103,7 +103,7 @@ spec:
     tenantId: "<tenant-id>"
 ```
 
-### 5. Montar no Seu Pod
+### 5. Montar no seu pod
 
 ```yaml
 apiVersion: apps/v1
@@ -134,11 +134,11 @@ spec:
             secretProviderClass: "myapp-secrets"
 ```
 
-Sua aplicacao le `/mnt/secrets/db-password` como um arquivo. Limpo, simples, sem objetos Kubernetes Secret envolvidos.
+Sua aplicação lê `/mnt/secrets/db-password` como um arquivo. Limpo, simples, sem objetos Kubernetes Secret envolvidos.
 
-## Rotacao
+## Rotação
 
-O CSI Driver suporta rotacao automatica. Habilite:
+O CSI Driver suporta rotação automática. Habilite:
 
 ```bash
 az aks enable-addons \
@@ -149,28 +149,28 @@ az aks enable-addons \
   --rotation-poll-interval 2m
 ```
 
-O driver consulta o Key Vault e atualiza os arquivos montados. Sua aplicacao deve ser capaz de reler secrets sem reiniciar (ou usar um file watcher).
+O driver consulta o Key Vault e atualiza os arquivos montados. Sua aplicação deve ser capaz de reler secrets sem reiniciar (ou usar um file watcher).
 
-## A Cadeia de Autenticacao
+## A cadeia de autenticação
 
-Nunca coloque credenciais fixas no codigo para acessar o Key Vault. O caminho de autenticacao e:
+Nunca coloque credenciais fixas no código para acessar o Key Vault. O caminho de autenticação é:
 
 Pod -> Workload Identity -> Managed Identity -> Key Vault RBAC -> Secret
 
-Se o seu SecretProviderClass referencia um client secret ou service principal, voce esta anulando totalmente o proposito. Voce esta armazenando um secret para acessar seu armazenamento de secrets.
+Se o seu SecretProviderClass referencia um client secret ou service principal, você está anulando totalmente o propósito. Você está armazenando um secret para acessar seu armazenamento de secrets.
 
-## Erros Comuns
+## Erros comuns
 
-1. **Armazenar secrets em Kubernetes Secrets "temporariamente"** -- Nao existe temporario. Fica la para sempre ate alguem deletar manualmente. Use Key Vault desde o primeiro dia.
-2. **Usar access policies do Key Vault em vez de RBAC** -- Access policies sao legado. Habilite autorizacao RBAC no Key Vault (`--enable-rbac-authorization`) e use roles do Azure.
+1. **Armazenar secrets em Kubernetes Secrets "temporariamente"** -- Não existe temporário. Fica lá para sempre até alguém deletar manualmente. Use Key Vault desde o primeiro dia.
+2. **Usar access policies do Key Vault em vez de RBAC** -- Access policies são legado. Habilite autorização RBAC no Key Vault (`--enable-rbac-authorization`) e use roles do Azure.
 3. **Usar service principal para autenticar no Key Vault** -- Isso exige armazenar credenciais de cliente em algum lugar. Use Workload Identity. Zero secrets para gerenciar secrets.
-4. **Nao habilitar soft-delete e purge protection** -- Exclusao acidental de secrets do Key Vault sem esses recursos significa perda permanente de dados. Sempre habilite ambos.
-5. **Fazer commit de secrets no git** -- Obvio, mas ainda acontece. Use pre-commit hooks (como `detect-secrets`) para escanear strings de alta entropia e padroes conhecidos de secrets.
-6. **Definir secrets como variaveis de ambiente** -- Variaveis de ambiente aparecem em listagens de processos, crash dumps e endpoints de debug. Monte como arquivos.
+4. **Não habilitar soft-delete e purge protection** -- Exclusão acidental de secrets do Key Vault sem esses recursos significa perda permanente de dados. Sempre habilite ambos.
+5. **Fazer commit de secrets no git** -- Óbvio, mas ainda acontece. Use pre-commit hooks (como `detect-secrets`) para escanear strings de alta entropia e padrões conhecidos de secrets.
+6. **Definir secrets como variáveis de ambiente** -- Variáveis de ambiente aparecem em listagens de processos, crash dumps e endpoints de debug. Monte como arquivos.
 
-## Arvore de Decisao
+## Árvore de decisão
 
-![Arvore de Decisao de Gerenciamento de Secrets](/img/secrets-decision-tree.svg)
+![Árvore de Decisão de Gerenciamento de Secrets](/img/secrets-decision-tree.svg)
 
 ## Recursos
 

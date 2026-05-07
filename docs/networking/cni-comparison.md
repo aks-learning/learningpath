@@ -4,17 +4,17 @@ title: "CNI Options: Which One to Pick"
 description: "Stop deliberating. Use Azure CNI Overlay with Cilium. Here is why, and the rare cases where you should deviate."
 ---
 
-# CNI Options: Which One to Pick
+# CNI options: which one to pick
 
 Azure CNI Overlay + Cilium. That is the recommendation for 2025. If you are starting a new cluster and have no legacy constraints, stop reading after this sentence and go build it.
 
 Still here? Good -- let's cover why, and the edge cases where you deviate.
 
-## Decision Tree
+## Decision tree
 
 ![CNI Decision Tree](/img/cni-decision-tree.svg)
 
-## Full Comparison
+## Full comparison
 
 | Feature | Azure CNI | Azure CNI Overlay | Azure CNI + Cilium | Kubenet | BYO CNI |
 |---------|-----------|-------------------|-------------------|---------|---------|
@@ -29,7 +29,7 @@ Still here? Good -- let's cover why, and the edge cases where you deviate.
 | **kube-proxy replacement** | No | No | Yes | No | Varies |
 | **Status** | GA, supported | GA, recommended | GA, recommended | Deprecated | Unsupported by MS |
 
-## The Recommendation
+## The recommendation
 
 :::tip
 
@@ -58,7 +58,7 @@ This gives you:
 - Hubble flow logs and observability
 - No kube-proxy overhead
 
-## When to Deviate
+## When to deviate
 
 ### Use Azure CNI (non-overlay) when:
 
@@ -87,11 +87,11 @@ With Azure CNI (non-overlay), a 3-node cluster running 50 pods each consumes 153
 
 Windows node pools do not support Cilium. If you must run Windows containers, use Azure CNI or Azure CNI Overlay without Cilium. This is the only scenario where Azure NPM or Calico makes sense.
 
-### BYO CNI -- Do not do this unless you are Cilium/Calico experts:
+### BYO CNI -- do not do this unless you are Cilium/Calico experts:
 
 AKS supports `--network-plugin none` for bring-your-own CNI. Microsoft will not support your networking layer. You own debugging, upgrades, and compatibility. The only valid reason: you are already running a CNI fleet-wide (e.g., Tigera Enterprise Calico) and need feature parity across clouds.
 
-## Kubenet: Dead Technology Walking
+## Kubenet: dead technology walking
 
 Kubenet is deprecated. Do not start new clusters with it. Here is why:
 
@@ -104,7 +104,7 @@ Kubenet is deprecated. Do not start new clusters with it. Here is why:
 
 If you have existing Kubenet clusters, plan migration to CNI Overlay. It requires a cluster rebuild -- there is no in-place upgrade path.
 
-## IP Planning Cheat Sheet
+## IP planning cheat sheet
 
 | CNI Mode | Subnet sizing formula | Example (100 nodes, 50 pods/node) |
 |----------|----------------------|-----------------------------------|
@@ -114,7 +114,7 @@ If you have existing Kubenet clusters, plan migration to CNI Overlay. It require
 
 The IP efficiency alone makes CNI Overlay the obvious choice for most teams.
 
-## Migration Path
+## Migration path
 
 Existing clusters cannot switch CNI modes in-place. The migration path is:
 
@@ -128,7 +128,7 @@ Existing clusters cannot switch CNI modes in-place. The migration path is:
 Use blue-green cluster deployments. Do not attempt in-place CNI changes -- they are not supported and will break your cluster.
 :::
 
-## Common Mistakes
+## Common mistakes
 
 1. **Choosing Azure CNI without IP planning** -- Running out of IPs at 2 AM during an autoscale event.
 2. **Selecting Kubenet "because it is simpler"** -- You are choosing technical debt on day one.

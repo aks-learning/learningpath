@@ -10,7 +10,7 @@ Kubernetes (K8s) is a container orchestration platform. It takes your containeri
 
 But here is the real question: **do you actually need it?**
 
-## You Need Kubernetes When...
+## You need Kubernetes when...
 
 - You have **5+ microservices** that need to communicate, scale independently, and deploy on different cadences
 - You need **rolling deployments with zero downtime** as a hard requirement
@@ -19,7 +19,7 @@ But here is the real question: **do you actually need it?**
 - You are running **stateful workloads** (databases, queues, ML training) alongside stateless ones in the same infrastructure
 - You need **portable infrastructure** across clouds or hybrid environments
 
-## You Do NOT Need Kubernetes When...
+## You do NOT need Kubernetes when...
 
 :::warning Stop. Think before you adopt Kubernetes.
 
@@ -32,7 +32,7 @@ The number one mistake beginners make is adopting Kubernetes for a 2-service app
 - Your team has **no container experience** and no time to learn -- start with Container Apps, graduate to AKS later
 - You need **event-driven serverless** with sub-second cold starts -- use Azure Functions
 
-## The Path: Containers to Orchestration
+## The path: containers to orchestration
 
 Here is how the progression works in the real world:
 
@@ -73,7 +73,7 @@ spec:
             memory: "512Mi"
 ```
 
-## Core Concepts You Must Know
+## Core concepts you must know
 
 | Concept | What It Does | Why It Matters |
 |---------|-------------|----------------|
@@ -87,7 +87,7 @@ spec:
 | **PersistentVolumeClaim** | Request for durable storage. | Required for databases, file storage, anything that survives Pod restarts. |
 | **HorizontalPodAutoscaler** | Scales Pod replicas based on metrics. | Without this, you are either overprovisioned or about to crash. |
 
-## Why Managed Kubernetes (Not Self-Managed)
+## Why managed Kubernetes (not self-managed)
 
 :::tip Strong recommendation
 
@@ -111,7 +111,7 @@ The only legitimate reasons to self-manage:
 - Exotic hardware (edge, bare metal, specialized GPUs not available in cloud)
 - Regulatory requirements that literally prohibit managed services (rare)
 
-## Kubernetes vs. Alternatives Decision Table
+## Kubernetes vs. alternatives decision table
 
 | Scenario | Recommendation | Why |
 |----------|---------------|-----|
@@ -122,7 +122,7 @@ The only legitimate reasons to self-manage:
 | ML training pipelines | **AKS with GPU node pools** | K8s GPU scheduling is mature and well-supported |
 | Hybrid/multi-cloud mandate | **AKS + Azure Arc** | Consistent K8s across environments |
 
-## The Learning Curve: What to Focus On First
+## The learning curve: what to focus on first
 
 Kubernetes has a massive API surface. Do not try to learn everything at once. Here is the order that matters:
 
@@ -137,7 +137,7 @@ Kubernetes has a massive API surface. Do not try to learn everything at once. He
 Do not start with Helm charts, Operators, or service meshes. These are advanced patterns that solve problems you do not have yet. Learn the primitives first. If you cannot deploy an app with raw YAML, you should not be abstracting it with Helm.
 :::
 
-## Common Beginner Mistakes
+## Common beginner mistakes
 
 | Mistake | Consequence | Fix |
 |---------|------------|-----|

@@ -4,11 +4,11 @@ title: "Private Clusters"
 description: "Every production cluster should be private or at minimum have authorized IP ranges. A public API server in production is negligent."
 ---
 
-# Private Clusters
+# Private clusters
 
 Every production AKS cluster should be private or at minimum have authorized IP ranges configured. Running a public Kubernetes API server in production is negligent -- you are exposing your control plane to the entire internet and relying solely on RBAC to keep attackers out.
 
-## API Server Access Models
+## API server access models
 
 | Mode | API Server Endpoint | Who Can Reach It | Use Case |
 |------|-------------------|------------------|----------|
@@ -22,7 +22,7 @@ Every production AKS cluster should be private or at minimum have authorized IP 
 Public API server in production is negligent. An attacker with a leaked kubeconfig or service account token has direct network access to your control plane. Defense in depth requires network-level restrictions.
 :::
 
-## Private Cluster Architecture
+## Private cluster architecture
 
 A private AKS cluster places the API server behind a Private Endpoint in your VNet. The API server gets a private IP address, and DNS resolution is handled via Azure Private DNS zone (`privatelink.<region>.azmk8s.io`).
 
@@ -55,7 +55,7 @@ az aks update \
   --disable-public-fqdn
 ```
 
-## If You Cannot Go Fully Private: Authorized IP Ranges
+## If you cannot go fully private: authorized IP ranges
 
 For teams not ready for full private clusters (CI/CD complexity, developer access tooling), authorized IP ranges are the minimum:
 
@@ -72,11 +72,11 @@ az aks update \
 Authorized IP ranges and private clusters are not mutually exclusive. You can enable both -- the private endpoint for VNet access and authorized ranges for specific public IPs (e.g., corporate office egress).
 :::
 
-## Accessing a Private Cluster
+## Accessing a private cluster
 
 The number one complaint about private clusters: "How do I run kubectl?" Here are your options, ranked by practicality:
 
-### Option 1: `az aks command invoke` (Simplest)
+### Option 1: `az aks command invoke` (simplest)
 
 Run commands without any network path to the API server. Azure proxies the command through the managed infrastructure.
 
@@ -98,7 +98,7 @@ az aks command invoke \
 Good for: Emergency access, quick checks, CI/CD pipelines without VPN.
 Bad for: Interactive debugging, heavy kubectl usage, Helm operations with multiple files.
 
-### Option 2: Azure Bastion + Jump Box
+### Option 2: Azure Bastion + jump box
 
 Deploy a VM in the same VNet (or peered VNet) and access it via Azure Bastion:
 
@@ -119,7 +119,7 @@ az vm create \
 
 Connect your corporate network to the Azure VNet via S2S VPN or ExpressRoute. Developers run kubectl from their workstations as if the API server were local.
 
-### Option 4: GitHub Actions with Self-Hosted Runners
+### Option 4: GitHub Actions with self-hosted runners
 
 For CI/CD, deploy self-hosted runners inside the VNet:
 
@@ -139,7 +139,7 @@ jobs:
       - run: kubectl apply -f manifests/
 ```
 
-## CI/CD Pipeline Patterns for Private Clusters
+## CI/CD pipeline patterns for private clusters
 
 | Approach | Complexity | Best For |
 |----------|------------|----------|
@@ -164,7 +164,7 @@ az k8s-extension create \
   --name flux
 ```
 
-## Private DNS Zone Options
+## Private DNS zone options
 
 | Option | Behavior | Use Case |
 |--------|----------|----------|
@@ -182,7 +182,7 @@ az aks create \
   --private-dns-zone /subscriptions/.../privateDnsZones/privatelink.eastus.azmk8s.io
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **Not planning DNS resolution** -- Private clusters require Private DNS zone linking to every VNet that needs access. Forget one VNet and kubectl times out.
 2. **Blocking `command invoke`** -- Some teams disable it via Azure Policy without providing an alternative access path. Do not lock yourself out.

@@ -4,11 +4,11 @@ title: "GPU Node Pools"
 description: "Provisioning and managing GPU nodes in AKS for ML/AI workloads"
 ---
 
-# GPU Node Pools
+# GPU node pools
 
 GPUs are expensive. Configure them correctly, scale to zero when idle, and use spot instances for training jobs that can checkpoint.
 
-## GPU VM Families
+## GPU VM families
 
 | Series | GPU | VRAM | Use Case | Opinion |
 |--------|-----|------|----------|---------|
@@ -22,7 +22,7 @@ GPUs are expensive. Configure them correctly, scale to zero when idle, and use s
 Use `Standard_NC24ads_A100_v4` for most ML/AI workloads. It handles inference, fine-tuning, and moderate training. Only move to ND H100 for large-scale distributed training. Use NC T4 for dev/test and light inference where cost matters more than throughput.
 :::
 
-## Creating a GPU Node Pool
+## Creating a GPU node pool
 
 ```bash
 # Add GPU node pool with autoscaling (scales to 0 when idle)
@@ -45,11 +45,11 @@ az aks nodepool add \
 Always taint GPU nodes with `NoSchedule`. Without taints, the scheduler will place regular workloads on your expensive GPU nodes. The taint ensures only pods with matching tolerations land there.
 :::
 
-## NVIDIA Device Plugin
+## NVIDIA device plugin
 
 AKS automatically installs the NVIDIA device plugin on GPU nodes. You don't need to install it manually. It exposes `nvidia.com/gpu` as a schedulable resource.
 
-## Requesting GPU in Pod Spec
+## Requesting GPU in pod spec
 
 ```yaml
 apiVersion: v1
@@ -80,7 +80,7 @@ spec:
 GPUs cannot be shared between containers natively. If you request `nvidia.com/gpu: 1`, you get a whole GPU. For sharing, look at NVIDIA MIG (Multi-Instance GPU) or time-slicing -- covered in [Inference Serving](./inference-serving).
 :::
 
-## Spot Instances for GPU
+## Spot instances for GPU
 
 Use spot for training jobs that can checkpoint. Never use spot for inference serving.
 
@@ -122,7 +122,7 @@ GPUs are 5-10x more expensive than general compute. Manage costs aggressively:
 kubectl top pods -l workload=gpu --containers
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **Not tainting GPU nodes** -- Regular pods fill expensive GPU nodes.
 2. **Setting min-count > 0 for intermittent workloads** -- Paying for idle GPUs 24/7.

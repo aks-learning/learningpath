@@ -4,11 +4,11 @@ title: "KAITO: AI Model Inference"
 description: "Deploy LLMs on AKS with one custom resource using the Kubernetes AI Toolchain Operator"
 ---
 
-# KAITO: AI Model Inference
+# KAITO: AI model inference
 
 KAITO is the fastest path from model selection to serving on AKS. Use it unless you need custom inference frameworks or maximum throughput optimization.
 
-## What KAITO Does
+## What KAITO does
 
 KAITO (Kubernetes AI Toolchain Operator) deploys large language models on AKS with a single custom resource. It handles the hard parts: GPU node provisioning, model download, serving setup, and health management.
 
@@ -19,7 +19,7 @@ KAITO (Kubernetes AI Toolchain Operator) deploys large language models on AKS wi
 KAITO handles the hard parts: GPU node provisioning, model download, serving setup. Don't reinvent this. If you're deploying a supported model, KAITO saves weeks of infrastructure work.
 :::
 
-## Supported Models
+## Supported models
 
 | Model Family | Examples | GPU Requirement |
 |-------------|----------|-----------------|
@@ -28,7 +28,7 @@ KAITO handles the hard parts: GPU node provisioning, model download, serving set
 | Falcon | Falcon-7b, Falcon-40b | 1-4 GPUs |
 | Phi | Phi-2, Phi-3-mini | 1 GPU |
 
-## Deploying a Model
+## Deploying a model
 
 ```yaml
 apiVersion: kaito.sh/v1alpha1
@@ -68,7 +68,7 @@ az aks update \
 kubectl get pods -n kube-system -l app=ai-toolchain-operator
 ```
 
-## Accessing the Model
+## Accessing the model
 
 ```bash
 # Get the service endpoint
@@ -80,7 +80,7 @@ curl -X POST http://<SERVICE_IP>/chat \
   -d '{"prompt": "What is Kubernetes?", "max_tokens": 200}'
 ```
 
-## How KAITO Compares
+## How KAITO compares
 
 | Feature | KAITO | Manual Deployment |
 |---------|-------|-------------------|
@@ -101,7 +101,7 @@ curl -X POST http://<SERVICE_IP>/chat \
 In these cases, deploy vLLM or TGI directly. See [Inference Serving](./inference-serving).
 :::
 
-## Workspace Management
+## Workspace management
 
 ```bash
 # Check workspace status
@@ -114,7 +114,7 @@ kubectl logs -l apps=llama2-7b --tail=50
 kubectl delete workspace llama2-7b
 ```
 
-## Common Mistakes
+## Common mistakes
 
 1. **Not checking GPU quota** -- KAITO provisions GPU nodes. If your subscription lacks quota, it fails silently.
 2. **Deploying 70B models on 1 GPU** -- Large models need multiple GPUs. Check model requirements.
