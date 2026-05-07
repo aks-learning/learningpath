@@ -1,0 +1,162 @@
+/**
+ * AKS Learning Path - Custom CSS
+ * Azure-themed design with difficulty badges and ecosystem integration
+ */
+
+:root {
+  /* Azure Blue primary palette */
+  --ifm-color-primary: #0078D4;
+  --ifm-color-primary-dark: #006CBE;
+  --ifm-color-primary-darker: #0065B3;
+  --ifm-color-primary-darkest: #005494;
+  --ifm-color-primary-light: #1A86D9;
+  --ifm-color-primary-lighter: #2E91DE;
+  --ifm-color-primary-lightest: #50A7E6;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 120, 212, 0.1);
+
+  /* Custom tokens */
+  --aks-accent: #00B7C3;
+  --aks-beginner: #107C10;
+  --aks-intermediate: #FFB900;
+  --aks-advanced: #D83B01;
+  --aks-new: #8661C5;
+  --aks-lab: #00A36C;
+  --aks-blog: #E74C3C;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #4BA6E8;
+  --ifm-color-primary-dark: #2E96E3;
+  --ifm-color-primary-darker: #1F8DE0;
+  --ifm-color-primary-darkest: #1872B9;
+  --ifm-color-primary-light: #68B6ED;
+  --ifm-color-primary-lighter: #77BDF0;
+  --ifm-color-primary-lightest: #A0D3F5;
+  --docusaurus-highlighted-code-line-bg: rgba(75, 166, 232, 0.15);
+}
+
+/* GitHub icon in navbar */
+.header-github-link::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  display: flex;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E")
+    no-repeat;
+}
+
+[data-theme='dark'] .header-github-link::before {
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E")
+    no-repeat;
+}
+
+/* Difficulty badges */
+.badge--beginner {
+  background-color: var(--aks-beginner);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge--intermediate {
+  background-color: var(--aks-intermediate);
+  color: #1a1a1a;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge--advanced {
+  background-color: var(--aks-advanced);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge--new {
+  background-color: var(--aks-new);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Lab and blog cards */
+.card--lab {
+  border-left: 4px solid var(--aks-lab);
+  background: rgba(0, 163, 108, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.card--blog {
+  border-left: 4px solid var(--aks-blog);
+  background: rgba(231, 76, 60, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+/* Newsletter banner */
+.newsletter-banner {
+  background: linear-gradient(135deg, #0078D4 0%, #00B7C3 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.newsletter-banner a {
+  color: white;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Topic grid on homepage */
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.topic-card {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.topic-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Hero section */
+.hero--aks {
+  background: linear-gradient(135deg, #001B3D 0%, #0078D4 60%, #00B7C3 100%);
+  padding: 4rem 2rem;
+}
+
+.hero--aks .hero__title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero--aks .hero__subtitle {
+  font-size: 1.25rem;
+  opacity: 0.9;
+}

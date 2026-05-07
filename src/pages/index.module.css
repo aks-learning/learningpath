@@ -1,0 +1,45 @@
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroBanner h1 {
+  color: white;
+}
+
+.heroBanner p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.topics {
+  padding: 3rem 0;
+}
+
+.paths {
+  padding: 3rem 0;
+  background: var(--ifm-background-surface-color);
+}
+
+.ecosystem {
+  padding: 3rem 0;
+}
+
+.newsletter {
+  padding: 2rem 0 4rem;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
