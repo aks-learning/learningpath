@@ -12,7 +12,7 @@ const config: Config = {
   },
 
   url: 'https://aks-learning.github.io',
-  baseUrl: '/learningpath/',
+  baseUrl: '/',
 
   organizationName: 'aks-learning',
   projectName: 'learningpath',
@@ -34,7 +34,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/aks-learning/learningpath/tree/main/site/',
+          editUrl: 'https://github.com/aks-learning/aks-learning.github.io/tree/master/',
         },
         blog: false,
         theme: {
