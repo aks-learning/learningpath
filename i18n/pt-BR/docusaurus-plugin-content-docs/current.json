@@ -46,5 +46,45 @@
   "sidebar.learningPath.category.Best practices": {
     "message": "Boas práticas",
     "description": "The label for category 'Best practices' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Cheat sheets": {
+    "message": "Cheat sheets",
+    "description": "The label for category 'Cheat sheets' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Cheat sheets.link.generated-index.title": {
+    "message": "Cheat sheets",
+    "description": "The generated-index page title for category 'Cheat sheets' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Cheat sheets.link.generated-index.description": {
+    "message": "Referências rápidas para operações diárias",
+    "description": "The generated-index page description for category 'Cheat sheets' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Troubleshooting": {
+    "message": "Solução de problemas",
+    "description": "The label for category 'Troubleshooting' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Troubleshooting.link.generated-index.title": {
+    "message": "Solução de problemas",
+    "description": "The generated-index page title for category 'Troubleshooting' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.category.Troubleshooting.link.generated-index.description": {
+    "message": "Guias de diagnóstico para problemas comuns no AKS",
+    "description": "The generated-index page description for category 'Troubleshooting' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.doc.kubectl cheat sheet": {
+    "message": "Cheat sheet kubectl",
+    "description": "The label for the doc item 'kubectl cheat sheet' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.doc.az aks cheat sheet": {
+    "message": "Cheat sheet az aks",
+    "description": "The label for the doc item 'az aks cheat sheet' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.doc.Pod troubleshooting": {
+    "message": "Solução de problemas de pods",
+    "description": "The label for the doc item 'Pod troubleshooting' in sidebar 'learningPath'"
+  },
+  "sidebar.learningPath.doc.Workload Identity troubleshooting": {
+    "message": "Solução de problemas do Workload Identity",
+    "description": "The label for the doc item 'Workload Identity troubleshooting' in sidebar 'learningPath'"
   }
 }

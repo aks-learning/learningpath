@@ -118,6 +118,24 @@ const sidebars: SidebarsConfig = {
         'best-practices/support-policy',
       ],
     },
+    {
+      type: 'category',
+      label: 'Cheat sheets',
+      link: { type: 'generated-index', slug: 'cheat-sheets' },
+      items: [
+        'cheat-sheets/kubectl',
+        'cheat-sheets/az-aks',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Troubleshooting',
+      link: { type: 'generated-index', slug: 'troubleshooting' },
+      items: [
+        'troubleshooting/pod-issues',
+        'troubleshooting/workload-identity',
+      ],
+    },
   ],
 };
 
