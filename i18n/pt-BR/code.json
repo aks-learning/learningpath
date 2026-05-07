@@ -360,5 +360,131 @@
   "theme.tags.tagsPageTitle": {
     "message": "Etiquetas",
     "description": "The title of the tag list page"
+  },
+  "homepage.hero.startLearning": {
+    "message": "Começar a Aprender →"
+  },
+  "homepage.hero.browseTopics": {
+    "message": "Ver Tópicos"
+  },
+  "homepage.topics.title": {
+    "message": "Tópicos"
+  },
+  "homepage.paths.title": {
+    "message": "Escolha Sua Trilha"
+  },
+  "homepage.paths.beginner.title": {
+    "message": "Novo no AKS"
+  },
+  "homepage.paths.beginner.desc": {
+    "message": "Comece do zero. Aprenda os fundamentos do Kubernetes e faça seu primeiro deploy com AKS Automatic."
+  },
+  "homepage.paths.beginner.time": {
+    "message": "~4 horas"
+  },
+  "homepage.paths.builder.title": {
+    "message": "AKS Builder"
+  },
+  "homepage.paths.builder.desc": {
+    "message": "Foco em Dev/DevOps. Networking, CI/CD, escalabilidade e segurança para suas aplicações."
+  },
+  "homepage.paths.builder.time": {
+    "message": "~12 horas"
+  },
+  "homepage.paths.operator.title": {
+    "message": "AKS Operator"
+  },
+  "homepage.paths.operator.desc": {
+    "message": "SRE/Platform Engineer. Networking avançado, operações, custos e confiabilidade."
+  },
+  "homepage.paths.operator.time": {
+    "message": "~20 horas"
+  },
+  "homepage.ecosystem.title": {
+    "message": "Ecossistema AKS"
+  },
+  "homepage.ecosystem.labs.desc": {
+    "message": "Workshops práticos para exercitar o que você aprendeu."
+  },
+  "homepage.ecosystem.blog.desc": {
+    "message": "Artigos técnicos detalhados e anúncios de funcionalidades."
+  },
+  "homepage.ecosystem.newsletter.desc": {
+    "message": "Atualizações mensais curadas. Sem spam, cancele quando quiser."
+  },
+  "homepage.newsletter.title": {
+    "message": "Fique Atualizado com o AKS"
+  },
+  "homepage.newsletter.desc": {
+    "message": "Atualizações mensais sobre funcionalidades, documentação e destaques da comunidade."
+  },
+  "homepage.newsletter.cta": {
+    "message": "Assine grátis em aksnewsletter.com →"
+  },
+  "homepage.topics.gettingStarted.title": {
+    "message": "Primeiros Passos"
+  },
+  "homepage.topics.gettingStarted.desc": {
+    "message": "Fundamentos do Kubernetes e introdução ao AKS"
+  },
+  "homepage.topics.clusterSetup.title": {
+    "message": "Configuração do Cluster"
+  },
+  "homepage.topics.clusterSetup.desc": {
+    "message": "Ferramentas, IaC e decisões de design"
+  },
+  "homepage.topics.networking.title": {
+    "message": "Rede"
+  },
+  "homepage.topics.networking.desc": {
+    "message": "CNI, Ingress, Service Mesh"
+  },
+  "homepage.topics.security.title": {
+    "message": "Segurança"
+  },
+  "homepage.topics.security.desc": {
+    "message": "Identidade, políticas e secrets"
+  },
+  "homepage.topics.observability.title": {
+    "message": "Observabilidade"
+  },
+  "homepage.topics.observability.desc": {
+    "message": "Monitor, Prometheus e Grafana"
+  },
+  "homepage.topics.scaling.title": {
+    "message": "Escalabilidade"
+  },
+  "homepage.topics.scaling.desc": {
+    "message": "HPA, KEDA e Cluster Autoscaler"
+  },
+  "homepage.topics.storage.title": {
+    "message": "Armazenamento"
+  },
+  "homepage.topics.storage.desc": {
+    "message": "Disks, Files e Container Storage"
+  },
+  "homepage.topics.deployments.title": {
+    "message": "Deployments e GitOps"
+  },
+  "homepage.topics.deployments.desc": {
+    "message": "CI/CD, Flux e Argo CD"
+  },
+  "homepage.topics.aiMl.title": {
+    "message": "Cargas de Trabalho AI/ML"
+  },
+  "homepage.topics.aiMl.desc": {
+    "message": "GPUs, KAITO e inferência"
+  },
+  "homepage.topics.operations.title": {
+    "message": "Operações"
+  },
+  "homepage.topics.operations.desc": {
+    "message": "Upgrades, DR e Fleet"
+  },
+  "homepage.topics.bestPractices.title": {
+    "message": "Boas Práticas"
+  },
+  "homepage.topics.bestPractices.desc": {
+    "message": "Arquitetura e otimização de custos"
   }
 }
