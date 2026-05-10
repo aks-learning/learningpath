@@ -46,6 +46,10 @@ const config: Config = {
           editUrl: 'https://github.com/aks-learning/aks-learning.github.io/tree/master/',
         },
         blog: false,
+        gtag: {
+          trackingID: 'G-J0K9ZYJ0YN',
+          anonymizeIP: true,
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
